@@ -8,55 +8,1225 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="shared/style.css">
   <style>
-    /* =====================================================
-       팀원 B 담당 - AI 활용 능력 진단 전용 스타일
-       이 <style> 블록에만 스타일을 추가하세요.
-       shared/style.css 는 수정하지 마세요.
-       ===================================================== */
+    /* AI 활용 능력 진단의 화면 구조에 필요한 페이지 전용 스타일 */
+    body {
+      font-size: var(--font-size-base);
+      overflow-wrap: anywhere;
+    }
+
+    #nav-container,
+    #main-content,
+    #main-content .container,
+    .diagnosis-app,
+    .diagnosis-screen,
+    .diagnosis-intro,
+    .assessment-areas {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    #nav-container a,
+    #nav-container button,
+    .diagnosis-app a,
+    .diagnosis-app button,
+    .option-label {
+      min-width: var(--touch-target) !important;
+      min-height: var(--touch-target) !important;
+    }
+
+    #nav-container a,
+    #nav-container button,
+    .diagnosis-app a,
+    .diagnosis-app button {
+      max-width: 100%;
+    }
+
+    #nav-container a:focus-visible,
+    #nav-container button:focus-visible,
+    .diagnosis-app a:focus-visible,
+    .diagnosis-app button:focus-visible,
+    .option-label:focus-within {
+      outline: 3px solid var(--color-primary);
+      outline-offset: 3px;
+    }
+
+    #screen-title:focus-visible {
+      outline: 3px solid var(--color-primary);
+      outline-offset: 0.25rem;
+    }
+
+    .diagnosis-intro {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .assessment-areas {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .assessment-area {
+      padding: 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+    }
+
+    .assessment-area strong {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: var(--font-size-lg);
+    }
+
+    .diagnosis-meta,
+    .screen-description {
+      color: var(--color-text-muted);
+      font-size: var(--font-size-md);
+    }
+
+    .screen-template[hidden],
+    .global-status:empty {
+      display: none;
+    }
+
+    .global-status {
+      margin-top: 1rem;
+      padding: 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      color: var(--color-text);
+      background: var(--color-surface);
+      overflow-wrap: anywhere;
+    }
+
+    .global-status[role="alert"] {
+      border-color: var(--color-danger);
+      color: var(--color-danger);
+    }
+
+    .global-status[role="status"] {
+      border-color: var(--color-primary);
+    }
+
+    .quiz-progress,
+    .question-card,
+    .option-list,
+    .action-row {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .quiz-progress {
+      display: grid;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .progress-text {
+      color: var(--color-text-muted);
+      font-size: var(--font-size-md);
+      font-weight: 600;
+    }
+
+    .question-card {
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+
+    .question-card legend {
+      width: 100%;
+      margin-bottom: 1rem;
+      font-size: var(--font-size-lg);
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .option-list {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .option-label {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      min-width: var(--touch-target);
+      min-height: var(--touch-target);
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius);
+      color: var(--color-text);
+      font-family: inherit;
+      font-size: var(--font-size-md);
+      line-height: 1.6;
+      cursor: pointer;
+      overflow-wrap: anywhere;
+    }
+
+    .option-label:focus-within {
+      border-color: var(--color-primary);
+      outline: 3px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    .option-label input {
+      flex: 0 0 auto;
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-right: 0.75rem;
+    }
+
+    .validation-message {
+      margin-top: 1rem;
+      color: var(--color-danger);
+      font-weight: 600;
+    }
+
+    .result-summary,
+    .learning-path,
+    .learning-recommendations,
+    .learning-recommendation {
+      min-width: 0;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+    }
+
+    .result-summary {
+      display: grid;
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+      padding: 1.25rem;
+      border: 2px solid var(--color-primary);
+      border-radius: var(--radius);
+      background: var(--color-surface);
+    }
+
+    .result-score,
+    .result-level {
+      margin: 0;
+      font-weight: 700;
+    }
+
+    .result-score {
+      font-size: var(--font-size-xl);
+    }
+
+    .result-level {
+      font-size: var(--font-size-lg);
+    }
+
+    .learning-path {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .learning-recommendations {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .learning-recommendation {
+      display: grid;
+      align-content: start;
+      gap: 0.75rem;
+      padding: 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+    }
+
+    .learning-recommendation h4,
+    .learning-recommendation p {
+      margin: 0;
+    }
+
+    .action-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .diagnosis-app button,
+    .diagnosis-app a {
+      min-width: var(--touch-target);
+      min-height: var(--touch-target);
+      max-width: 100%;
+      white-space: normal;
+      text-align: center;
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 600px) {
+      #main-content {
+        padding-top: 1.25rem;
+      }
+
+      #nav-container .nav-inner,
+      #nav-container .nav-links,
+      #nav-container .nav-link {
+        min-width: 0;
+        max-width: 100%;
+      }
+
+      #nav-container .nav-links,
+      #nav-container .nav-link {
+        width: 100%;
+      }
+
+      #nav-container .nav-logo {
+        white-space: normal;
+      }
+
+      .diagnosis-screen.card,
+      .result-summary,
+      .learning-recommendation,
+      .global-status {
+        padding: 1rem;
+      }
+
+      .assessment-areas,
+      .learning-recommendations {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .action-row {
+        flex-direction: column;
+      }
+
+      .action-row .btn,
+      .learning-recommendation .btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 380px) {
+      #main-content .container {
+        padding-inline: 0.75rem;
+      }
+
+      .diagnosis-screen.card,
+      .result-summary,
+      .learning-recommendation,
+      .global-status,
+      .option-label {
+        padding-inline: 0.75rem;
+      }
+
+      .page-header h1,
+      .result-score {
+        font-size: var(--font-size-xl);
+        overflow-wrap: anywhere;
+      }
+    }
   </style>
 </head>
 <body>
   <div id="nav-container"></div>
-  <main>
+
+  <main id="main-content">
     <div class="container">
-      <div class="page-header">
+      <header class="page-header">
         <h1>🤖 AI 활용 능력 진단</h1>
         <p>현재 AI 이해도를 측정하고 나에게 맞는 학습 경로를 추천받으세요.</p>
-      </div>
+      </header>
 
-      <!--
-        =====================================================
-        팀원 B: 여기서부터 콘텐츠를 구현하세요.
+      <section id="diagnosis-app" class="diagnosis-app" aria-labelledby="screen-title">
+        <div id="screen-root">
+          <section class="diagnosis-screen card" data-screen="START">
+            <div class="diagnosis-intro">
+              <div>
+                <h2 id="screen-title" tabindex="-1">AI 활용 능력 진단 시작</h2>
+                <p class="screen-description">
+                  AI의 기본 개념과 일상 속 활용 방법을 얼마나 이해하고 있는지 확인합니다.
+                  각 문항에서 가장 알맞은 답 하나를 선택하세요.
+                </p>
+              </div>
 
-        담당 기능: AI 활용 능력 진단 (1단계)
-        브랜치: feature/ai-diagnosis
-        localStorage prefix: ailv:diagnosis:
-          - ailv:diagnosis:result  → { level, score, date }
-          - ailv:diagnosis:history → [ ...이전 결과 배열 ]
+              <div aria-labelledby="assessment-areas-title">
+                <h3 id="assessment-areas-title">평가 영역</h3>
+                <ul class="assessment-areas">
+                  <li class="assessment-area">
+                    <strong>🧠 AI 개념</strong>
+                    AI의 특징, 학습 방식, 한계와 책임 있는 사용 원칙을 확인합니다.
+                  </li>
+                  <li class="assessment-area">
+                    <strong>🛠️ AI 활용 사례</strong>
+                    질문 작성, 개인정보 보호, 답변의 사실 검증과 생활 속 활용을 확인합니다.
+                  </li>
+                </ul>
+              </div>
 
-        구현 항목:
-          1. 10~15문항 객관식 퀴즈 (AI 개념, 활용 사례)
-          2. 점수 계산 → 초급 / 중급 / 고급 3단계 분류
-          3. 단계별 추천 학습 경로 제시
-          4. 재응시 기능, 이전 결과와 비교 표시
-          5. 결과 저장: Utils.saveData('ailv:diagnosis:result', { level, score, date })
-        =====================================================
-      -->
+              <p class="diagnosis-meta"><strong>전체 12문항</strong>이며, 모든 문항에 답해야 결과를 확인할 수 있습니다.</p>
+              <div>
+                <button id="start-button" class="btn btn-primary" type="button" data-action="start">
+                  진단 시작하기
+                </button>
+              </div>
+            </div>
+          </section>
 
-      <div class="card">
-        <p style="color:var(--color-text-muted); text-align:center; padding:3rem 0; font-size:var(--font-size-lg);">
-          🚧 팀원 B가 개발 중입니다.
-        </p>
-      </div>
+          <section class="diagnosis-screen screen-template card" data-screen="QUIZ" hidden aria-labelledby="quiz-screen-title">
+            <h2 id="quiz-screen-title" tabindex="-1">AI 활용 능력 문항</h2>
+            <p>현재 문항과 선택지는 진단을 시작하면 이 영역에 표시됩니다.</p>
+          </section>
 
+          <section class="diagnosis-screen screen-template card" data-screen="RESULT" hidden aria-labelledby="result-screen-title">
+            <h2 id="result-screen-title" tabindex="-1">AI 활용 능력 진단 결과</h2>
+            <p>모든 문항에 답하면 점수, 수준과 추천 학습 경로가 이 영역에 표시됩니다.</p>
+          </section>
+        </div>
+        <div id="global-status" class="global-status" role="status" aria-live="polite" aria-atomic="true"></div>
+      </section>
     </div>
   </main>
+
   <script src="shared/utils.js"></script>
   <script src="shared/nav.js"></script>
   <script>
     Utils.restoreFontSize();
     Nav.render();
-    // 팀원 B: 여기에 JavaScript를 작성하세요.
+
+    const AI_CONFIG = Object.freeze({
+      kind: 'ai',
+      questionCount: 12,
+      resultKey: 'ailv:diagnosis:result',
+      historyKey: 'ailv:diagnosis:history',
+      allowedLevels: Object.freeze(['초급', '중급', '고급']),
+      categories: Object.freeze(['ai-concept', 'ai-use-case']),
+      categoryMinimums: Object.freeze({
+        'ai-concept': 5,
+        'ai-use-case': 5
+      }),
+      requiredTags: Object.freeze(['privacy', 'fact-check'])
+    });
+
+    const AI_QUESTIONS = Object.freeze([
+      Object.freeze({
+        id: 'ai-q1',
+        category: 'ai-concept',
+        prompt: '생성형 AI에 대한 설명으로 가장 알맞은 것은 무엇인가요?',
+        options: Object.freeze([
+          Object.freeze({ id: 'q1-generate', label: '학습한 자료의 패턴을 바탕으로 새로운 글이나 이미지를 만든다' }),
+          Object.freeze({ id: 'q1-store', label: '사용자의 모든 파일을 자동으로 영구 보관한다' }),
+          Object.freeze({ id: 'q1-network', label: '인터넷 연결 속도를 높이는 장치이다' })
+        ]),
+        correctOptionId: 'q1-generate'
+      }),
+      Object.freeze({
+        id: 'ai-q2',
+        category: 'ai-concept',
+        prompt: 'AI가 답변을 만드는 방식에 대한 설명으로 알맞은 것은 무엇인가요?',
+        options: Object.freeze([
+          Object.freeze({ id: 'q2-pattern', label: '많은 데이터에서 배운 패턴을 이용해 답변을 예측한다' }),
+          Object.freeze({ id: 'q2-human', label: '사람처럼 모든 내용을 완전히 이해하고 판단한다' }),
+          Object.freeze({ id: 'q2-random', label: '학습 없이 항상 무작위로 답한다' })
+        ]),
+        correctOptionId: 'q2-pattern'
+      }),
+      Object.freeze({
+        id: 'ai-q3',
+        category: 'ai-concept',
+        prompt: 'AI 답변의 한계로 가장 알맞은 것은 무엇인가요?',
+        options: Object.freeze([
+          Object.freeze({ id: 'q3-error', label: '그럴듯하지만 사실과 다른 내용을 만들 수 있다' }),
+          Object.freeze({ id: 'q3-perfect', label: '어떤 질문에도 항상 정확하게 답한다' }),
+          Object.freeze({ id: 'q3-current', label: '항상 가장 최근 정보를 자동으로 알고 있다' })
+        ]),
+        correctOptionId: 'q3-error'
+      }),
+      Object.freeze({
+        id: 'ai-q4',
+        category: 'ai-concept',
+        prompt: 'AI 학습 데이터와 답변의 관계를 바르게 설명한 것은 무엇인가요?',
+        options: Object.freeze([
+          Object.freeze({ id: 'q4-influence', label: '학습 데이터의 내용과 편향이 AI 답변에 영향을 줄 수 있다' }),
+          Object.freeze({ id: 'q4-none', label: '학습 데이터는 AI 답변과 전혀 관계가 없다' }),
+          Object.freeze({ id: 'q4-own', label: 'AI는 태어날 때부터 모든 지식을 가지고 있다' })
+        ]),
+        correctOptionId: 'q4-influence'
+      }),
+      Object.freeze({
+        id: 'ai-q5',
+        category: 'ai-concept',
+        prompt: 'AI를 책임 있게 사용하는 태도로 가장 알맞은 것은 무엇인가요?',
+        options: Object.freeze([
+          Object.freeze({ id: 'q5-review', label: '중요한 결정은 AI 답변을 검토한 뒤 사람이 내린다' }),
+          Object.freeze({ id: 'q5-obey', label: 'AI가 제시한 판단을 확인 없이 그대로 따른다' }),
+          Object.freeze({ id: 'q5-blame', label: 'AI를 사용하면 결과에 책임질 사람이 없다' })
+        ]),
+        correctOptionId: 'q5-review'
+      }),
+      Object.freeze({
+        id: 'ai-q6',
+        category: 'ai-concept',
+        prompt: '같은 AI에 같은 질문을 다시 했을 때 나타날 수 있는 현상은 무엇인가요?',
+        options: Object.freeze([
+          Object.freeze({ id: 'q6-vary', label: '표현이나 내용이 조금 다른 답변이 나올 수 있다' }),
+          Object.freeze({ id: 'q6-identical', label: '항상 글자 하나까지 완전히 같은 답만 나온다' }),
+          Object.freeze({ id: 'q6-delete', label: '이전 질문이 자동으로 기기에서 삭제된다' })
+        ]),
+        correctOptionId: 'q6-vary'
+      }),
+      Object.freeze({
+        id: 'ai-q7',
+        category: 'ai-use-case',
+        prompt: 'AI에게 행사 안내문 초안을 부탁할 때 가장 좋은 질문은 무엇인가요?',
+        options: Object.freeze([
+          Object.freeze({ id: 'q7-specific', label: '대상, 날짜, 장소와 원하는 말투를 함께 알려 준다' }),
+          Object.freeze({ id: 'q7-vague', label: '좋게 써 줘라고만 말한다' }),
+          Object.freeze({ id: 'q7-empty', label: '아무 내용 없이 빈 질문을 보낸다' })
+        ]),
+        correctOptionId: 'q7-specific'
+      }),
+      Object.freeze({
+        id: 'ai-q8',
+        category: 'ai-use-case',
+        prompt: 'AI로 긴 글을 요약할 때 결과를 더 유용하게 만드는 방법은 무엇인가요?',
+        options: Object.freeze([
+          Object.freeze({ id: 'q8-format', label: '요약 길이와 핵심 항목의 형식을 구체적으로 요청한다' }),
+          Object.freeze({ id: 'q8-no-read', label: '원문을 제공하지 않고 내용을 알아맞히게 한다' }),
+          Object.freeze({ id: 'q8-trust', label: '결과를 읽지 않고 바로 다른 사람에게 보낸다' })
+        ]),
+        correctOptionId: 'q8-format'
+      }),
+      Object.freeze({
+        id: 'ai-q9',
+        category: 'ai-use-case',
+        prompt: 'AI 서비스에 질문할 때 개인정보를 보호하는 방법은 무엇인가요?',
+        options: Object.freeze([
+          Object.freeze({ id: 'q9-remove', label: '주민등록번호와 연락처 같은 민감한 정보는 빼고 질문한다' }),
+          Object.freeze({ id: 'q9-all', label: '정확한 답을 위해 다른 사람의 개인정보까지 모두 입력한다' }),
+          Object.freeze({ id: 'q9-password', label: '계정 비밀번호를 질문에 포함한다' })
+        ]),
+        correctOptionId: 'q9-remove',
+        tags: Object.freeze(['privacy'])
+      }),
+      Object.freeze({
+        id: 'ai-q10',
+        category: 'ai-use-case',
+        prompt: 'AI가 알려 준 건강 정보를 확인하는 가장 알맞은 방법은 무엇인가요?',
+        options: Object.freeze([
+          Object.freeze({ id: 'q10-verify', label: '공신력 있는 기관 자료와 전문가 의견을 추가로 확인한다' }),
+          Object.freeze({ id: 'q10-believe', label: '자신 있게 쓴 답변이면 그대로 믿는다' }),
+          Object.freeze({ id: 'q10-share', label: '출처 확인 없이 가족과 지인에게 전달한다' })
+        ]),
+        correctOptionId: 'q10-verify',
+        tags: Object.freeze(['fact-check'])
+      }),
+      Object.freeze({
+        id: 'ai-q11',
+        category: 'ai-use-case',
+        prompt: 'AI를 이용해 여행 계획을 만들었을 때 다음 행동으로 알맞은 것은 무엇인가요?',
+        options: Object.freeze([
+          Object.freeze({ id: 'q11-check', label: '운영 시간, 비용과 교통 정보를 공식 사이트에서 확인한다' }),
+          Object.freeze({ id: 'q11-book', label: '정보 확인 없이 모든 일정을 바로 예약한다' }),
+          Object.freeze({ id: 'q11-ignore', label: '현재 날짜와 지역을 확인하지 않는다' })
+        ]),
+        correctOptionId: 'q11-check'
+      }),
+      Object.freeze({
+        id: 'ai-q12',
+        category: 'ai-use-case',
+        prompt: 'AI가 만든 글을 내 용도에 맞게 사용하는 방법으로 가장 알맞은 것은 무엇인가요?',
+        options: Object.freeze([
+          Object.freeze({ id: 'q12-edit', label: '내용을 검토하고 목적과 상황에 맞게 직접 수정한다' }),
+          Object.freeze({ id: 'q12-copy', label: '틀린 내용이 있어도 그대로 복사해 사용한다' }),
+          Object.freeze({ id: 'q12-hide', label: '작성 목적을 AI에 알려 주지 않는다' })
+        ]),
+        correctOptionId: 'q12-edit'
+      })
+    ]);
+
+    function validateQuestionSet(questions, config) {
+      if (!Array.isArray(questions) || questions.length === 0) {
+        return { valid: false, reason: 'EMPTY_QUESTION_SET' };
+      }
+      if (!config || questions.length !== config.questionCount) {
+        return { valid: false, reason: 'QUESTION_SET_MISMATCH' };
+      }
+
+      const questionIds = new Set();
+      const categoryCounts = Object.fromEntries(config.categories.map(category => [category, 0]));
+      const tagCounts = Object.fromEntries(config.requiredTags.map(tag => [tag, 0]));
+
+      for (const question of questions) {
+        if (!question || typeof question.id !== 'string' || question.id.trim() === '' || questionIds.has(question.id)) {
+          return { valid: false, reason: 'DUPLICATE_OR_INVALID_QUESTION_ID' };
+        }
+        questionIds.add(question.id);
+
+        if (!config.categories.includes(question.category)) {
+          return { valid: false, reason: 'INVALID_CATEGORY' };
+        }
+        categoryCounts[question.category] += 1;
+
+        if (Array.isArray(question.tags)) {
+          question.tags.forEach(tag => {
+            if (Object.prototype.hasOwnProperty.call(tagCounts, tag)) tagCounts[tag] += 1;
+          });
+        }
+
+        if (typeof question.prompt !== 'string' || question.prompt.trim() === '' ||
+            !Array.isArray(question.options) || question.options.length < 2) {
+          return { valid: false, reason: 'INVALID_QUESTION_CONTENT' };
+        }
+
+        const optionIds = new Set();
+        for (const option of question.options) {
+          if (!option || typeof option.id !== 'string' || option.id.trim() === '' || optionIds.has(option.id) ||
+              typeof option.label !== 'string' || option.label.trim() === '') {
+            return { valid: false, reason: 'INVALID_OR_DUPLICATE_OPTION' };
+          }
+          optionIds.add(option.id);
+        }
+
+        const answerCount = question.options.filter(option => option.id === question.correctOptionId).length;
+        if (answerCount !== 1) {
+          return { valid: false, reason: 'INVALID_CORRECT_ANSWER' };
+        }
+      }
+
+      const categoriesMeetMinimums = config.categories.every(
+        category => categoryCounts[category] >= config.categoryMinimums[category]
+      );
+      if (!categoriesMeetMinimums) {
+        return { valid: false, reason: 'CATEGORY_MINIMUM_NOT_MET' };
+      }
+
+      const requiredTagsPresent = config.requiredTags.every(tag => tagCounts[tag] >= 1);
+      if (!requiredTagsPresent) {
+        return { valid: false, reason: 'REQUIRED_TAG_MISSING' };
+      }
+
+      return { valid: true };
+    }
+
+    const SCREEN = Object.freeze({
+      START: 'START',
+      QUIZ: 'QUIZ',
+      RESULT: 'RESULT'
+    });
+
+    const VALIDATION_MESSAGE = '답을 하나 선택한 뒤 다음으로 이동해 주세요.';
+    const state = {
+      screen: SCREEN.START,
+      currentIndex: 0,
+      responses: {},
+      validation: {},
+      persistedResult: null,
+      previousResult: null,
+      currentResult: null,
+      history: [],
+      storageAvailable: true,
+      storageStatus: 'idle',
+      isCompleting: false,
+      completionResult: null
+    };
+
+    const diagnosisApp = document.getElementById('diagnosis-app');
+    const screenRoot = document.getElementById('screen-root');
+    const globalStatus = document.getElementById('global-status');
+
+    function getQuestionById(questionId) {
+      return AI_QUESTIONS.find(question => question.id === questionId) || null;
+    }
+
+    function isValidOption(question, optionId) {
+      return Boolean(question && question.options.some(option => option.id === optionId));
+    }
+
+    function findFirstUnanswered(questions, responses) {
+      return questions.findIndex(question => !isValidOption(question, responses[question.id]));
+    }
+
+    function calculateRawScore(questions, responses) {
+      if (!Array.isArray(questions) || !responses || typeof responses !== 'object') return NaN;
+      return questions.reduce((rawScore, question) => (
+        responses[question.id] === question.correctOptionId ? rawScore + 1 : rawScore
+      ), 0);
+    }
+
+    function calculateScore(rawScore, questionCount) {
+      if (questionCount === 0) {
+        return { ok: false, code: 'ZERO_QUESTION_COUNT' };
+      }
+      if (!Number.isFinite(rawScore) || !Number.isFinite(questionCount)) {
+        return { ok: false, code: 'NON_FINITE_SCORE_INPUT' };
+      }
+
+      const score = Math.round((rawScore / questionCount) * 100);
+      if (!Number.isFinite(score)) {
+        return { ok: false, code: 'NON_FINITE_SCORE_INPUT' };
+      }
+      if (score < 0 || score > 100) {
+        return { ok: false, code: 'SCORE_OUT_OF_RANGE' };
+      }
+      return { ok: true, score };
+    }
+
+    function classifyAiLevel(score) {
+      if (!Number.isInteger(score) || score < 0 || score > 100) return null;
+      if (score < 50) return '초급';
+      if (score < 80) return '중급';
+      return '고급';
+    }
+
+    function getAiLearningPath(level) {
+      const paths = {
+        '초급': [
+          {
+            title: 'AI 기본 개념',
+            description: 'AI가 답변을 만드는 방식과 한계, 책임 있는 사용 원칙부터 익혀 보세요.',
+            href: 'education.html'
+          },
+          {
+            title: '기본 질문 작성법',
+            description: '원하는 답을 얻기 위해 목적과 조건을 분명하게 적는 방법을 연습하세요.',
+            href: 'prompt-helper.html'
+          }
+        ],
+        '중급': [
+          {
+            title: '프롬프트 개선',
+            description: '대상, 형식과 제약 조건을 더해 질문을 구체적으로 다듬어 보세요.',
+            href: 'prompt-helper.html'
+          },
+          {
+            title: '상황별 AI 활용',
+            description: '생활과 업무의 여러 상황에서 AI 답변을 검토하며 활용해 보세요.',
+            href: 'simulation.html'
+          }
+        ],
+        '고급': [
+          {
+            title: '고급 프롬프트 작성',
+            description: '복잡한 목표를 단계와 출력 형식으로 나누어 정교하게 요청해 보세요.',
+            href: 'prompt-helper.html'
+          },
+          {
+            title: '실제 과제 적용',
+            description: '실제 과제를 해결하며 AI 결과의 정확성과 적합성을 직접 평가해 보세요.',
+            href: 'simulation.html'
+          }
+        ]
+      };
+      return paths[level] ? paths[level].map(recommendation => ({ ...recommendation })) : [];
+    }
+
+    function isIsoDateTime(value) {
+      if (typeof value !== 'string') return false;
+      try {
+        return new Date(value).toISOString() === value;
+      } catch (error) {
+        return false;
+      }
+    }
+
+    function isValidCurrentResult(value, allowedLevels = AI_CONFIG.allowedLevels) {
+      if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+      const keys = Object.keys(value);
+      const hasExactFields = keys.length === 3 &&
+        ['level', 'score', 'date'].every(key => Object.prototype.hasOwnProperty.call(value, key));
+      return Boolean(
+        hasExactFields &&
+        allowedLevels.includes(value.level) &&
+        Number.isInteger(value.score) &&
+        value.score >= 0 &&
+        value.score <= 100 &&
+        isIsoDateTime(value.date)
+      );
+    }
+
+    function normalizeCurrentResult(value, allowedLevels = AI_CONFIG.allowedLevels) {
+      if (!isValidCurrentResult(value, allowedLevels)) return null;
+      return { level: value.level, score: value.score, date: value.date };
+    }
+
+    function createCurrentResult(level, score, isoDate) {
+      return normalizeCurrentResult({ level, score, date: isoDate });
+    }
+
+    function areResultsEqual(left, right) {
+      const normalizedLeft = normalizeCurrentResult(left);
+      const normalizedRight = normalizeCurrentResult(right);
+      return Boolean(
+        normalizedLeft &&
+        normalizedRight &&
+        normalizedLeft.level === normalizedRight.level &&
+        normalizedLeft.score === normalizedRight.score &&
+        normalizedLeft.date === normalizedRight.date
+      );
+    }
+
+    function sanitizeHistory(value, allowedLevels = AI_CONFIG.allowedLevels) {
+      if (!Array.isArray(value)) return [];
+      return value.reduce((history, item) => {
+        const normalized = normalizeCurrentResult(item, allowedLevels);
+        if (normalized) history.push(normalized);
+        return history;
+      }, []);
+    }
+
+    function appendHistoryOnce(history, result) {
+      const cleanHistory = sanitizeHistory(history);
+      const normalizedResult = normalizeCurrentResult(result);
+      if (!normalizedResult) return cleanHistory;
+      const lastResult = cleanHistory[cleanHistory.length - 1];
+      return lastResult && areResultsEqual(lastResult, normalizedResult)
+        ? cleanHistory
+        : [...cleanHistory, normalizedResult];
+    }
+
+    function areHistoriesEqual(left, right) {
+      return Array.isArray(left) &&
+        Array.isArray(right) &&
+        left.length === right.length &&
+        left.every((result, index) => areResultsEqual(result, right[index]));
+    }
+
+    function compareResults(current, previous) {
+      const normalizedCurrent = normalizeCurrentResult(current);
+      const normalizedPrevious = normalizeCurrentResult(previous);
+      if (!normalizedCurrent || !normalizedPrevious) return null;
+
+      const pointDelta = normalizedCurrent.score - normalizedPrevious.score;
+      const levelOrder = ['초급', '중급', '고급'];
+      const levelDelta = levelOrder.indexOf(normalizedCurrent.level) - levelOrder.indexOf(normalizedPrevious.level);
+      return {
+        pointDelta,
+        direction: pointDelta > 0 ? '증가' : pointDelta < 0 ? '감소' : '동일',
+        levelChange: {
+          from: normalizedPrevious.level,
+          to: normalizedCurrent.level,
+          direction: levelDelta > 0 ? '상승' : levelDelta < 0 ? '하락' : '동일'
+        }
+      };
+    }
+
+    function checkStorageAvailability() {
+      const probeKey = 'ailv:diagnosis:probe';
+      try {
+        localStorage.setItem(probeKey, probeKey);
+        return localStorage.getItem(probeKey) === probeKey;
+      } catch (error) {
+        console.warn('[AI Diagnosis] AI diagnosis storage namespace is unavailable.');
+        return false;
+      } finally {
+        try {
+          localStorage.removeItem(probeKey);
+        } catch (error) {
+          // 저장소 접근이 차단된 경우 정리할 probe가 없다.
+        }
+      }
+    }
+
+    function saveAndVerifyResult(result) {
+      if (!state.storageAvailable) return { ok: false, code: 'unavailable' };
+      try {
+        Utils.saveData(AI_CONFIG.resultKey, result);
+        const reloaded = Utils.loadData(AI_CONFIG.resultKey, null);
+        return areResultsEqual(reloaded, result)
+          ? { ok: true, code: 'saved' }
+          : { ok: false, code: 'write-or-verify-failed' };
+      } catch (error) {
+        console.error('[AI Diagnosis] Current result save or verification failed.');
+        return { ok: false, code: 'write-or-verify-failed' };
+      }
+    }
+
+    function saveAndVerifyHistory(history) {
+      if (!state.storageAvailable) return { ok: false, code: 'unavailable' };
+      try {
+        Utils.saveData(AI_CONFIG.historyKey, history);
+        const reloaded = Utils.loadData(AI_CONFIG.historyKey, null);
+        return areHistoriesEqual(reloaded, history)
+          ? { ok: true, code: 'saved' }
+          : { ok: false, code: 'write-or-verify-failed' };
+      } catch (error) {
+        console.error('[AI Diagnosis] Result history save or verification failed.');
+        return { ok: false, code: 'write-or-verify-failed' };
+      }
+    }
+
+    function persistCompletion(result) {
+      if (!state.storageAvailable) return { ok: false, code: 'unavailable', resultSaved: false, historySaved: false };
+
+      const resultOutcome = saveAndVerifyResult(result);
+      const latestStoredHistory = sanitizeHistory(Utils.loadData(AI_CONFIG.historyKey, []));
+      const nextHistory = appendHistoryOnce(latestStoredHistory, result);
+      const historyOutcome = saveAndVerifyHistory(nextHistory);
+      if (historyOutcome.ok) state.history = nextHistory;
+
+      if (resultOutcome.ok && historyOutcome.ok) {
+        return { ok: true, code: 'saved', resultSaved: true, historySaved: true };
+      }
+      if (resultOutcome.ok) {
+        return { ok: false, code: 'write-or-verify-failed', resultSaved: true, historySaved: false };
+      }
+      if (historyOutcome.ok) {
+        return { ok: false, code: 'write-or-verify-failed', resultSaved: false, historySaved: true };
+      }
+      return { ok: false, code: 'write-or-verify-failed', resultSaved: false, historySaved: false };
+    }
+
+    function showStorageStatus(outcome) {
+      if (outcome.ok) {
+        globalStatus.setAttribute('role', 'status');
+        globalStatus.textContent = '진단 결과와 이력이 이 브라우저에 저장되었습니다.';
+      } else if (outcome.code === 'unavailable') {
+        globalStatus.setAttribute('role', 'status');
+        globalStatus.textContent = '이 브라우저에서는 결과가 저장되지 않습니다. 현재 결과는 이 화면에서 확인할 수 있습니다.';
+      } else {
+        globalStatus.setAttribute('role', 'alert');
+        globalStatus.textContent = '결과 또는 진단 이력을 모두 저장하지 못했습니다. 현재 결과와 추천 학습 경로는 이 화면에서 확인할 수 있습니다.';
+      }
+    }
+
+    function showGlobalError(message) {
+      globalStatus.setAttribute('role', 'alert');
+      globalStatus.textContent = message;
+    }
+
+    function clearGlobalStatus() {
+      globalStatus.setAttribute('role', 'status');
+      globalStatus.textContent = '';
+    }
+
+    function renderStartScreen() {
+      screenRoot.innerHTML = `
+        <section class="diagnosis-screen card" data-screen="START">
+          <div class="diagnosis-intro">
+            <div>
+              <h2 id="screen-title" tabindex="-1">AI 활용 능력 진단 시작</h2>
+              <p class="screen-description">
+                AI의 기본 개념과 일상 속 활용 방법을 얼마나 이해하고 있는지 확인합니다.
+                각 문항에서 가장 알맞은 답 하나를 선택하세요.
+              </p>
+            </div>
+            <div aria-labelledby="assessment-areas-title">
+              <h3 id="assessment-areas-title">평가 영역</h3>
+              <ul class="assessment-areas">
+                <li class="assessment-area"><strong>🧠 AI 개념</strong>AI의 특징, 학습 방식, 한계와 책임 있는 사용 원칙을 확인합니다.</li>
+                <li class="assessment-area"><strong>🛠️ AI 활용 사례</strong>질문 작성, 개인정보 보호, 답변의 사실 검증과 생활 속 활용을 확인합니다.</li>
+              </ul>
+            </div>
+            <p class="diagnosis-meta"><strong>전체 ${AI_CONFIG.questionCount}문항</strong>이며, 모든 문항에 답해야 결과를 확인할 수 있습니다.</p>
+            ${state.persistedResult ? `
+              <div class="result-summary" aria-label="저장된 최근 AI 진단 결과">
+                <h3>최근 진단 결과</h3>
+                <p class="result-score">점수: ${state.persistedResult.score}점</p>
+                <p class="result-level">AI 활용 수준: ${state.persistedResult.level}</p>
+                <p>완료 시각: <time datetime="${state.persistedResult.date}">${new Date(state.persistedResult.date).toLocaleString('ko-KR')}</time></p>
+              </div>
+              <div><button id="start-button" class="btn btn-primary" type="button" data-action="retake">최근 결과와 비교하며 다시 진단하기</button></div>
+            ` : `
+              <div><button id="start-button" class="btn btn-primary" type="button" data-action="start">진단 시작하기</button></div>
+            `}
+          </div>
+        </section>`;
+    }
+
+    function renderQuizScreen() {
+      const question = AI_QUESTIONS[state.currentIndex];
+      const currentNumber = state.currentIndex + 1;
+      const validationMessage = state.validation[question.id] || '';
+      const validationId = `validation-${question.id}`;
+      const describedBy = validationMessage ? ` aria-describedby="${validationId}"` : '';
+      const options = question.options.map(option => {
+        const inputId = `${question.id}-${option.id}`;
+        const checked = state.responses[question.id] === option.id ? ' checked' : '';
+        return `
+          <label class="option-label" for="${inputId}">
+            <input id="${inputId}" type="radio" name="answer-${question.id}"
+              value="${option.id}" data-question-id="${question.id}"${checked}>
+            <span>${option.label}</span>
+          </label>`;
+      }).join('');
+      const isLastQuestion = state.currentIndex === AI_QUESTIONS.length - 1;
+
+      screenRoot.innerHTML = `
+        <section class="diagnosis-screen card" data-screen="QUIZ">
+          <h2 id="screen-title" tabindex="-1">AI 활용 능력 문항</h2>
+          <div class="quiz-progress">
+            <p class="progress-text" role="status" aria-live="polite" aria-atomic="true">
+              ${currentNumber} / ${AI_CONFIG.questionCount} 문항
+            </p>
+            <div class="progress-bar" role="progressbar" aria-label="AI 활용 능력 진단 진행률"
+              aria-valuemin="1" aria-valuemax="${AI_CONFIG.questionCount}" aria-valuenow="${currentNumber}"
+              aria-valuetext="전체 ${AI_CONFIG.questionCount}문항 중 ${currentNumber}번 문항">
+              <div class="progress-bar__fill" style="width: ${(currentNumber / AI_CONFIG.questionCount) * 100}%"></div>
+            </div>
+          </div>
+          <fieldset class="question-card"${describedBy}>
+            <legend>${currentNumber}. ${question.prompt}</legend>
+            <div class="option-list">${options}</div>
+            ${validationMessage ? `<p id="${validationId}" class="validation-message" role="alert">${validationMessage}</p>` : ''}
+          </fieldset>
+          <div class="action-row">
+            <button class="btn btn-primary" type="button" data-action="${isLastQuestion ? 'submit' : 'next'}">
+              ${isLastQuestion ? '결과 보기' : '다음 문항'}
+            </button>
+          </div>
+        </section>`;
+    }
+
+    function renderLearningPath(level) {
+      const recommendations = getAiLearningPath(level);
+      const recommendationMarkup = recommendations.map(recommendation => `
+        <li class="learning-recommendation">
+          <h4>${recommendation.title}</h4>
+          <p>${recommendation.description}</p>
+          <a class="btn btn-primary" href="${recommendation.href}">${recommendation.title} 학습하기</a>
+        </li>`).join('');
+
+      return `
+        <div class="learning-path" aria-labelledby="learning-path-title">
+          <h3 id="learning-path-title">${level} 추천 학습 경로</h3>
+          <p>현재 수준에 맞는 학습부터 차례로 진행해 보세요.</p>
+          <ul class="learning-recommendations">${recommendationMarkup}</ul>
+        </div>`;
+    }
+
+    function renderResultScreen() {
+      const result = state.currentResult;
+      if (!result) {
+        showGlobalError('결과를 표시할 수 없습니다. 페이지를 새로고침한 뒤 진단을 다시 시작해 주세요.');
+        return;
+      }
+
+      const comparison = compareResults(result, state.previousResult);
+      const completionGuidance = comparison
+        ? `
+          <p><strong>재진단을 완료했습니다.</strong></p>
+          <p><strong>이전 점수와 비교:</strong> ${comparison.pointDelta === 0
+            ? '0점 차이, 점수가 동일합니다.'
+            : `${Math.abs(comparison.pointDelta)}점 ${comparison.direction}했습니다.`}</p>
+          <p><strong>이전 수준과 비교:</strong> ${comparison.levelChange.from}에서 ${comparison.levelChange.to}(으)로 ${comparison.levelChange.direction}했습니다.</p>`
+        : '<p><strong>첫 진단을 완료했습니다.</strong> 추천 학습 경로에서 다음 학습을 선택해 주세요.</p>';
+
+      screenRoot.innerHTML = `
+        <section class="diagnosis-screen card" data-screen="RESULT">
+          <h2 id="screen-title" tabindex="-1">AI 활용 능력 진단 결과</h2>
+          <div class="result-summary" aria-label="AI 활용 능력 진단 결과 요약">
+            <p class="result-score">점수: ${result.score}점</p>
+            <p class="result-level">AI 활용 수준: ${result.level}</p>
+            <p>완료 시각: <time datetime="${result.date}">${new Date(result.date).toLocaleString('ko-KR')}</time></p>
+          </div>
+          ${completionGuidance}
+          ${renderLearningPath(result.level)}
+          <div class="action-row">
+            <button class="btn btn-secondary" type="button" data-action="retake">다시 진단하기</button>
+            <a class="btn btn-secondary" href="index.html">대시보드로 이동</a>
+          </div>
+        </section>`;
+    }
+
+    function render() {
+      if (state.screen === SCREEN.QUIZ) {
+        renderQuizScreen();
+      } else if (state.screen === SCREEN.RESULT) {
+        renderResultScreen();
+      } else {
+        renderStartScreen();
+      }
+    }
+
+    function focusScreenHeading() {
+      const heading = document.getElementById('screen-title');
+      if (heading) heading.focus();
+    }
+
+    function focusFirstOption(questionId) {
+      const firstOption = screenRoot.querySelector(`input[data-question-id="${questionId}"]`);
+      if (firstOption) firstOption.focus();
+    }
+
+    function startDiagnosis({ isRetake = false } = {}) {
+      if (!validateQuestionSet(AI_QUESTIONS, AI_CONFIG).valid) return;
+
+      const baseline = state.currentResult || state.persistedResult;
+      state.previousResult = isRetake && isValidCurrentResult(baseline)
+        ? { level: baseline.level, score: baseline.score, date: baseline.date }
+        : null;
+      state.screen = SCREEN.QUIZ;
+      state.currentIndex = 0;
+      state.responses = {};
+      state.validation = {};
+      state.currentResult = null;
+      state.storageStatus = 'idle';
+      state.isCompleting = false;
+      state.completionResult = null;
+      clearGlobalStatus();
+      render();
+      focusScreenHeading();
+    }
+
+    function selectAnswer(questionId, optionId) {
+      if (state.screen !== SCREEN.QUIZ) return;
+
+      const currentQuestion = AI_QUESTIONS[state.currentIndex];
+      if (currentQuestion.id !== questionId || !isValidOption(currentQuestion, optionId)) {
+        console.warn('[AI Diagnosis] Ignored an unknown question or option selection.');
+        return;
+      }
+
+      state.responses[questionId] = optionId;
+      if (Object.prototype.hasOwnProperty.call(state.validation, questionId)) {
+        delete state.validation[questionId];
+        const message = document.getElementById(`validation-${questionId}`);
+        if (message) message.remove();
+        const fieldset = screenRoot.querySelector('.question-card');
+        if (fieldset) fieldset.removeAttribute('aria-describedby');
+      }
+    }
+
+    function showUnansweredValidation(questionIndex) {
+      state.currentIndex = questionIndex;
+      const question = AI_QUESTIONS[questionIndex];
+      state.validation[question.id] = VALIDATION_MESSAGE;
+      render();
+      focusFirstOption(question.id);
+    }
+
+    function goNext() {
+      if (state.screen !== SCREEN.QUIZ || state.currentIndex >= AI_QUESTIONS.length - 1) return;
+
+      const question = AI_QUESTIONS[state.currentIndex];
+      if (!isValidOption(question, state.responses[question.id])) {
+        showUnansweredValidation(state.currentIndex);
+        return;
+      }
+
+      state.currentIndex += 1;
+      render();
+      focusScreenHeading();
+    }
+
+    function submitDiagnosis() {
+      if (state.screen !== SCREEN.QUIZ || state.isCompleting) return;
+
+      const questionSetValidation = validateQuestionSet(AI_QUESTIONS, AI_CONFIG);
+      if (!questionSetValidation.valid) {
+        showGlobalError('진단 문항에 문제가 있어 결과를 계산할 수 없습니다. 페이지를 새로고침한 뒤 다시 시도해 주세요.');
+        console.error('[AI Diagnosis] Completion blocked by question set validation:', questionSetValidation.reason);
+        return;
+      }
+
+      const firstUnansweredIndex = findFirstUnanswered(AI_QUESTIONS, state.responses);
+      if (firstUnansweredIndex !== -1) {
+        showUnansweredValidation(firstUnansweredIndex);
+        return;
+      }
+
+      state.isCompleting = true;
+      try {
+        const rawScore = calculateRawScore(AI_QUESTIONS, state.responses);
+        const scoreResult = calculateScore(rawScore, AI_QUESTIONS.length);
+        if (!scoreResult.ok) {
+          const message = scoreResult.code === 'ZERO_QUESTION_COUNT'
+            ? '진단 문항이 없어 결과를 계산할 수 없습니다. 페이지를 새로고침한 뒤 다시 시도해 주세요.'
+            : '점수를 계산하지 못했습니다. 페이지를 새로고침해 진단을 다시 시작해 주세요.';
+          showGlobalError(message);
+          console.error('[AI Diagnosis] Scoring failed:', scoreResult.code);
+          return;
+        }
+
+        const level = classifyAiLevel(scoreResult.score);
+        if (!level) {
+          showGlobalError('점수 범위를 확인하지 못했습니다. 페이지를 새로고침해 진단을 다시 시작해 주세요.');
+          console.error('[AI Diagnosis] Level classification failed.');
+          return;
+        }
+
+        const result = createCurrentResult(level, scoreResult.score, new Date().toISOString());
+        if (!result) {
+          showGlobalError('결과 정보를 만들지 못했습니다. 페이지를 새로고침해 진단을 다시 시작해 주세요.');
+          console.error('[AI Diagnosis] Current result validation failed.');
+          return;
+        }
+
+        state.completionResult = result;
+        state.currentResult = result;
+        state.screen = SCREEN.RESULT;
+        clearGlobalStatus();
+        render();
+        focusScreenHeading();
+
+        const saveOutcome = persistCompletion(state.completionResult);
+        state.storageStatus = saveOutcome.code;
+        if (saveOutcome.resultSaved) {
+          state.persistedResult = { ...state.completionResult };
+        }
+        showStorageStatus(saveOutcome);
+      } finally {
+        state.isCompleting = false;
+      }
+    }
+
+    diagnosisApp.addEventListener('change', event => {
+      const input = event.target.closest('input[type="radio"][data-question-id]');
+      if (!input) return;
+      selectAnswer(input.dataset.questionId, input.value);
+    });
+
+    diagnosisApp.addEventListener('click', event => {
+      const control = event.target.closest('[data-action]');
+      if (!control) return;
+
+      if (control.dataset.action === 'start') {
+        startDiagnosis({ isRetake: false });
+      } else if (control.dataset.action === 'retake') {
+        startDiagnosis({ isRetake: true });
+      } else if (control.dataset.action === 'next') {
+        goNext();
+      } else if (control.dataset.action === 'submit') {
+        submitDiagnosis();
+      }
+    });
+
+    function initializeDiagnosis() {
+      state.storageAvailable = checkStorageAvailability();
+      let storedResult = null;
+      let storedHistory = [];
+
+      if (state.storageAvailable) {
+        storedResult = Utils.loadData(AI_CONFIG.resultKey, null);
+        storedHistory = Utils.loadData(AI_CONFIG.historyKey, []);
+        state.persistedResult = normalizeCurrentResult(storedResult);
+        state.history = sanitizeHistory(storedHistory);
+      }
+
+      render();
+      const validation = validateQuestionSet(AI_QUESTIONS, AI_CONFIG);
+      if (!validation.valid) {
+        const startButton = document.getElementById('start-button');
+        if (startButton) startButton.disabled = true;
+        globalStatus.setAttribute('role', 'alert');
+        globalStatus.textContent = '진단 문항을 불러오지 못했습니다. 페이지를 새로고침한 뒤 다시 시도해 주세요.';
+        console.error('[AI Diagnosis] Question set validation failed:', validation.reason);
+        return;
+      }
+
+      if (!state.storageAvailable) {
+        globalStatus.setAttribute('role', 'status');
+        globalStatus.textContent = '이 브라우저에서는 결과가 저장되지 않습니다. 진단은 계속 진행할 수 있습니다.';
+      } else if (storedResult !== null && !state.persistedResult) {
+        globalStatus.setAttribute('role', 'status');
+        globalStatus.textContent = '저장된 결과를 사용할 수 없어 새 진단을 시작해 주세요.';
+      }
+    }
+
+    initializeDiagnosis();
   </script>
 </body>
 </html>

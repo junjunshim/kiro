@@ -8,53 +8,1104 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="shared/style.css">
   <style>
-    /* =====================================================
-       팀원 A 담당 - 디지털 기초 진단 전용 스타일
-       이 <style> 블록에만 스타일을 추가하세요.
-       shared/style.css 는 수정하지 마세요.
-       ===================================================== */
+    /* 디지털 기초 진단의 화면 구조에 필요한 페이지 전용 스타일 */
+    body {
+      font-size: var(--font-size-base);
+      overflow-wrap: anywhere;
+    }
+
+    #nav-container,
+    #main-content,
+    #main-content .container,
+    .diagnosis-app,
+    .diagnosis-screen,
+    .diagnosis-intro,
+    .assessment-areas {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    #nav-container a,
+    #nav-container button,
+    .diagnosis-app a,
+    .diagnosis-app button,
+    .option-label {
+      min-width: var(--touch-target) !important;
+      min-height: var(--touch-target) !important;
+    }
+
+    #nav-container a,
+    #nav-container button,
+    .diagnosis-app a,
+    .diagnosis-app button {
+      max-width: 100%;
+    }
+
+    #nav-container a:focus-visible,
+    #nav-container button:focus-visible,
+    .diagnosis-app a:focus-visible,
+    .diagnosis-app button:focus-visible,
+    .option-label:focus-within {
+      outline: 3px solid var(--color-primary);
+      outline-offset: 3px;
+    }
+
+    #screen-title:focus-visible {
+      outline: 3px solid var(--color-primary);
+      outline-offset: 0.25rem;
+    }
+
+    .diagnosis-intro {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .assessment-areas {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .assessment-area {
+      padding: 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      overflow-wrap: anywhere;
+    }
+
+    .assessment-area strong {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: var(--font-size-lg);
+    }
+
+    .diagnosis-meta,
+    .screen-description {
+      color: var(--color-text-muted);
+      font-size: var(--font-size-md);
+    }
+
+    .screen-template[hidden],
+    .global-status:empty {
+      display: none;
+    }
+
+    .global-status {
+      margin-top: 1rem;
+      padding: 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      color: var(--color-text);
+      background: var(--color-surface);
+      overflow-wrap: anywhere;
+    }
+
+    .global-status[role="alert"] {
+      border-color: var(--color-danger);
+      color: var(--color-danger);
+    }
+
+    .global-status[role="status"] {
+      border-color: var(--color-primary);
+    }
+
+    .quiz-progress,
+    .question-card,
+    .option-list,
+    .action-row {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .quiz-progress {
+      display: grid;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .progress-text {
+      color: var(--color-text-muted);
+      font-size: var(--font-size-md);
+      font-weight: 600;
+    }
+
+    .question-card {
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+
+    .question-card legend {
+      width: 100%;
+      margin-bottom: 1rem;
+      font-size: var(--font-size-lg);
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .option-list {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .option-label {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      min-height: var(--touch-target);
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      color: var(--color-text);
+      font-family: inherit;
+      font-size: var(--font-size-md);
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .option-label:focus-within {
+      border-color: var(--color-primary);
+    }
+
+    .option-label input {
+      flex: 0 0 auto;
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-right: 0.75rem;
+    }
+
+    .validation-message {
+      margin-top: 1rem;
+      color: var(--color-danger);
+      font-weight: 600;
+      overflow-wrap: anywhere;
+    }
+
+    .action-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .result-summary,
+    .learning-path,
+    .learning-topic {
+      min-width: 0;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+    }
+
+    .result-summary {
+      display: grid;
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+      padding: 1.25rem;
+      border: 2px solid var(--color-primary);
+      border-radius: var(--radius);
+      background: var(--color-surface);
+    }
+
+    .result-score {
+      margin: 0;
+      font-size: var(--font-size-xl);
+      font-weight: 700;
+    }
+
+    .result-level {
+      margin: 0;
+      font-size: var(--font-size-lg);
+      font-weight: 700;
+    }
+
+    .learning-path {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .learning-topics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .learning-topic {
+      padding: 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+    }
+
+    .learning-topic h4 {
+      margin-top: 0;
+    }
+
+    .learning-topic ul {
+      padding-left: 1.25rem;
+    }
+
+    .action-row .btn,
+    .learning-path > .btn {
+      min-width: var(--touch-target);
+      min-height: var(--touch-target);
+      white-space: normal;
+      text-align: center;
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 600px) {
+      #main-content {
+        padding-top: 1.25rem;
+      }
+
+      #nav-container .nav-inner,
+      #nav-container .nav-links,
+      #nav-container .nav-link {
+        min-width: 0;
+        max-width: 100%;
+      }
+
+      #nav-container .nav-links,
+      #nav-container .nav-link {
+        width: 100%;
+      }
+
+      #nav-container .nav-logo {
+        white-space: normal;
+      }
+
+      .diagnosis-screen.card,
+      .result-summary,
+      .learning-topic,
+      .global-status {
+        padding: 1rem;
+      }
+
+      .assessment-areas,
+      .learning-topics {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .action-row {
+        flex-direction: column;
+      }
+
+      .action-row .btn,
+      .learning-path > .btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 380px) {
+      #main-content .container {
+        padding-inline: 0.75rem;
+      }
+
+      .diagnosis-screen.card,
+      .result-summary,
+      .learning-topic,
+      .global-status,
+      .option-label {
+        padding-inline: 0.75rem;
+      }
+
+      .page-header h1,
+      .result-score {
+        font-size: var(--font-size-xl);
+        overflow-wrap: anywhere;
+      }
+    }
   </style>
 </head>
 <body>
   <div id="nav-container"></div>
-  <main>
+
+  <main id="main-content">
     <div class="container">
-      <div class="page-header">
+      <header class="page-header">
         <h1>📱 디지털 기초 진단</h1>
         <p>AI를 배우기 전에 디지털 기기 활용 능력을 먼저 점검해 보세요.</p>
-      </div>
+      </header>
 
-      <!--
-        =====================================================
-        팀원 A: 여기서부터 콘텐츠를 구현하세요.
+      <section id="diagnosis-app" class="diagnosis-app" aria-labelledby="screen-title">
+        <div id="screen-root">
+          <section class="diagnosis-screen card" data-screen="START">
+            <div class="diagnosis-intro">
+              <div>
+                <h2 id="screen-title" tabindex="-1">디지털 기초 진단 시작</h2>
+                <p class="screen-description">
+                  일상에서 자주 사용하는 디지털 기능을 얼마나 이해하고 있는지 확인합니다.
+                  각 문항에서 가장 알맞은 답 하나를 선택하세요.
+                </p>
+              </div>
 
-        담당 기능: 디지털 활용 능력 진단 (0단계)
-        브랜치: feature/digital-diagnosis
-        localStorage prefix: ailv:digital:
-          - ailv:digital:result  → { level, score, date }
+              <div aria-labelledby="assessment-areas-title">
+                <h3 id="assessment-areas-title">평가 영역</h3>
+                <ul class="assessment-areas">
+                  <li class="assessment-area">
+                    <strong>📱 스마트폰 기초</strong>
+                    화면 잠금, 와이파이, 글자 크기와 기본 설정을 확인합니다.
+                  </li>
+                  <li class="assessment-area">
+                    <strong>🔎 인터넷 검색</strong>
+                    검색어 선택, 안전한 정보 확인과 검색 결과 활용을 확인합니다.
+                  </li>
+                  <li class="assessment-area">
+                    <strong>🧩 앱 사용</strong>
+                    앱 설치, 권한 확인과 업데이트 방법을 확인합니다.
+                  </li>
+                </ul>
+              </div>
 
-        구현 항목:
-          1. 8~12문항 객관식 퀴즈 (스마트폰 기초, 인터넷 검색, 앱 사용)
-          2. 점수 계산 → "디지털 기초 필요" / "AI 학습 준비 완료" 분류
-          3. 기초 필요 시 디지털 기초 학습 콘텐츠 안내
-          4. 결과 저장: Utils.saveData('ailv:digital:result', { level, score, date })
-        =====================================================
-      -->
+              <p class="diagnosis-meta"><strong>전체 10문항</strong>이며, 모든 문항에 답해야 결과를 확인할 수 있습니다.</p>
+              <div>
+                <button id="start-button" class="btn btn-primary" type="button" data-action="start">
+                  진단 시작하기
+                </button>
+              </div>
+            </div>
+          </section>
 
-      <div class="card">
-        <p style="color:var(--color-text-muted); text-align:center; padding:3rem 0; font-size:var(--font-size-lg);">
-          🚧 팀원 A가 개발 중입니다.
-        </p>
-      </div>
+          <section class="diagnosis-screen screen-template card" data-screen="QUIZ" hidden aria-labelledby="quiz-screen-title">
+            <h2 id="quiz-screen-title" tabindex="-1">디지털 기초 문항</h2>
+            <p>현재 문항과 선택지는 진단을 시작하면 이 영역에 표시됩니다.</p>
+          </section>
 
+          <section class="diagnosis-screen screen-template card" data-screen="RESULT" hidden aria-labelledby="result-screen-title">
+            <h2 id="result-screen-title" tabindex="-1">디지털 기초 진단 결과</h2>
+            <p>모든 문항에 답하면 점수, 수준과 다음 학습 안내가 이 영역에 표시됩니다.</p>
+          </section>
+        </div>
+        <div id="global-status" class="global-status" role="status" aria-live="polite" aria-atomic="true"></div>
+      </section>
     </div>
   </main>
+
   <script src="shared/utils.js"></script>
   <script src="shared/nav.js"></script>
   <script>
     Utils.restoreFontSize();
     Nav.render();
-    // 팀원 A: 여기에 JavaScript를 작성하세요.
+
+    const DIGITAL_CONFIG = Object.freeze({
+      kind: 'digital',
+      questionCount: 10,
+      resultKey: 'ailv:digital:result',
+      allowedLevels: Object.freeze(['디지털 기초 필요', 'AI 학습 준비 완료']),
+      categories: Object.freeze(['smartphone', 'internet-search', 'app-use']),
+      categoryMinimums: Object.freeze({
+        smartphone: 3,
+        'internet-search': 3,
+        'app-use': 3
+      }),
+      recommendationDestinations: Object.freeze(['diagnosis.html'])
+    });
+
+    const DIGITAL_QUESTIONS = Object.freeze([
+      Object.freeze({
+        id: 'digital-q1',
+        category: 'smartphone',
+        prompt: '스마트폰 화면이 꺼진 뒤 다시 사용하려면 가장 먼저 무엇을 해야 하나요?',
+        options: Object.freeze([
+          Object.freeze({ id: 'q1-power', label: '전원 또는 화면 깨우기 버튼을 누른다' }),
+          Object.freeze({ id: 'q1-shake', label: '스마트폰을 세게 흔든다' }),
+          Object.freeze({ id: 'q1-sim', label: '유심 카드를 꺼낸다' })
+        ]),
+        correctOptionId: 'q1-power'
+      }),
+      Object.freeze({
+        id: 'digital-q2',
+        category: 'smartphone',
+        prompt: '공공장소에서 스마트폰을 사용한 뒤 개인정보를 보호하는 방법은 무엇인가요?',
+        options: Object.freeze([
+          Object.freeze({ id: 'q2-lock', label: '화면을 잠그고 스마트폰을 보관한다' }),
+          Object.freeze({ id: 'q2-on', label: '화면을 켜 둔 채 자리를 비운다' }),
+          Object.freeze({ id: 'q2-share', label: '잠금번호를 주변 사람에게 알려 준다' })
+        ]),
+        correctOptionId: 'q2-lock'
+      }),
+      Object.freeze({
+        id: 'digital-q3',
+        category: 'smartphone',
+        prompt: '스마트폰의 글자가 너무 작을 때 알맞은 해결 방법은 무엇인가요?',
+        options: Object.freeze([
+          Object.freeze({ id: 'q3-settings', label: '설정에서 글자 크기를 키운다' }),
+          Object.freeze({ id: 'q3-delete', label: '연락처를 모두 삭제한다' }),
+          Object.freeze({ id: 'q3-airplane', label: '비행기 모드를 켠다' })
+        ]),
+        correctOptionId: 'q3-settings'
+      }),
+      Object.freeze({
+        id: 'digital-q4',
+        category: 'smartphone',
+        prompt: '모바일 데이터를 아끼면서 집에서 인터넷을 사용하려면 무엇을 확인해야 하나요?',
+        options: Object.freeze([
+          Object.freeze({ id: 'q4-wifi', label: '신뢰할 수 있는 와이파이에 연결되었는지 확인한다' }),
+          Object.freeze({ id: 'q4-volume', label: '통화 음량을 최대로 높인다' }),
+          Object.freeze({ id: 'q4-camera', label: '카메라를 계속 실행한다' })
+        ]),
+        correctOptionId: 'q4-wifi'
+      }),
+      Object.freeze({
+        id: 'digital-q5',
+        category: 'internet-search',
+        prompt: '가까운 주민센터 운영 시간을 찾을 때 가장 알맞은 검색어는 무엇인가요?',
+        options: Object.freeze([
+          Object.freeze({ id: 'q5-specific', label: '지역 이름 주민센터 운영 시간' }),
+          Object.freeze({ id: 'q5-vague', label: '시간' }),
+          Object.freeze({ id: 'q5-random', label: '오늘 날씨 사진' })
+        ]),
+        correctOptionId: 'q5-specific'
+      }),
+      Object.freeze({
+        id: 'digital-q6',
+        category: 'internet-search',
+        prompt: '검색 결과의 건강 정보를 믿기 전에 무엇을 확인하는 것이 좋나요?',
+        options: Object.freeze([
+          Object.freeze({ id: 'q6-source', label: '작성 기관과 게시 날짜를 확인한다' }),
+          Object.freeze({ id: 'q6-first', label: '맨 위 결과는 무조건 믿는다' }),
+          Object.freeze({ id: 'q6-ad', label: '광고 문구만 읽고 결정한다' })
+        ]),
+        correctOptionId: 'q6-source'
+      }),
+      Object.freeze({
+        id: 'digital-q7',
+        category: 'internet-search',
+        prompt: '검색 결과에서 원하는 내용을 더 정확히 찾으려면 어떻게 해야 하나요?',
+        options: Object.freeze([
+          Object.freeze({ id: 'q7-keyword', label: '구체적인 핵심 단어를 추가해 다시 검색한다' }),
+          Object.freeze({ id: 'q7-repeat', label: '같은 모호한 단어만 계속 입력한다' }),
+          Object.freeze({ id: 'q7-offline', label: '인터넷 연결을 끈다' })
+        ]),
+        correctOptionId: 'q7-keyword'
+      }),
+      Object.freeze({
+        id: 'digital-q8',
+        category: 'app-use',
+        prompt: '새 앱을 안전하게 설치하려면 어디에서 받는 것이 좋은가요?',
+        options: Object.freeze([
+          Object.freeze({ id: 'q8-store', label: '공식 앱 스토어에서 받는다' }),
+          Object.freeze({ id: 'q8-message', label: '모르는 사람이 보낸 링크에서 받는다' }),
+          Object.freeze({ id: 'q8-popup', label: '출처가 없는 팝업 광고에서 받는다' })
+        ]),
+        correctOptionId: 'q8-store'
+      }),
+      Object.freeze({
+        id: 'digital-q9',
+        category: 'app-use',
+        prompt: '손전등 앱이 연락처 접근 권한을 요구할 때 알맞은 행동은 무엇인가요?',
+        options: Object.freeze([
+          Object.freeze({ id: 'q9-deny', label: '기능에 필요하지 않은 권한은 허용하지 않는다' }),
+          Object.freeze({ id: 'q9-allow', label: '모든 권한을 무조건 허용한다' }),
+          Object.freeze({ id: 'q9-share', label: '연락처를 먼저 다른 사람에게 보낸다' })
+        ]),
+        correctOptionId: 'q9-deny'
+      }),
+      Object.freeze({
+        id: 'digital-q10',
+        category: 'app-use',
+        prompt: '앱 업데이트 알림이 왔을 때 안전한 방법은 무엇인가요?',
+        options: Object.freeze([
+          Object.freeze({ id: 'q10-store', label: '공식 앱 스토어에서 업데이트 내용을 확인한다' }),
+          Object.freeze({ id: 'q10-link', label: '문자에 포함된 낯선 링크를 바로 누른다' }),
+          Object.freeze({ id: 'q10-password', label: '비밀번호를 답장으로 보낸다' })
+        ]),
+        correctOptionId: 'q10-store'
+      })
+    ]);
+
+    function validateQuestionSet(questions, config) {
+      if (!Array.isArray(questions) || questions.length === 0) {
+        return { valid: false, reason: 'EMPTY_QUESTION_SET' };
+      }
+      if (!config || questions.length !== config.questionCount) {
+        return { valid: false, reason: 'QUESTION_SET_MISMATCH' };
+      }
+
+      const questionIds = new Set();
+      const categoryCounts = Object.fromEntries(config.categories.map(category => [category, 0]));
+
+      for (const question of questions) {
+        if (!question || typeof question.id !== 'string' || question.id.trim() === '' || questionIds.has(question.id)) {
+          return { valid: false, reason: 'DUPLICATE_OR_INVALID_QUESTION_ID' };
+        }
+        questionIds.add(question.id);
+
+        if (!config.categories.includes(question.category)) {
+          return { valid: false, reason: 'INVALID_CATEGORY' };
+        }
+        categoryCounts[question.category] += 1;
+
+        if (typeof question.prompt !== 'string' || question.prompt.trim() === '' ||
+            !Array.isArray(question.options) || question.options.length < 2) {
+          return { valid: false, reason: 'INVALID_QUESTION_CONTENT' };
+        }
+
+        const optionIds = new Set();
+        for (const option of question.options) {
+          if (!option || typeof option.id !== 'string' || option.id.trim() === '' || optionIds.has(option.id) ||
+              typeof option.label !== 'string' || option.label.trim() === '') {
+            return { valid: false, reason: 'INVALID_OR_DUPLICATE_OPTION' };
+          }
+          optionIds.add(option.id);
+        }
+
+        const answerCount = question.options.filter(option => option.id === question.correctOptionId).length;
+        if (answerCount !== 1) {
+          return { valid: false, reason: 'INVALID_CORRECT_ANSWER' };
+        }
+      }
+
+      const categoriesMeetMinimums = config.categories.every(
+        category => categoryCounts[category] >= config.categoryMinimums[category]
+      );
+      if (!categoriesMeetMinimums) {
+        return { valid: false, reason: 'CATEGORY_MINIMUM_NOT_MET' };
+      }
+
+      return { valid: true };
+    }
+
+    const SCREEN = Object.freeze({
+      START: 'START',
+      QUIZ: 'QUIZ',
+      RESULT: 'RESULT'
+    });
+
+    const VALIDATION_MESSAGE = '답을 하나 선택한 뒤 다음으로 이동해 주세요.';
+    const state = {
+      screen: SCREEN.START,
+      currentIndex: 0,
+      responses: {},
+      validation: {},
+      persistedResult: null,
+      previousResult: null,
+      currentResult: null,
+      storageAvailable: true,
+      storageStatus: 'idle',
+      isCompleting: false,
+      completionResult: null
+    };
+
+    const diagnosisApp = document.getElementById('diagnosis-app');
+    const screenRoot = document.getElementById('screen-root');
+    const globalStatus = document.getElementById('global-status');
+
+    function getQuestionById(questionId) {
+      return DIGITAL_QUESTIONS.find(question => question.id === questionId) || null;
+    }
+
+    function isValidOption(question, optionId) {
+      return Boolean(question && question.options.some(option => option.id === optionId));
+    }
+
+    function findFirstUnanswered(questions, responses) {
+      return questions.findIndex(question => !isValidOption(question, responses[question.id]));
+    }
+
+    function calculateRawScore(questions, responses) {
+      if (!Array.isArray(questions) || !responses || typeof responses !== 'object') return NaN;
+      return questions.reduce((rawScore, question) => (
+        responses[question.id] === question.correctOptionId ? rawScore + 1 : rawScore
+      ), 0);
+    }
+
+    function calculateScore(rawScore, questionCount) {
+      if (questionCount === 0) {
+        return { ok: false, code: 'ZERO_QUESTION_COUNT' };
+      }
+      if (!Number.isFinite(rawScore) || !Number.isFinite(questionCount)) {
+        return { ok: false, code: 'NON_FINITE_SCORE_INPUT' };
+      }
+
+      const score = Math.round((rawScore / questionCount) * 100);
+      if (!Number.isFinite(score)) {
+        return { ok: false, code: 'NON_FINITE_SCORE_INPUT' };
+      }
+      if (score < 0 || score > 100) {
+        return { ok: false, code: 'SCORE_OUT_OF_RANGE' };
+      }
+      return { ok: true, score };
+    }
+
+    function classifyDigitalLevel(score) {
+      if (!Number.isInteger(score) || score < 0 || score > 100) return null;
+      return score < 70 ? '디지털 기초 필요' : 'AI 학습 준비 완료';
+    }
+
+    function getDigitalLearningPath(level) {
+      if (level === '디지털 기초 필요') {
+        return [
+          {
+            type: 'internal',
+            title: '스마트폰 기초',
+            items: ['화면 잠금과 해제 연습', '와이파이 연결 확인', '글자 크기 설정']
+          },
+          {
+            type: 'internal',
+            title: '인터넷 검색',
+            items: ['구체적인 검색어 만들기', '작성 기관과 날짜 확인', '검색어를 바꾸어 다시 찾기']
+          },
+          {
+            type: 'internal',
+            title: '앱 사용',
+            items: ['공식 앱 스토어 이용', '필요한 권한만 허용', '공식 스토어에서 업데이트']
+          }
+        ];
+      }
+      if (level === 'AI 학습 준비 완료') {
+        return [{
+          type: 'link',
+          title: 'AI 활용 능력 진단',
+          description: '다음 진단에서 나에게 맞는 AI 학습 단계를 확인하세요.',
+          href: 'diagnosis.html'
+        }];
+      }
+      return [];
+    }
+
+    function isIsoDateTime(value) {
+      if (typeof value !== 'string') return false;
+      try {
+        return new Date(value).toISOString() === value;
+      } catch (error) {
+        return false;
+      }
+    }
+
+    function isValidCurrentResult(value, allowedLevels = DIGITAL_CONFIG.allowedLevels) {
+      if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+      const keys = Object.keys(value);
+      const hasExactFields = keys.length === 3 &&
+        ['level', 'score', 'date'].every(key => Object.prototype.hasOwnProperty.call(value, key));
+      return Boolean(
+        hasExactFields &&
+        allowedLevels.includes(value.level) &&
+        Number.isInteger(value.score) &&
+        value.score >= 0 &&
+        value.score <= 100 &&
+        isIsoDateTime(value.date)
+      );
+    }
+
+    function normalizeCurrentResult(value, allowedLevels = DIGITAL_CONFIG.allowedLevels) {
+      if (!isValidCurrentResult(value, allowedLevels)) return null;
+      return { level: value.level, score: value.score, date: value.date };
+    }
+
+    function createCurrentResult(level, score, isoDate) {
+      return normalizeCurrentResult({ level, score, date: isoDate });
+    }
+
+    function areResultsEqual(left, right) {
+      const normalizedLeft = normalizeCurrentResult(left);
+      const normalizedRight = normalizeCurrentResult(right);
+      return Boolean(
+        normalizedLeft &&
+        normalizedRight &&
+        normalizedLeft.level === normalizedRight.level &&
+        normalizedLeft.score === normalizedRight.score &&
+        normalizedLeft.date === normalizedRight.date
+      );
+    }
+
+    function checkStorageAvailability() {
+      const probeKey = 'ailv:digital:probe';
+      try {
+        localStorage.setItem(probeKey, probeKey);
+        return localStorage.getItem(probeKey) === probeKey;
+      } catch (error) {
+        console.warn('[Digital Diagnosis] Digital storage namespace is unavailable.');
+        return false;
+      } finally {
+        try {
+          localStorage.removeItem(probeKey);
+        } catch (error) {
+          // 저장소 접근 자체가 차단된 경우에는 정리할 probe가 없다.
+        }
+      }
+    }
+
+    function saveAndVerifyResult(result) {
+      if (!state.storageAvailable) {
+        return { ok: false, code: 'unavailable' };
+      }
+      try {
+        Utils.saveData(DIGITAL_CONFIG.resultKey, result);
+        const reloaded = Utils.loadData(DIGITAL_CONFIG.resultKey, null);
+        return areResultsEqual(reloaded, result)
+          ? { ok: true, code: 'saved' }
+          : { ok: false, code: 'write-or-verify-failed' };
+      } catch (error) {
+        console.error('[Digital Diagnosis] Result save or verification failed.');
+        return { ok: false, code: 'write-or-verify-failed' };
+      }
+    }
+
+    function compareResults(current, previous) {
+      const normalizedCurrent = normalizeCurrentResult(current);
+      const normalizedPrevious = normalizeCurrentResult(previous);
+      if (!normalizedCurrent || !normalizedPrevious) return null;
+
+      const pointDelta = normalizedCurrent.score - normalizedPrevious.score;
+      return {
+        pointDelta,
+        direction: pointDelta > 0 ? '증가' : pointDelta < 0 ? '감소' : '동일'
+      };
+    }
+
+    function showStorageStatus(outcome) {
+      if (outcome.ok) {
+        globalStatus.setAttribute('role', 'status');
+        globalStatus.textContent = '진단 결과가 이 브라우저에 저장되었습니다.';
+      } else if (outcome.code === 'unavailable') {
+        globalStatus.setAttribute('role', 'status');
+        globalStatus.textContent = '이 브라우저에서는 결과가 저장되지 않습니다. 현재 결과는 이 화면에서 확인할 수 있습니다.';
+      } else {
+        globalStatus.setAttribute('role', 'alert');
+        globalStatus.textContent = '결과를 저장하지 못했습니다. 현재 결과는 이 화면에서 확인할 수 있습니다.';
+      }
+    }
+
+    function showGlobalError(message) {
+      globalStatus.setAttribute('role', 'alert');
+      globalStatus.textContent = message;
+    }
+
+    function clearGlobalStatus() {
+      globalStatus.setAttribute('role', 'status');
+      globalStatus.textContent = '';
+    }
+
+    function renderStartScreen() {
+      screenRoot.innerHTML = `
+        <section class="diagnosis-screen card" data-screen="START">
+          <div class="diagnosis-intro">
+            <div>
+              <h2 id="screen-title" tabindex="-1">디지털 기초 진단 시작</h2>
+              <p class="screen-description">
+                일상에서 자주 사용하는 디지털 기능을 얼마나 이해하고 있는지 확인합니다.
+                각 문항에서 가장 알맞은 답 하나를 선택하세요.
+              </p>
+            </div>
+            <div aria-labelledby="assessment-areas-title">
+              <h3 id="assessment-areas-title">평가 영역</h3>
+              <ul class="assessment-areas">
+                <li class="assessment-area"><strong>📱 스마트폰 기초</strong>화면 잠금, 와이파이, 글자 크기와 기본 설정을 확인합니다.</li>
+                <li class="assessment-area"><strong>🔎 인터넷 검색</strong>검색어 선택, 안전한 정보 확인과 검색 결과 활용을 확인합니다.</li>
+                <li class="assessment-area"><strong>🧩 앱 사용</strong>앱 설치, 권한 확인과 업데이트 방법을 확인합니다.</li>
+              </ul>
+            </div>
+            <p class="diagnosis-meta"><strong>전체 ${DIGITAL_CONFIG.questionCount}문항</strong>이며, 모든 문항에 답해야 결과를 확인할 수 있습니다.</p>
+            ${state.persistedResult ? `
+              <div class="result-summary" aria-label="저장된 최근 진단 결과">
+                <h3>최근 진단 결과</h3>
+                <p class="result-score">점수: ${state.persistedResult.score}점</p>
+                <p class="result-level">진단 수준: ${state.persistedResult.level}</p>
+                <p>완료 시각: <time datetime="${state.persistedResult.date}">${new Date(state.persistedResult.date).toLocaleString('ko-KR')}</time></p>
+              </div>
+              <div><button id="start-button" class="btn btn-primary" type="button" data-action="retake">최근 결과와 비교하며 다시 진단하기</button></div>
+            ` : `
+              <div><button id="start-button" class="btn btn-primary" type="button" data-action="start">진단 시작하기</button></div>
+            `}
+          </div>
+        </section>`;
+    }
+
+    function renderQuizScreen() {
+      const question = DIGITAL_QUESTIONS[state.currentIndex];
+      const currentNumber = state.currentIndex + 1;
+      const validationMessage = state.validation[question.id] || '';
+      const validationId = `validation-${question.id}`;
+      const optionMarkup = question.options.map(option => {
+        const inputId = `${question.id}-${option.id}`;
+        const checked = state.responses[question.id] === option.id ? ' checked' : '';
+        return `
+          <label class="option-label" for="${inputId}">
+            <input id="${inputId}" type="radio" name="answer-${question.id}"
+              value="${option.id}" data-question-id="${question.id}"${checked}>
+            <span>${option.label}</span>
+          </label>`;
+      }).join('');
+      const action = state.currentIndex === DIGITAL_QUESTIONS.length - 1 ? 'submit' : 'next';
+      const actionLabel = action === 'submit' ? '결과 보기' : '다음 문항';
+      const describedBy = validationMessage ? ` aria-describedby="${validationId}"` : '';
+
+      screenRoot.innerHTML = `
+        <section class="diagnosis-screen card" data-screen="QUIZ">
+          <h2 id="screen-title" tabindex="-1">디지털 기초 문항</h2>
+          <div class="quiz-progress">
+            <p class="progress-text">${currentNumber} / ${DIGITAL_CONFIG.questionCount} 문항</p>
+            <div class="progress-bar" role="progressbar" aria-label="진단 진행률"
+              aria-valuemin="1" aria-valuemax="${DIGITAL_CONFIG.questionCount}" aria-valuenow="${currentNumber}">
+              <div class="progress-bar__fill" style="width: ${(currentNumber / DIGITAL_CONFIG.questionCount) * 100}%"></div>
+            </div>
+          </div>
+          <fieldset class="question-card"${describedBy}>
+            <legend>${currentNumber}. ${question.prompt}</legend>
+            <div class="option-list">${optionMarkup}</div>
+            ${validationMessage ? `<p id="${validationId}" class="validation-message" role="alert">${validationMessage}</p>` : ''}
+          </fieldset>
+          <div class="action-row">
+            <button class="btn btn-primary" type="button" data-action="${action}">${actionLabel}</button>
+          </div>
+        </section>`;
+    }
+
+    function renderLearningPath(level) {
+      const recommendations = getDigitalLearningPath(level);
+      if (level === '디지털 기초 필요') {
+        const topics = recommendations.map(topic => `
+          <li class="learning-topic">
+            <h4>${topic.title}</h4>
+            <ul>${topic.items.map(item => `<li>${item}</li>`).join('')}</ul>
+          </li>`).join('');
+        return `
+          <div class="learning-path" aria-labelledby="learning-path-title">
+            <h3 id="learning-path-title">먼저 연습할 디지털 기초</h3>
+            <p>아래 내용을 이 페이지에서 확인하고 생활 속에서 하나씩 연습해 보세요.</p>
+            <ul class="learning-topics">${topics}</ul>
+          </div>`;
+      }
+
+      const recommendation = recommendations[0];
+      return `
+        <div class="learning-path" aria-labelledby="learning-path-title">
+          <h3 id="learning-path-title">다음 학습 단계</h3>
+          <p>${recommendation.description}</p>
+          <a class="btn btn-primary" href="${recommendation.href}">${recommendation.title} 시작하기</a>
+        </div>`;
+    }
+
+    function renderResultScreen() {
+      const result = state.currentResult;
+      if (!result) {
+        showGlobalError('결과를 표시할 수 없습니다. 페이지를 새로고침한 뒤 진단을 다시 시작해 주세요.');
+        return;
+      }
+
+      const comparison = compareResults(result, state.previousResult);
+      const comparisonMarkup = comparison
+        ? comparison.direction === '동일'
+          ? '<p><strong>이전 결과와 비교:</strong> 0점 차이, 점수가 동일합니다.</p>'
+          : `<p><strong>이전 결과와 비교:</strong> ${Math.abs(comparison.pointDelta)}점 ${comparison.direction}했습니다.</p>`
+        : '<p><strong>첫 진단을 완료했습니다.</strong> 추천 내용을 확인하고 다음 학습을 선택해 주세요.</p>';
+
+      screenRoot.innerHTML = `
+        <section class="diagnosis-screen card" data-screen="RESULT">
+          <h2 id="screen-title" tabindex="-1">디지털 기초 진단 결과</h2>
+          <div class="result-summary" aria-label="진단 결과 요약">
+            <p class="result-score">점수: ${result.score}점</p>
+            <p class="result-level">진단 수준: ${result.level}</p>
+            <p>완료 시각: <time datetime="${result.date}">${new Date(result.date).toLocaleString('ko-KR')}</time></p>
+          </div>
+          ${comparisonMarkup}
+          ${renderLearningPath(result.level)}
+          <div class="action-row">
+            <button class="btn btn-secondary" type="button" data-action="retake">다시 진단하기</button>
+            <a class="btn btn-secondary" href="index.html">대시보드로 이동</a>
+          </div>
+        </section>`;
+    }
+
+    function render() {
+      if (state.screen === SCREEN.QUIZ) {
+        renderQuizScreen();
+      } else if (state.screen === SCREEN.RESULT) {
+        renderResultScreen();
+      } else {
+        renderStartScreen();
+      }
+    }
+
+    function focusScreenHeading() {
+      const heading = document.getElementById('screen-title');
+      if (heading) heading.focus();
+    }
+
+    function focusFirstOption(questionId) {
+      const firstOption = screenRoot.querySelector(`input[data-question-id="${questionId}"]`);
+      if (firstOption) firstOption.focus();
+    }
+
+    function startDiagnosis({ isRetake = false } = {}) {
+      const baseline = state.currentResult || state.persistedResult;
+      state.previousResult = isRetake && isValidCurrentResult(baseline)
+        ? { level: baseline.level, score: baseline.score, date: baseline.date }
+        : null;
+      state.screen = SCREEN.QUIZ;
+      state.currentIndex = 0;
+      state.responses = {};
+      state.validation = {};
+      state.currentResult = null;
+      state.storageStatus = 'idle';
+      state.isCompleting = false;
+      state.completionResult = null;
+      clearGlobalStatus();
+      render();
+      focusScreenHeading();
+    }
+
+    function selectAnswer(questionId, optionId) {
+      if (state.screen !== SCREEN.QUIZ) return;
+
+      const currentQuestion = DIGITAL_QUESTIONS[state.currentIndex];
+      if (currentQuestion.id !== questionId || !isValidOption(currentQuestion, optionId)) {
+        console.warn('[Digital Diagnosis] Ignored an unknown question or option selection.');
+        return;
+      }
+
+      state.responses[questionId] = optionId;
+      if (Object.prototype.hasOwnProperty.call(state.validation, questionId)) {
+        delete state.validation[questionId];
+        const validationMessage = document.getElementById(`validation-${questionId}`);
+        if (validationMessage) validationMessage.remove();
+        const fieldset = screenRoot.querySelector('.question-card');
+        if (fieldset) fieldset.removeAttribute('aria-describedby');
+      }
+    }
+
+    function showUnansweredValidation(questionIndex) {
+      state.currentIndex = questionIndex;
+      const question = DIGITAL_QUESTIONS[questionIndex];
+      state.validation[question.id] = VALIDATION_MESSAGE;
+      render();
+      focusFirstOption(question.id);
+    }
+
+    function goNext() {
+      if (state.screen !== SCREEN.QUIZ || state.currentIndex >= DIGITAL_QUESTIONS.length - 1) return;
+
+      const question = DIGITAL_QUESTIONS[state.currentIndex];
+      if (!isValidOption(question, state.responses[question.id])) {
+        showUnansweredValidation(state.currentIndex);
+        return;
+      }
+
+      state.currentIndex += 1;
+      render();
+      focusScreenHeading();
+    }
+
+    function submitDiagnosis() {
+      if (state.screen !== SCREEN.QUIZ || state.isCompleting) return;
+
+      const questionSetValidation = validateQuestionSet(DIGITAL_QUESTIONS, DIGITAL_CONFIG);
+      if (!questionSetValidation.valid) {
+        showGlobalError('진단 문항에 문제가 있어 결과를 계산할 수 없습니다. 페이지를 새로고침한 뒤 다시 시도해 주세요.');
+        console.error('[Digital Diagnosis] Completion blocked by question set validation:', questionSetValidation.reason);
+        return;
+      }
+
+      const firstUnansweredIndex = findFirstUnanswered(DIGITAL_QUESTIONS, state.responses);
+      if (firstUnansweredIndex !== -1) {
+        showUnansweredValidation(firstUnansweredIndex);
+        return;
+      }
+
+      state.isCompleting = true;
+      try {
+        const rawScore = calculateRawScore(DIGITAL_QUESTIONS, state.responses);
+        const scoreResult = calculateScore(rawScore, DIGITAL_QUESTIONS.length);
+        if (!scoreResult.ok) {
+          const message = scoreResult.code === 'ZERO_QUESTION_COUNT'
+            ? '진단 문항이 없어 결과를 계산할 수 없습니다. 페이지를 새로고침한 뒤 다시 시도해 주세요.'
+            : '점수를 계산하지 못했습니다. 페이지를 새로고침해 진단을 다시 시작해 주세요.';
+          showGlobalError(message);
+          console.error('[Digital Diagnosis] Scoring failed:', scoreResult.code);
+          return;
+        }
+
+        const level = classifyDigitalLevel(scoreResult.score);
+        if (!level) {
+          showGlobalError('점수 범위를 확인하지 못했습니다. 페이지를 새로고침해 진단을 다시 시작해 주세요.');
+          console.error('[Digital Diagnosis] Level classification failed.');
+          return;
+        }
+
+        const result = createCurrentResult(level, scoreResult.score, new Date().toISOString());
+        if (!result) {
+          showGlobalError('결과 정보를 만들지 못했습니다. 페이지를 새로고침해 진단을 다시 시작해 주세요.');
+          console.error('[Digital Diagnosis] Current result validation failed.');
+          return;
+        }
+
+        state.completionResult = result;
+        state.currentResult = result;
+        state.screen = SCREEN.RESULT;
+        clearGlobalStatus();
+        render();
+        focusScreenHeading();
+
+        const saveOutcome = saveAndVerifyResult(state.completionResult);
+        state.storageStatus = saveOutcome.code;
+        if (saveOutcome.ok) {
+          state.persistedResult = { ...state.completionResult };
+        }
+        showStorageStatus(saveOutcome);
+      } finally {
+        state.isCompleting = false;
+      }
+    }
+
+    diagnosisApp.addEventListener('change', event => {
+      const input = event.target.closest('input[type="radio"][data-question-id]');
+      if (!input) return;
+      selectAnswer(input.dataset.questionId, input.value);
+    });
+
+    diagnosisApp.addEventListener('click', event => {
+      const control = event.target.closest('[data-action]');
+      if (!control) return;
+
+      if (control.dataset.action === 'start') {
+        startDiagnosis({ isRetake: false });
+      } else if (control.dataset.action === 'retake') {
+        startDiagnosis({ isRetake: true });
+      } else if (control.dataset.action === 'next') {
+        goNext();
+      } else if (control.dataset.action === 'submit') {
+        submitDiagnosis();
+      }
+    });
+
+    function initializeDiagnosis() {
+      state.storageAvailable = checkStorageAvailability();
+      let storedValue = null;
+      if (state.storageAvailable) {
+        storedValue = Utils.loadData(DIGITAL_CONFIG.resultKey, null);
+        state.persistedResult = normalizeCurrentResult(storedValue);
+      }
+
+      render();
+      const validation = validateQuestionSet(DIGITAL_QUESTIONS, DIGITAL_CONFIG);
+      if (!validation.valid) {
+        const startButton = document.getElementById('start-button');
+        if (startButton) startButton.disabled = true;
+        globalStatus.setAttribute('role', 'alert');
+        globalStatus.textContent = '진단 문항을 불러오지 못했습니다. 페이지를 새로고침한 뒤 다시 시도해 주세요.';
+        console.error('[Digital Diagnosis] Question set validation failed:', validation.reason);
+        return;
+      }
+
+      if (!state.storageAvailable) {
+        globalStatus.setAttribute('role', 'status');
+        globalStatus.textContent = '이 브라우저에서는 결과가 저장되지 않습니다. 진단은 계속 진행할 수 있습니다.';
+      } else if (storedValue !== null && !state.persistedResult) {
+        globalStatus.setAttribute('role', 'status');
+        globalStatus.textContent = '저장된 결과를 사용할 수 없어 새 진단을 시작해 주세요.';
+      }
+    }
+
+    initializeDiagnosis();
   </script>
 </body>
 </html>
