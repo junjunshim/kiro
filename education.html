@@ -215,6 +215,106 @@
       background: var(--color-bg);
     }
 
+    .lesson-quiz {
+      display: grid;
+      gap: 1rem;
+      padding: 1.25rem;
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius);
+      background: var(--color-surface);
+    }
+
+    .lesson-quiz__title {
+      font-size: var(--font-size-lg);
+    }
+
+    .quiz-fieldset {
+      display: grid;
+      gap: 1rem;
+      min-width: 0;
+      border: 0;
+    }
+
+    .quiz-question {
+      font-size: var(--font-size-md);
+      font-weight: 700;
+    }
+
+    .quiz-options {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .quiz-option {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      min-height: var(--touch-target);
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius);
+      background: var(--color-bg);
+    }
+
+    .quiz-option:focus-within {
+      border-color: var(--color-primary);
+    }
+
+    .quiz-option input {
+      flex: 0 0 auto;
+      min-width: 1.25rem;
+      min-height: 1.25rem;
+      accent-color: var(--color-primary);
+    }
+
+    .quiz-option label {
+      flex: 1;
+      padding: 0.5rem 0;
+      color: var(--color-text);
+      font-size: var(--font-size-md);
+      cursor: pointer;
+    }
+
+    .quiz-option input:disabled + label {
+      cursor: not-allowed;
+    }
+
+    .quiz-actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .quiz-actions .btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+      transform: none;
+    }
+
+    .quiz-feedback {
+      min-height: var(--touch-target);
+      padding: 0.75rem 1rem;
+      border-left: 4px solid var(--color-border);
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-size: var(--font-size-md);
+    }
+
+    .quiz-feedback[data-result="correct"] {
+      border-color: var(--color-success);
+      color: var(--color-success);
+    }
+
+    .quiz-feedback[data-result="incorrect"] {
+      border-color: var(--color-danger);
+      color: var(--color-danger);
+    }
+
+    .quiz-feedback[data-result="notice"] {
+      border-color: var(--color-warning);
+      color: var(--color-warning);
+    }
+
     .lesson-navigation {
       display: flex;
       justify-content: space-between;
@@ -303,10 +403,10 @@
           <p class="level-panel__description" id="selected-level-description"></p>
           <ol class="lesson-preview-list" id="lesson-preview-list" aria-label="선택한 단계의 레슨"></ol>
 
-          <article class="lesson-detail" id="lesson-detail" aria-labelledby="lesson-detail-title" aria-live="polite">
+          <article class="lesson-detail" id="lesson-detail" aria-labelledby="lesson-detail-title">
             <header class="lesson-detail__header">
               <span class="lesson-detail__eyebrow" id="lesson-detail-position"></span>
-              <h3 class="lesson-detail__title" id="lesson-detail-title" tabindex="-1"></h3>
+              <h3 class="lesson-detail__title" id="lesson-detail-title" tabindex="-1" aria-live="polite"></h3>
               <p class="lesson-detail__objective" id="lesson-detail-objective"></p>
             </header>
 
@@ -318,6 +418,21 @@
             <section class="lesson-content-section lesson-example" aria-labelledby="lesson-example-title">
               <h4 id="lesson-example-title">쉬운 예시</h4>
               <p id="lesson-detail-example"></p>
+            </section>
+
+            <section class="lesson-quiz" aria-labelledby="lesson-quiz-title">
+              <h4 class="lesson-quiz__title" id="lesson-quiz-title">확인 퀴즈</h4>
+              <fieldset class="quiz-fieldset">
+                <legend class="quiz-question" id="quiz-question"></legend>
+                <div class="quiz-options" id="quiz-options"></div>
+              </fieldset>
+              <div class="quiz-actions">
+                <button class="btn btn-primary" id="check-quiz-button" type="button">정답 확인</button>
+                <button class="btn btn-success" id="complete-lesson-button" type="button" disabled>레슨 완료</button>
+              </div>
+              <p class="quiz-feedback" id="quiz-feedback" role="status" aria-live="polite">
+                답을 선택한 뒤 정답 확인 버튼을 눌러주세요.
+              </p>
             </section>
 
             <nav class="lesson-navigation" aria-label="레슨 이동">
@@ -509,7 +624,8 @@
     const state = {
       selectedLevel: 'beginner',
       selectedLessonId: 'beginner-1',
-      completedLessonIds: []
+      completedLessonIds: [],
+      quizStateByLessonId: Object.create(null)
     };
 
     const levelTabsContainer = document.getElementById('level-tabs');
@@ -523,6 +639,11 @@
     const lessonDetailObjective = document.getElementById('lesson-detail-objective');
     const lessonDetailContent = document.getElementById('lesson-detail-content');
     const lessonDetailExample = document.getElementById('lesson-detail-example');
+    const quizQuestion = document.getElementById('quiz-question');
+    const quizOptions = document.getElementById('quiz-options');
+    const checkQuizButton = document.getElementById('check-quiz-button');
+    const completeLessonButton = document.getElementById('complete-lesson-button');
+    const quizFeedback = document.getElementById('quiz-feedback');
     const previousLessonButton = document.getElementById('previous-lesson-button');
     const nextLessonButton = document.getElementById('next-lesson-button');
     const lessonNavigationStatus = document.getElementById('lesson-navigation-status');
@@ -609,11 +730,18 @@
       number.textContent = `레슨 ${index + 1}`;
       header.append(number);
 
+      if (state.completedLessonIds.includes(lesson.id)) {
+        const completedStatus = document.createElement('span');
+        completedStatus.className = 'badge badge-green';
+        completedStatus.textContent = '완료';
+        header.append(completedStatus);
+      }
+
       if (isSelected) {
-        const status = document.createElement('span');
-        status.className = 'badge badge-blue';
-        status.textContent = '현재 학습';
-        header.append(status);
+        const selectedStatus = document.createElement('span');
+        selectedStatus.className = 'badge badge-blue';
+        selectedStatus.textContent = '현재 학습';
+        header.append(selectedStatus);
       }
 
       const title = document.createElement('span');
@@ -634,6 +762,126 @@
       const lessonItems = lessons.map(createLessonPreview);
       lessonPreviewList.replaceChildren(...lessonItems);
       return lessons;
+    }
+
+    function getQuizState(lessonId) {
+      if (!state.quizStateByLessonId[lessonId]) {
+        state.quizStateByLessonId[lessonId] = {
+          selectedAnswerIndex: null,
+          hasSubmitted: false,
+          isCorrect: false
+        };
+      }
+
+      return state.quizStateByLessonId[lessonId];
+    }
+
+    function setQuizFeedback(result, message) {
+      quizFeedback.dataset.result = result;
+      quizFeedback.textContent = message;
+    }
+
+    function createQuizOption(lesson, option, index, quizState) {
+      const optionWrapper = document.createElement('div');
+      optionWrapper.className = 'quiz-option';
+
+      const input = document.createElement('input');
+      input.id = `quiz-option-${lesson.id}-${index}`;
+      input.type = 'radio';
+      input.name = 'lesson-quiz-answer';
+      input.value = String(index);
+      input.dataset.answerIndex = String(index);
+      input.checked = quizState.selectedAnswerIndex === index;
+      input.disabled = quizState.isCorrect;
+
+      const label = document.createElement('label');
+      label.setAttribute('for', input.id);
+      label.textContent = option;
+
+      optionWrapper.append(input, label);
+      return optionWrapper;
+    }
+
+    function renderQuiz(lesson) {
+      const quizState = getQuizState(lesson.id);
+      const isCompleted = state.completedLessonIds.includes(lesson.id);
+      const optionElements = lesson.quiz.options.map((option, index) => (
+        createQuizOption(lesson, option, index, quizState)
+      ));
+
+      quizQuestion.textContent = lesson.quiz.question;
+      quizOptions.replaceChildren(...optionElements);
+      checkQuizButton.disabled = quizState.isCorrect;
+      completeLessonButton.disabled = !quizState.isCorrect || isCompleted;
+      completeLessonButton.textContent = isCompleted ? '✓ 레슨 완료됨' : '레슨 완료';
+
+      if (isCompleted) {
+        setQuizFeedback('correct', `✅ 완료했습니다. ${lesson.quiz.explanation}`);
+      } else if (quizState.isCorrect) {
+        setQuizFeedback('correct', `✅ 정답입니다! ${lesson.quiz.explanation} 레슨 완료 버튼을 눌러주세요.`);
+      } else if (quizState.hasSubmitted) {
+        setQuizFeedback('incorrect', `❌ 다시 생각해 보세요. ${lesson.quiz.explanation}`);
+      } else if (quizState.selectedAnswerIndex !== null) {
+        setQuizFeedback('notice', '선택한 답을 정답 확인 버튼으로 확인해 보세요.');
+      } else {
+        setQuizFeedback('notice', '답을 선택한 뒤 정답 확인 버튼을 눌러주세요.');
+      }
+    }
+
+    function selectQuizAnswer(answerIndex) {
+      const lesson = getLessonById(state.selectedLessonId);
+      if (!lesson || !Number.isInteger(answerIndex)) return;
+      if (answerIndex < 0 || answerIndex >= lesson.quiz.options.length) return;
+
+      const quizState = getQuizState(lesson.id);
+      if (quizState.isCorrect) return;
+
+      quizState.selectedAnswerIndex = answerIndex;
+      quizState.hasSubmitted = false;
+      setQuizFeedback('notice', '답을 선택했습니다. 정답 확인 버튼을 눌러주세요.');
+    }
+
+    function checkQuizAnswer() {
+      const lesson = getLessonById(state.selectedLessonId);
+      if (!lesson) return;
+
+      const quizState = getQuizState(lesson.id);
+      if (quizState.selectedAnswerIndex === null) {
+        setQuizFeedback('notice', '먼저 답을 하나 선택해 주세요.');
+        document.getElementById(`quiz-option-${lesson.id}-0`)?.focus();
+        return;
+      }
+
+      quizState.hasSubmitted = true;
+      quizState.isCorrect = quizState.selectedAnswerIndex === lesson.quiz.answerIndex;
+      const selectedOptionId = `quiz-option-${lesson.id}-${quizState.selectedAnswerIndex}`;
+      renderQuiz(lesson);
+
+      if (quizState.isCorrect) {
+        completeLessonButton.focus();
+      } else {
+        document.getElementById(selectedOptionId)?.focus();
+      }
+    }
+
+    function completeCurrentLesson() {
+      const lesson = getLessonById(state.selectedLessonId);
+      if (!lesson) return;
+
+      const quizState = getQuizState(lesson.id);
+      if (!quizState.isCorrect) {
+        setQuizFeedback('notice', '퀴즈 정답을 확인한 뒤 레슨을 완료할 수 있습니다.');
+        return;
+      }
+
+      if (!state.completedLessonIds.includes(lesson.id)) {
+        state.completedLessonIds.push(lesson.id);
+      }
+
+      renderLessonList(state.selectedLevel);
+      renderProgress();
+      renderQuiz(lesson);
+      nextLessonButton.focus();
     }
 
     function updateLessonNavigation(lesson, lessons) {
@@ -683,6 +931,7 @@
       lessonDetailObjective.textContent = `학습 목표: ${lesson.objective}`;
       lessonDetailContent.textContent = lesson.content;
       lessonDetailExample.textContent = lesson.example;
+      renderQuiz(lesson);
       updateLessonNavigation(lesson, lessons);
     }
 
@@ -818,6 +1067,14 @@
       selectLesson(button.dataset.lessonId, true);
     });
 
+    quizOptions.addEventListener('change', event => {
+      const input = getClosestElement(event.target, '[data-answer-index]');
+      if (!input || !quizOptions.contains(input)) return;
+      selectQuizAnswer(Number(input.dataset.answerIndex));
+    });
+
+    checkQuizButton.addEventListener('click', checkQuizAnswer);
+    completeLessonButton.addEventListener('click', completeCurrentLesson);
     previousLessonButton.addEventListener('click', moveToPreviousLesson);
     nextLessonButton.addEventListener('click', moveToNextLesson);
 
