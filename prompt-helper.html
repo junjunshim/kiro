@@ -10,9 +10,136 @@
   <style>
     /* =====================================================
        팀원 D 담당 - 프롬프트 작성 도우미 전용 스타일
-       이 <style> 블록에만 스타일을 추가하세요.
-       shared/style.css 는 수정하지 마세요.
        ===================================================== */
+    .helper-section { margin-top: 2rem; }
+    .helper-section__title { font-size: var(--font-size-lg); margin-bottom: 0.5rem; }
+    .helper-section__intro { color: var(--color-text-muted); font-size: var(--font-size-md); margin-bottom: 1rem; }
+
+    .template-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .example-card__topic { color: var(--color-text-muted); font-size: var(--font-size-sm); font-weight: 600; margin-bottom: 0.75rem; }
+    .comparison { display: grid; gap: 0.75rem; }
+    .prompt-box { border-radius: var(--radius); padding: 0.75rem; }
+    .prompt-box--poor { background: var(--color-border); }
+    .prompt-box--good { background: var(--color-surface); border: 2px solid var(--color-success); }
+    .prompt-box__label { display: block; font-size: var(--font-size-sm); font-weight: 700; margin-bottom: 0.25rem; }
+    .prompt-box p { font-size: var(--font-size-md); }
+    .example-tip { color: var(--color-text-muted); font-size: var(--font-size-sm); margin-top: 0.75rem; }
+
+    /* One-at-a-time example viewer */
+    .example-viewer { min-width: 0; }
+    .example-viewer__layout,
+    .example-viewer__content,
+    .example-viewer__controls { min-width: 0; }
+    .example-viewer__content,
+    .example-viewer__controls { align-content: start; }
+    .example-viewer__content > *,
+    .example-viewer__controls > * { min-width: 0; }
+    .example-viewer .comparison,
+    .example-viewer .prompt-box,
+    .example-viewer .example-explanations { max-width: 100%; }
+    .example-viewer__layout { display: grid; gap: 1.5rem; min-width: 0; }
+    .example-viewer__content,
+    .example-viewer__controls { display: grid; gap: 1.25rem; min-width: 0; align-content: start; }
+    .example-viewer__controls { background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1rem; }
+    .example-viewer__controls > .example-card__topic { margin-bottom: -0.25rem; }
+    .example-category-controls { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); display: grid; gap: 0.75rem; grid-template-columns: 1fr; padding: 0.75rem; }
+    .example-category-controls .btn,
+    .example-viewer .action-row .btn { line-height: 1.45; min-width: 0; overflow-wrap: anywhere; text-align: center; white-space: normal; width: 100%; }
+    .example-category-controls .btn { justify-content: flex-start; }
+    .example-category-controls [aria-pressed="true"] { background: var(--color-primary); box-shadow: inset 0 0 0 2px var(--color-primary-dark); color: var(--color-surface); }
+    .example-category-controls .btn:focus-visible,
+    .example-viewer .action-row .btn:focus-visible { outline: 3px solid var(--color-primary-dark); outline-offset: 3px; position: relative; z-index: 1; }
+    .example-viewer__controls > .action-row { border-top: 1px solid var(--color-border); margin-top: 0; padding-top: 1rem; }
+    .example-viewer__header { min-width: 0; }
+    .example-viewer__header .helper-section__title { overflow-wrap: anywhere; }
+    .example-viewer .comparison { min-width: 0; }
+    .example-viewer .prompt-box { min-width: 0; overflow-wrap: anywhere; }
+    .example-viewer .prompt-box p { overflow-wrap: anywhere; }
+    .prompt-box--good mark,
+    .marked-phrase { background: var(--color-surface); color: inherit; font-weight: 700; text-decoration-color: var(--color-primary); text-decoration-line: underline; text-decoration-style: solid; text-decoration-thickness: 0.15em; text-underline-offset: 0.15em; }
+    .marked-phrase__marker,
+    .phrase-marker,
+    .example-explanation__marker { align-items: center; background: var(--color-primary); border: 2px solid var(--color-primary-dark); border-radius: var(--radius); color: var(--color-surface); display: inline-flex; font-weight: 700; justify-content: center; line-height: 1.2; margin-inline-end: 0.4rem; min-width: 1.5em; padding: 0 0.25rem; vertical-align: text-top; }
+    .example-explanations { background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius); min-width: 0; padding: 1rem; }
+    #active-example-explanations { display: grid; gap: 1rem; list-style-position: outside; padding-left: 1.5rem; }
+    #active-example-explanations li { min-width: 0; overflow-wrap: anywhere; padding-left: 0.25rem; }
+    .example-explanation { align-items: start; display: grid; gap: 0.5rem; grid-template-columns: auto minmax(0, 1fr); }
+    .example-explanation__content { min-width: 0; overflow-wrap: anywhere; }
+    .example-explanation__content strong,
+    .example-explanation__content p { overflow-wrap: anywhere; }
+    .example-explanation__content p { margin-top: 0.2rem; }
+    .example-viewer .action-row { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); margin-top: 0; }
+    .example-viewer__content > .action-row { background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1rem; }
+    .example-viewer .btn:focus-visible { outline: 3px solid var(--color-primary-dark); outline-offset: 3px; position: relative; z-index: 1; }
+    .visually-hidden { border: 0; clip: rect(0 0 0 0); clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; white-space: nowrap; width: 1px; }
+
+    .template-button { align-items: flex-start; flex-direction: column; gap: 0.2rem; text-align: left; width: 100%; }
+    .template-button strong { font-size: var(--font-size-md); }
+    .template-button span { font-size: var(--font-size-sm); font-weight: 400; }
+    .template-button.is-selected { background: var(--color-primary); color: var(--color-surface); }
+
+    .form-label { display: block; font-size: var(--font-size-md); font-weight: 700; margin-bottom: 0.5rem; }
+    .form-help { color: var(--color-text-muted); font-size: var(--font-size-sm); margin-bottom: 0.75rem; }
+    .draft-input { background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius); color: var(--color-text); font-family: inherit; font-size: var(--font-size-md); line-height: 1.7; min-height: 13rem; padding: 0.85rem; resize: vertical; width: 100%; }
+    .draft-input:focus { border-color: var(--color-primary); outline: none; }
+    .action-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
+
+    .status-message { border-radius: var(--radius); display: none; font-size: var(--font-size-md); font-weight: 600; margin-top: 1rem; padding: 0.8rem 1rem; }
+    .status-message.is-visible { display: block; }
+    .status-message--info { background: var(--color-border); color: var(--color-text); }
+    .status-message--success { background: var(--color-surface); border: 2px solid var(--color-success); color: var(--color-text); }
+    .status-message--warning { background: var(--color-surface); border: 2px solid var(--color-warning); color: var(--color-text); }
+
+    .feedback-panel { border: 2px solid var(--color-primary); border-radius: var(--radius); margin-top: 1rem; padding: 1rem; }
+    .feedback-panel[hidden] { display: none; }
+    .feedback-panel__title { font-size: var(--font-size-md); margin-bottom: 0.5rem; }
+    .feedback-panel__note { color: var(--color-text-muted); font-size: var(--font-size-sm); margin-bottom: 0.75rem; }
+    .feedback-list { list-style: none; display: grid; gap: 0.6rem; }
+    .feedback-item { font-size: var(--font-size-md); padding-left: 0.25rem; }
+    .feedback-item--complete { color: var(--color-text); font-weight: 700; }
+    .feedback-item--needs-work { color: var(--color-text); }
+
+    .saved-list { display: grid; gap: 1rem; }
+    .empty-saved { color: var(--color-text-muted); font-size: var(--font-size-md); text-align: center; }
+    .saved-item { border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1rem; }
+    .saved-item__date { color: var(--color-text-muted); font-size: var(--font-size-sm); margin-bottom: 0.5rem; }
+    .saved-item__text { font-size: var(--font-size-md); overflow-wrap: anywhere; white-space: pre-wrap; }
+    .saved-item .btn { margin-top: 0.75rem; }
+
+    @media (min-width: 601px) {
+      .example-viewer__layout { grid-template-columns: minmax(0, 1.8fr) minmax(14rem, 0.8fr); }
+    }
+
+    @media (max-width: 700px) {
+      .example-viewer__layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .example-viewer__controls {
+        border: 1px solid var(--color-border);
+        padding: 1rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .template-grid { grid-template-columns: 1fr; }
+      .action-row .btn { width: 100%; }
+      .example-viewer__layout { grid-template-columns: minmax(0, 1fr); }
+      .example-viewer__content,
+      .example-viewer__controls { min-width: 0; }
+      .example-viewer__controls { border: 1px solid var(--color-border); padding: 1rem; }
+      .example-category-controls,
+      .example-viewer__controls .action-row { grid-template-columns: minmax(0, 1fr); }
+      .example-viewer,
+      .example-viewer__layout,
+      .example-viewer__content,
+      .example-viewer__controls,
+      .example-viewer .comparison,
+      .example-viewer .prompt-box,
+      .example-explanations { max-width: 100%; }
+      .example-viewer .prompt-box p,
+      .example-explanations,
+      .example-explanations li { overflow-wrap: anywhere; }
+    }
   </style>
 </head>
 <body>
@@ -24,30 +151,102 @@
         <p>AI에게 질문을 잘 하는 방법을 배우고 직접 연습해 보세요.</p>
       </div>
 
-      <!--
-        =====================================================
-        팀원 D: 여기서부터 콘텐츠를 구현하세요.
+      <section class="helper-section" aria-labelledby="examples-title">
+        <h2 id="examples-title" class="helper-section__title">AI에게 물어볼 질문을 살펴보세요</h2>
+        <p class="helper-section__intro">익숙한 상황을 고르고, 아쉬운 질문과 좋은 질문을 하나씩 비교해 보세요.</p>
+        <div class="card example-viewer" aria-label="AI에게 물어볼 질문 배우기">
+          <div class="example-viewer__layout">
+            <div class="example-viewer__content">
+              <div class="example-viewer__header">
+                <h3 id="active-example-title" class="helper-section__title">식사에 관해 물어볼 때</h3>
+                <p id="active-example-announcement" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></p>
+              </div>
 
-        담당 기능: 프롬프트 작성 도우미
-        브랜치: feature/prompt-helper
-        localStorage prefix: ailv:prompt:
-          - ailv:prompt:saved → [ { text, date } ... ]
+              <div id="active-example-comparison" class="comparison" role="region" aria-labelledby="active-example-title">
+                <div class="prompt-box prompt-box--poor">
+                  <span class="prompt-box__label">아쉬운 질문</span>
+                  <p>건강한 음식 알려줘.</p>
+                </div>
+                <div class="prompt-box prompt-box--good">
+                  <span class="prompt-box__label">좋은 질문</span>
+                  <p>혈압 관리가 필요한 70대입니다. 일주일 동안 먹을 수 있는 간단한 저염 식단을 아침·점심·저녁 목록으로 알려주세요.</p>
+                </div>
+              </div>
 
-        구현 항목:
-          1. 좋은/나쁜 프롬프트 예시 최소 5쌍
-          2. 프롬프트 초안 입력 → 개선 피드백 (규칙 기반 목업)
-          3. 상황별 템플릿 최소 3가지 (일상, 업무, 학습)
-          4. 완성된 프롬프트 클립보드 복사 버튼
-          5. 저장: Utils.saveData('ailv:prompt:saved', [...])
-        =====================================================
-      -->
+              <section class="example-explanations" aria-labelledby="example-explanations-title">
+                <h4 id="example-explanations-title" class="form-label">좋은 질문에 담긴 내용</h4>
+                <ol id="active-example-explanations">
+                  <li><strong>1. 내 상황</strong> “혈압 관리가 필요한 70대입니다.”라고 말해 나에게 맞는 식사를 알려 달라고 했어요.</li>
+                  <li><strong>2. 원하는 도움</strong> “일주일 동안 먹을 수 있는 간단한 저염 식단”이라고 필요한 도움을 자세히 말했어요.</li>
+                  <li><strong>3. 받고 싶은 모습</strong> “아침·점심·저녁 목록”이라고 보기 쉬운 답의 모습을 정했어요.</li>
+                </ol>
+              </section>
 
-      <div class="card">
-        <p style="color:var(--color-text-muted); text-align:center; padding:3rem 0; font-size:var(--font-size-lg);">
-          🚧 팀원 D가 개발 중입니다.
-        </p>
-      </div>
+              <div class="action-row" aria-label="예시 질문 연습하기">
+                <button type="button" id="practice-example-button" class="btn btn-primary">이 예시로 연습하기</button>
+              </div>
+            </div>
 
+            <div class="example-viewer__controls">
+              <p id="active-example-position" class="example-card__topic">1 / 6</p>
+              <div class="example-category-controls" role="group" aria-label="상황 고르기">
+                <button type="button" class="btn btn-secondary" data-example-id="meal" aria-pressed="true">식사</button>
+                <button type="button" class="btn btn-secondary" data-example-id="smartphone" aria-pressed="false">스마트폰</button>
+                <button type="button" class="btn btn-secondary" data-example-id="notice" aria-pressed="false">안내문 쓰기</button>
+                <button type="button" class="btn btn-secondary" data-example-id="meeting" aria-pressed="false">회의 준비</button>
+                <button type="button" class="btn btn-secondary" data-example-id="ai-learning" aria-pressed="false">AI 배우기</button>
+                <button type="button" class="btn btn-secondary" data-example-id="travel" aria-pressed="false">가까운 여행</button>
+              </div>
+
+              <div class="action-row" aria-label="상황 이동">
+                <button type="button" id="previous-example-button" class="btn btn-secondary">이전 상황</button>
+                <button type="button" id="next-example-button" class="btn btn-secondary">다음 상황</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <section class="helper-section" aria-labelledby="templates-title">
+        <div class="card">
+          <h2 id="templates-title" class="helper-section__title">상황별 질문 틀을 골라 보세요</h2>
+          <p class="helper-section__intro">버튼을 누르면 아래 초안 칸이 바뀝니다. 대괄호 안의 내용을 내 상황에 맞게 고쳐 보세요.</p>
+          <div class="template-grid" aria-label="프롬프트 템플릿 선택">
+            <button type="button" class="btn btn-secondary template-button" data-template="daily" aria-pressed="false"><strong>🏠 일상</strong><span>생활에 필요한 도움을 물어볼 때</span></button>
+            <button type="button" class="btn btn-secondary template-button" data-template="work" aria-pressed="false"><strong>💼 업무</strong><span>안내문이나 일을 정리할 때</span></button>
+            <button type="button" class="btn btn-secondary template-button" data-template="learning" aria-pressed="false"><strong>📚 학습</strong><span>새로운 것을 배우고 싶을 때</span></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="helper-section" aria-labelledby="draft-title">
+        <div class="card">
+          <h2 id="draft-title" class="helper-section__title">내 질문을 작성해 보세요</h2>
+          <label class="form-label" for="draft-input">AI에게 물어볼 내용</label>
+          <p id="draft-help" class="form-help">무엇을 원하는지, 내 상황, 원하는 답변 모습, 지켜야 할 조건을 적어 보세요.</p>
+          <textarea id="draft-input" class="draft-input" aria-describedby="draft-help" placeholder="예: 스마트폰을 처음 배우는 사람입니다. 가족에게 사진을 보내는 방법을 번호 순서대로 쉽게 설명해 주세요."></textarea>
+          <div class="action-row">
+            <button type="button" id="feedback-button" class="btn btn-primary">개선 내용 확인</button>
+            <button type="button" id="save-button" class="btn btn-success">저장하기</button>
+            <button type="button" id="copy-button" class="btn btn-secondary">복사하기</button>
+          </div>
+          <div id="status-message" class="status-message" role="status" aria-live="polite"></div>
+          <div id="feedback-panel" class="feedback-panel" aria-live="polite" hidden>
+            <h3 class="feedback-panel__title">질문 점검 결과</h3>
+            <p class="feedback-panel__note">이 결과는 더 구체적인 질문을 연습하도록 돕는 간단한 규칙 기반 안내입니다.</p>
+            <ul id="feedback-list" class="feedback-list"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="helper-section" aria-labelledby="saved-title">
+        <div class="card">
+          <h2 id="saved-title" class="helper-section__title">저장한 질문</h2>
+          <p class="helper-section__intro">저장한 질문은 이 기기와 브라우저에 보관됩니다.</p>
+          <div id="saved-list" class="saved-list" aria-live="polite"></div>
+        </div>
+      </section>
     </div>
   </main>
   <script src="shared/utils.js"></script>
@@ -55,7 +254,705 @@
   <script>
     Utils.restoreFontSize();
     Nav.render();
-    // 팀원 D: 여기에 JavaScript를 작성하세요.
+
+    const STORAGE_KEY = 'ailv:prompt:saved';
+    const templates = {
+      daily: '[내 상황]입니다. [해결하고 싶은 일]을 도와주세요. [원하는 답변 형식]으로 알려주시고, [지켜야 할 조건]을 고려해 주세요.',
+      work: '[누구에게] 전달할 [업무 내용]을 준비하고 있습니다. [원하는 결과]를 작성해 주세요. [꼭 포함할 내용]을 넣고, [길이 또는 말투 조건]을 지켜 주세요.',
+      learning: '[배우고 싶은 주제]를 처음 배우는 사람입니다. [알고 싶은 내용]을 설명해 주세요. [원하는 답변 형식]으로, [쉬운 표현 또는 분량 조건]에 맞춰 알려주세요.'
+    };
+
+    const feedbackRules = [
+      {
+        label: '목적 또는 요청',
+        matched: /알려|설명|추천|도와|작성|정리|계획|방법|만들|찾아|보여|번역|비교|답해|어떻게|무엇|왜/,
+        suggestion: '무엇을 알고 싶거나 하고 싶은지 적어 보세요. 예: “사진 보내는 방법을 알려주세요.”'
+      },
+      {
+        label: '상황 또는 대상',
+        matched: /저는|나는|제가|대상|상황|초보|처음|어르신|노인|가족|직장|회사|학교|학생|아이|스마트폰|현재|[0-9]+(?:살|명|년)/,
+        suggestion: '누가, 어떤 상황에서 쓰는지 적어 보세요. 예: “스마트폰을 처음 배우는 사람입니다.”'
+      },
+      {
+        label: '원하는 답변 형식',
+        matched: /목록|단계|순서|표|문장|예시|간단|쉽게|한눈|번호|항목|요약|[0-9]+(?:가지|개)/,
+        suggestion: '답변을 어떤 모습으로 받고 싶은지 적어 보세요. 예: “번호 순서대로 쉽게 설명해 주세요.”'
+      },
+      {
+        label: '조건 또는 제약',
+        matched: /이내|이하|넘지|제외|포함|하지\s?말|피해|주의|조건|예산|[0-9]+\s?(?:분|시간|원)|어려운\s?말\s?없이|짧게|길지\s?않/,
+        suggestion: '꼭 지켜야 할 조건을 적어 보세요. 예: “문장 5개 이내로 써 주세요.”'
+      }
+    ];
+
+    const draftInput = document.getElementById('draft-input');
+    const feedbackButton = document.getElementById('feedback-button');
+    const saveButton = document.getElementById('save-button');
+    const copyButton = document.getElementById('copy-button');
+    const feedbackPanel = document.getElementById('feedback-panel');
+    const feedbackList = document.getElementById('feedback-list');
+    const statusMessage = document.getElementById('status-message');
+    const savedList = document.getElementById('saved-list');
+    const templateButtons = document.querySelectorAll('[data-template]');
+    const categoryButtons = document.querySelectorAll('[data-example-id]');
+    const activeExamplePosition = document.getElementById('active-example-position');
+    const activeExampleTitle = document.getElementById('active-example-title');
+    const activeExampleAnnouncement = document.getElementById('active-example-announcement');
+    const activeExampleComparison = document.getElementById('active-example-comparison');
+    const activeExampleExplanations = document.getElementById('active-example-explanations');
+    const previousExampleButton = document.getElementById('previous-example-button');
+    const nextExampleButton = document.getElementById('next-example-button');
+    const practiceExampleButton = document.getElementById('practice-example-button');
+
+    const promptExamples = [
+      {
+        id: 'meal',
+        categoryLabel: '식사',
+        categoryDescription: '건강을 생각한 식사를 물어볼 때',
+        weakQuestion: '건강한 음식 알려줘.',
+        goodQuestionParts: [
+          {
+            id: 'situation',
+            text: '혈압 관리가 필요한 70대입니다.',
+            explanation: '내 몸 상태를 알려 주면 AI가 나에게 맞는 식사를 알려 줄 수 있어요.'
+          },
+          {
+            id: 'request',
+            text: '일주일 동안 먹을 수 있는 간단한 저염 식단을',
+            explanation: '필요한 식사와 기간을 자세히 말하면 원하는 도움을 받기 쉬워요.'
+          },
+          {
+            id: 'format',
+            text: '아침·점심·저녁 목록으로 알려주세요.',
+            explanation: '답을 목록으로 받고 싶다고 말하면 한눈에 보기 쉬워요.'
+          }
+        ]
+      },
+      {
+        id: 'smartphone',
+        categoryLabel: '스마트폰',
+        categoryDescription: '스마트폰 사용법을 물어볼 때',
+        weakQuestion: '사진 보내는 법 알려줘.',
+        goodQuestionParts: [
+          {
+            id: 'situation',
+            text: '스마트폰을 처음 배우는 사람입니다.',
+            explanation: '처음 배우는 사람이라고 말하면 AI가 어려운 설명을 줄일 수 있어요.'
+          },
+          {
+            id: 'request',
+            text: '카카오톡으로 가족에게 사진 한 장을 보내는 방법을',
+            explanation: '어떤 앱에서 누구에게 무엇을 보낼지 말하면 필요한 방법을 알려 줘요.'
+          },
+          {
+            id: 'format',
+            text: '번호 순서대로 쉽게 설명해 주세요.',
+            explanation: '번호 순서와 쉬운 설명을 부탁하면 따라 하기 편해요.'
+          }
+        ]
+      },
+      {
+        id: 'notice',
+        categoryLabel: '안내문 쓰기',
+        categoryDescription: '다른 사람에게 전할 안내문을 쓸 때',
+        weakQuestion: '안내문 써줘.',
+        goodQuestionParts: [
+          {
+            id: 'audience-request',
+            text: '경로당 회원에게 알릴 봄나들이 안내문을 작성해 주세요.',
+            explanation: '누구에게 알릴 어떤 글인지 말하면 알맞은 안내문을 받을 수 있어요.'
+          },
+          {
+            id: 'details',
+            text: '날짜, 출발 시간, 준비물을 넣고',
+            explanation: '꼭 넣을 내용을 말하면 중요한 안내가 빠지지 않아요.'
+          },
+          {
+            id: 'constraint',
+            text: '정중한 문장 5개 이내로 써 주세요.',
+            explanation: '말투와 길이를 정하면 바로 쓰기 좋은 글을 받을 수 있어요.'
+          }
+        ]
+      },
+      {
+        id: 'meeting',
+        categoryLabel: '회의 준비',
+        categoryDescription: '회의를 준비할 때',
+        weakQuestion: '회의 준비 알려줘.',
+        goodQuestionParts: [
+          {
+            id: 'situation',
+            text: '주민센터 자원봉사자 회의를 준비합니다.',
+            explanation: '회의의 대상과 상황을 알려 주면 알맞은 준비를 생각하기 쉬워요.'
+          },
+          {
+            id: 'constraint-request',
+            text: '1시간 회의에 맞는 준비물과 진행 순서를',
+            explanation: '회의 시간과 필요한 도움을 말하면 실제 일정에 맞는 답을 받을 수 있어요.'
+          },
+          {
+            id: 'format',
+            text: '표로 정리해 주세요.',
+            explanation: '표로 정리해 달라고 하면 준비할 일을 차례로 살펴보기 쉬워요.'
+          }
+        ]
+      },
+      {
+        id: 'ai-learning',
+        categoryLabel: 'AI 배우기',
+        categoryDescription: 'AI를 처음 배울 때',
+        weakQuestion: 'AI가 뭐야?',
+        goodQuestionParts: [
+          {
+            id: 'situation',
+            text: 'AI를 처음 배우는 70대입니다.',
+            explanation: '처음 배우는 사람이라고 말하면 내 수준에 맞춘 설명을 받을 수 있어요.'
+          },
+          {
+            id: 'request',
+            text: 'AI가 일상생활에서 도와줄 수 있는 일을',
+            explanation: '궁금한 내용을 생활 속 도움으로 좁혀 말하면 필요한 예시를 받을 수 있어요.'
+          },
+          {
+            id: 'format',
+            text: '어려운 말 없이 3가지 예시로 설명해 주세요.',
+            explanation: '쉬운 말과 예시 개수를 정하면 부담 없이 이해하기 좋아요.'
+          }
+        ]
+      },
+      {
+        id: 'travel',
+        categoryLabel: '가까운 여행',
+        categoryDescription: '가까운 곳으로 여행을 준비할 때',
+        weakQuestion: '여행 알려줘.',
+        goodQuestionParts: [
+          {
+            id: 'constraint',
+            text: '걷는 시간이 길지 않은 여행을 원합니다.',
+            explanation: '걷는 시간처럼 지켜야 할 조건을 말하면 몸에 맞는 곳을 찾기 쉬워요.'
+          },
+          {
+            id: 'people-place',
+            text: '부부 두 명이 당일로 갈 수 있는 서울 근교 여행지 3곳을',
+            explanation: '함께 가는 사람, 기간, 지역, 개수를 말하면 맞는 여행지를 추천받을 수 있어요.'
+          },
+          {
+            id: 'detail',
+            text: '교통편과 함께 추천해 주세요.',
+            explanation: '필요한 정보를 함께 말하면 여행 준비에 바로 쓸 수 있어요.'
+          }
+        ]
+      }
+    ];
+
+    function validatePromptExamples(examples) {
+      if (!Array.isArray(examples) || examples.length !== 6) {
+        throw new Error('질문 예시는 정확히 6개여야 합니다.');
+      }
+
+      const exampleIds = new Set();
+      examples.forEach((example) => {
+        const requiredLabels = [
+          example.id,
+          example.categoryLabel,
+          example.categoryDescription,
+          example.weakQuestion
+        ];
+        if (requiredLabels.some((value) => typeof value !== 'string' || !value.trim())) {
+          throw new Error('질문 예시에는 id, 상황 이름, 상황 설명, 아쉬운 질문이 모두 필요합니다.');
+        }
+        if (exampleIds.has(example.id)) {
+          throw new Error('질문 예시 id가 중복되었습니다: ' + example.id);
+        }
+        exampleIds.add(example.id);
+
+        if (!Array.isArray(example.goodQuestionParts) || example.goodQuestionParts.length < 2) {
+          throw new Error('좋은 질문에는 두 개 이상의 표시할 부분이 필요합니다: ' + example.id);
+        }
+
+        const partIds = new Set();
+        example.goodQuestionParts.forEach((part) => {
+          if (!part || typeof part.id !== 'string' || !part.id.trim()
+            || typeof part.text !== 'string' || !part.text.trim()
+            || typeof part.explanation !== 'string' || !part.explanation.trim()) {
+            throw new Error('좋은 질문의 각 부분에는 id, 문장, 설명이 모두 필요합니다: ' + example.id);
+          }
+          if (partIds.has(part.id)) {
+            throw new Error('좋은 질문 부분 id가 중복되었습니다: ' + example.id + '/' + part.id);
+          }
+          partIds.add(part.id);
+        });
+      });
+
+      return examples;
+    }
+
+    validatePromptExamples(promptExamples);
+
+    let activeExampleId = promptExamples[0].id;
+
+    function getActiveExample() {
+      const activeExample = promptExamples.find((example) => example.id === activeExampleId);
+      if (activeExample) return activeExample;
+
+      const firstExample = promptExamples[0] || null;
+      if (firstExample) activeExampleId = firstExample.id;
+      return firstExample;
+    }
+
+    function getActiveGoodQuestion() {
+      const example = getActiveExample();
+      if (!example) return '';
+      return example.goodQuestionParts.map((part) => part.text).join(' ');
+    }
+
+    function requestExamplePractice() {
+      const text = getActiveGoodQuestion();
+      if (!text) return;
+
+      if (draftInput.value.trim() && !window.confirm('지금 쓴 질문을 예시 질문으로 바꿀까요?')) return;
+
+      draftInput.value = text;
+      feedbackPanel.hidden = true;
+      showStatus('예시 질문을 초안 칸에 넣었습니다. 내 상황에 맞게 바꿔 보세요.', 'info');
+      draftInput.focus();
+    }
+
+    function renderCategoryLabels() {
+      categoryButtons.forEach((button) => {
+        const example = promptExamples.find((item) => item.id === button.dataset.exampleId);
+        if (example) button.textContent = example.categoryLabel;
+      });
+    }
+
+    function createPromptBox(label, modifierClass, content) {
+      const box = document.createElement('div');
+      box.className = 'prompt-box ' + modifierClass;
+
+      const labelElement = document.createElement('span');
+      labelElement.className = 'prompt-box__label';
+      labelElement.textContent = label;
+
+      const question = document.createElement('p');
+      question.append(content);
+      box.append(labelElement, question);
+      return box;
+    }
+
+    function renderGoodQuestion(parts) {
+      const fragment = document.createDocumentFragment();
+
+      parts.forEach((part, index) => {
+        if (index > 0) fragment.append(document.createTextNode(' '));
+
+        const markerNumber = String(index + 1);
+        const markerId = 'active-example-marker-' + part.id;
+        const explanationId = 'active-example-explanation-' + part.id;
+        const markedPhrase = document.createElement('mark');
+        markedPhrase.className = 'marked-phrase';
+        markedPhrase.setAttribute('aria-describedby', explanationId);
+
+        const marker = document.createElement('span');
+        marker.className = 'marked-phrase__marker';
+        marker.id = markerId;
+        marker.textContent = markerNumber;
+        marker.setAttribute('aria-label', markerNumber + '번');
+
+        const phraseText = document.createTextNode(part.text);
+        markedPhrase.append(marker, phraseText);
+        fragment.append(markedPhrase);
+      });
+
+      return fragment;
+    }
+
+    function renderPhraseExplanations(parts) {
+      activeExampleExplanations.replaceChildren();
+
+      parts.forEach((part, index) => {
+        const markerNumber = String(index + 1);
+        const markerId = 'active-example-marker-' + part.id;
+        const explanationId = 'active-example-explanation-' + part.id;
+        const item = document.createElement('li');
+        item.className = 'example-explanation';
+        item.id = explanationId;
+        item.setAttribute('aria-labelledby', markerId);
+
+        const marker = document.createElement('span');
+        marker.className = 'example-explanation__marker';
+        marker.textContent = markerNumber;
+        marker.setAttribute('aria-label', markerNumber + '번');
+
+        const content = document.createElement('div');
+        content.className = 'example-explanation__content';
+
+        const phrase = document.createElement('strong');
+        phrase.textContent = '“' + part.text + '”';
+
+        const explanation = document.createElement('p');
+        explanation.textContent = part.explanation;
+
+        content.append(phrase, explanation);
+        item.append(marker, content);
+        activeExampleExplanations.append(item);
+      });
+    }
+
+    function renderActiveExample() {
+      const example = getActiveExample();
+      if (!example) return;
+
+      activeExampleId = example.id;
+      updateCategoryButtons(activeExampleId);
+      const exampleIndex = promptExamples.indexOf(example);
+      activeExamplePosition.textContent = String(exampleIndex + 1) + ' / ' + String(promptExamples.length);
+      activeExampleTitle.textContent = example.categoryLabel + '에 관해 물어볼 때';
+
+      const weakQuestion = document.createTextNode(example.weakQuestion);
+      const goodQuestion = renderGoodQuestion(example.goodQuestionParts);
+      activeExampleComparison.replaceChildren(
+        createPromptBox('아쉬운 질문', 'prompt-box--poor', weakQuestion),
+        createPromptBox('좋은 질문', 'prompt-box--good', goodQuestion)
+      );
+      renderPhraseExplanations(example.goodQuestionParts);
+    }
+
+    function updateCategoryButtons(activeExampleId) {
+      categoryButtons.forEach((button) => {
+        const isSelected = button.dataset.exampleId === activeExampleId;
+        button.setAttribute('aria-pressed', String(isSelected));
+      });
+    }
+
+    function announceActiveExample(example) {
+      const exampleIndex = promptExamples.indexOf(example);
+      const positionText = String(exampleIndex + 1) + ' / ' + String(promptExamples.length);
+      activeExampleAnnouncement.textContent = example.categoryLabel + ' 상황을 선택했습니다. ' + positionText + '. ' + example.categoryDescription + '.';
+    }
+
+    function setActiveExample(exampleId) {
+      const requestedExample = promptExamples.find((example) => example.id === exampleId);
+      const currentExample = getActiveExample();
+      const resolvedExample = requestedExample || currentExample;
+      if (!resolvedExample) return null;
+
+      const hasChanged = resolvedExample.id !== activeExampleId;
+      activeExampleId = resolvedExample.id;
+      updateCategoryButtons(activeExampleId);
+      renderActiveExample();
+      if (hasChanged) announceActiveExample(resolvedExample);
+      return resolvedExample;
+    }
+
+    function moveActiveExample(direction) {
+      const currentExample = getActiveExample();
+      if (!currentExample || promptExamples.length === 0) return null;
+
+      const currentIndex = promptExamples.indexOf(currentExample);
+      const nextIndex = (currentIndex + direction + promptExamples.length) % promptExamples.length;
+      return setActiveExample(promptExamples[nextIndex].id);
+    }
+
+    function moveCategorySelection(button, direction) {
+      if (!categoryButtons.length) return;
+
+      const buttonIndex = Array.prototype.indexOf.call(categoryButtons, button);
+      if (buttonIndex < 0) return;
+
+      const nextButtonIndex = (buttonIndex + direction + categoryButtons.length) % categoryButtons.length;
+      const nextButton = categoryButtons[nextButtonIndex];
+      setActiveExample(nextButton.dataset.exampleId);
+      nextButton.focus();
+    }
+
+    function showStatus(message, type) {
+      statusMessage.textContent = message;
+      statusMessage.className = 'status-message is-visible status-message--' + type;
+    }
+
+    function readSavedPrompts() {
+      const stored = Utils.loadData(STORAGE_KEY, []);
+      if (!Array.isArray(stored)) return [];
+      return stored.filter((item) => item && typeof item.text === 'string' && typeof item.date === 'string');
+    }
+
+    function formatSavedDate(dateText) {
+      const date = new Date(dateText);
+      if (Number.isNaN(date.getTime())) return '저장 날짜를 알 수 없습니다.';
+      return new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
+    }
+
+    function renderSavedPrompts() {
+      const prompts = readSavedPrompts();
+      savedList.replaceChildren();
+
+      if (prompts.length === 0) {
+        const emptyMessage = document.createElement('p');
+        emptyMessage.className = 'empty-saved';
+        emptyMessage.textContent = '아직 저장한 질문이 없습니다. 마음에 드는 질문을 저장해 보세요.';
+        savedList.append(emptyMessage);
+        return;
+      }
+
+      prompts.forEach((prompt, index) => {
+        const item = document.createElement('article');
+        item.className = 'saved-item';
+
+        const date = document.createElement('p');
+        date.className = 'saved-item__date';
+        date.textContent = '저장한 때: ' + formatSavedDate(prompt.date);
+
+        const text = document.createElement('p');
+        text.className = 'saved-item__text';
+        text.textContent = prompt.text;
+
+        const deleteButton = document.createElement('button');
+        deleteButton.type = 'button';
+        deleteButton.className = 'btn btn-danger';
+        deleteButton.textContent = '이 질문 삭제하기';
+        deleteButton.setAttribute('aria-label', '저장한 질문 삭제하기');
+        deleteButton.addEventListener('click', () => deleteSavedPrompt(index));
+
+        item.append(date, text, deleteButton);
+        savedList.append(item);
+      });
+    }
+
+    function deleteSavedPrompt(index) {
+      const prompts = readSavedPrompts();
+      if (!prompts[index]) return;
+      if (!window.confirm('이 저장한 질문을 삭제할까요?')) return;
+
+      prompts.splice(index, 1);
+      Utils.saveData(STORAGE_KEY, prompts);
+      renderSavedPrompts();
+      showStatus('저장한 질문을 삭제했습니다.', 'info');
+    }
+
+    function setSelectedTemplate(button) {
+      templateButtons.forEach((templateButton) => {
+        const isSelected = templateButton === button;
+        templateButton.classList.toggle('is-selected', isSelected);
+        templateButton.setAttribute('aria-pressed', String(isSelected));
+      });
+    }
+
+    function checkDraft() {
+      const draft = draftInput.value.trim();
+      feedbackList.replaceChildren();
+      feedbackPanel.hidden = false;
+
+      if (!draft) {
+        const emptyFeedback = document.createElement('li');
+        emptyFeedback.className = 'feedback-item feedback-item--needs-work';
+        emptyFeedback.textContent = '먼저 AI에게 물어볼 내용을 입력해 주세요.';
+        feedbackList.append(emptyFeedback);
+        showStatus('초안을 입력한 뒤 개선 내용을 확인해 주세요.', 'warning');
+        draftInput.focus();
+        return;
+      }
+
+      if (/\[[^\]]+\]/.test(draft)) {
+        const placeholderFeedback = document.createElement('li');
+        placeholderFeedback.className = 'feedback-item feedback-item--needs-work';
+        placeholderFeedback.textContent = '대괄호 안의 빈칸을 내 상황에 맞는 말로 모두 바꾼 뒤 다시 확인해 주세요.';
+        feedbackList.append(placeholderFeedback);
+        showStatus('질문 틀의 빈칸을 채우면 더 정확하게 점검할 수 있습니다.', 'warning');
+        draftInput.focus();
+        return;
+      }
+
+      let completedCount = 0;
+      if (draft.length < 15) {
+        const shortFeedback = document.createElement('li');
+        shortFeedback.className = 'feedback-item feedback-item--needs-work';
+        shortFeedback.textContent = '더 자세히 적어 보세요. 한 문장보다 두세 문장으로 상황과 원하는 답을 설명하면 도움이 됩니다.';
+        feedbackList.append(shortFeedback);
+      }
+
+      feedbackRules.forEach((rule) => {
+        const item = document.createElement('li');
+        const isComplete = rule.matched.test(draft);
+        item.className = 'feedback-item ' + (isComplete ? 'feedback-item--complete' : 'feedback-item--needs-work');
+        item.textContent = isComplete
+          ? '✓ ' + rule.label + '이(가) 잘 들어가 있습니다.'
+          : '○ ' + rule.label + '을(를) 더해 보세요. ' + rule.suggestion;
+        if (isComplete) completedCount += 1;
+        feedbackList.append(item);
+      });
+
+      if (completedCount === feedbackRules.length && draft.length >= 15) {
+        showStatus('구체적으로 잘 작성하셨습니다. 원하는 답을 얻기 좋은 질문입니다.', 'success');
+      } else {
+        showStatus('점검 결과를 참고해 질문을 조금 더 구체적으로 만들어 보세요.', 'info');
+      }
+    }
+
+    function saveDraft() {
+      const text = draftInput.value.trim();
+      if (!text) {
+        showStatus('저장할 질문을 먼저 입력해 주세요.', 'warning');
+        draftInput.focus();
+        return;
+      }
+
+      const prompts = readSavedPrompts();
+      prompts.unshift({ text, date: new Date().toISOString() });
+      Utils.saveData(STORAGE_KEY, prompts);
+      renderSavedPrompts();
+      showStatus('질문을 저장했습니다. 아래 저장한 질문에서 다시 볼 수 있습니다.', 'success');
+    }
+
+    async function copyDraft() {
+      const text = draftInput.value.trim();
+      if (!text) {
+        showStatus('복사할 질문을 먼저 입력해 주세요.', 'warning');
+        draftInput.focus();
+        return;
+      }
+
+      if (!navigator.clipboard || !navigator.clipboard.writeText) {
+        draftInput.focus();
+        draftInput.select();
+        showStatus('이 브라우저에서는 자동 복사를 지원하지 않습니다. 선택된 내용을 직접 복사해 주세요.', 'warning');
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(text);
+        showStatus('프롬프트를 복사했습니다. AI 채팅창에 붙여 넣어 보세요.', 'success');
+      } catch (error) {
+        draftInput.focus();
+        draftInput.select();
+        showStatus('복사하지 못했습니다. 선택된 내용을 직접 복사해 주세요.', 'warning');
+      }
+    }
+
+    templateButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const template = templates[button.dataset.template];
+        draftInput.value = template;
+        setSelectedTemplate(button);
+        feedbackPanel.hidden = true;
+        showStatus('선택한 질문 틀이 초안 칸에 들어갔습니다. 대괄호 안 내용을 바꿔 보세요.', 'info');
+        draftInput.focus();
+      });
+    });
+
+    categoryButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        setActiveExample(button.dataset.exampleId);
+      });
+
+      button.addEventListener('keydown', (event) => {
+        const direction = event.key === 'ArrowLeft' ? -1 : event.key === 'ArrowRight' ? 1 : 0;
+        if (!direction) return;
+
+        event.preventDefault();
+        moveCategorySelection(button, direction);
+      });
+    });
+
+    previousExampleButton.addEventListener('click', () => moveActiveExample(-1));
+    nextExampleButton.addEventListener('click', () => moveActiveExample(1));
+    practiceExampleButton.addEventListener('click', requestExamplePractice);
+    feedbackButton.addEventListener('click', checkDraft);
+    saveButton.addEventListener('click', saveDraft);
+    copyButton.addEventListener('click', copyDraft);
+    renderCategoryLabels();
+    updateCategoryButtons(activeExampleId);
+    renderActiveExample();
+    renderSavedPrompts();
+
+    // Lightweight browser checks. Open prompt-helper.html?test=1 to run them.
+    function runPromptHelperChecks() {
+      const checks = [];
+      const assert = (condition, message) => {
+        if (!condition) throw new Error(message);
+      };
+      const record = (name, check) => {
+        try {
+          check();
+          checks.push({ name, passed: true });
+        } catch (error) {
+          checks.push({ name, passed: false, error: error.message });
+        }
+      };
+      const originalDraft = draftInput.value;
+      const originalStorage = localStorage.getItem(STORAGE_KEY);
+
+      record('one visible comparison', () => {
+        assert(activeExampleComparison.querySelectorAll('.prompt-box--poor').length === 1, '아쉬운 질문이 하나가 아닙니다.');
+        assert(activeExampleComparison.querySelectorAll('.prompt-box--good').length === 1, '좋은 질문이 하나가 아닙니다.');
+      });
+
+      record('marker and explanation mapping', () => {
+        const markers = activeExampleComparison.querySelectorAll('.marked-phrase');
+        const explanations = activeExampleExplanations.querySelectorAll('.example-explanation');
+        assert(markers.length === explanations.length, '표시 부분과 설명의 개수가 다릅니다.');
+        markers.forEach((marker, index) => {
+          const explanation = document.getElementById(marker.getAttribute('aria-describedby'));
+          assert(explanation === explanations[index], '표시 부분과 설명의 순서가 다릅니다.');
+          assert(marker.querySelector('.marked-phrase__marker').textContent === String(index + 1), '표시 번호가 순서와 다릅니다.');
+        });
+      });
+
+      record('ordered practice text', () => {
+        const expected = getActiveGoodQuestion();
+        draftInput.value = '';
+        practiceExampleButton.click();
+        assert(draftInput.value === expected, '연습하기가 표시 번호를 제외한 순서 있는 질문을 넣지 못했습니다.');
+      });
+
+      record('cyclic navigation', () => {
+        setActiveExample(promptExamples[0].id);
+        previousExampleButton.click();
+        assert(getActiveExample().id === promptExamples[promptExamples.length - 1].id, '첫 상황의 이전 이동이 마지막 상황으로 순환하지 않습니다.');
+        nextExampleButton.click();
+        assert(getActiveExample().id === promptExamples[0].id, '마지막 상황의 다음 이동이 첫 상황으로 순환하지 않습니다.');
+      });
+
+      record('unique selected state', () => {
+        setActiveExample(promptExamples[2].id);
+        const selected = Array.from(categoryButtons).filter((button) => button.getAttribute('aria-pressed') === 'true');
+        assert(selected.length === 1, '선택된 상황 버튼이 정확히 하나가 아닙니다.');
+        assert(activeExampleTitle.textContent.startsWith(promptExamples[2].categoryLabel), '활성 상황 이름이 화면에 표시되지 않습니다.');
+      });
+
+      record('saved-question data unchanged', () => {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify([{ text: '기존 질문', date: '2024-01-01T00:00:00.000Z' }]));
+        const before = localStorage.getItem(STORAGE_KEY);
+        setActiveExample(promptExamples[1].id);
+        draftInput.value = '';
+        practiceExampleButton.click();
+        assert(localStorage.getItem(STORAGE_KEY) === before, '예시 탐색 또는 연습하기가 저장 질문 데이터를 바꾸었습니다.');
+      });
+
+      draftInput.value = originalDraft;
+      if (originalStorage === null) localStorage.removeItem(STORAGE_KEY);
+      else localStorage.setItem(STORAGE_KEY, originalStorage);
+      setActiveExample(promptExamples[0].id);
+      renderSavedPrompts();
+
+      const result = document.createElement('section');
+      result.className = 'card';
+      result.setAttribute('aria-label', '질문 예시 브라우저 확인 결과');
+      const title = document.createElement('h2');
+      title.className = 'helper-section__title';
+      title.textContent = '브라우저 확인 결과';
+      result.append(title);
+      checks.forEach((check) => {
+        const item = document.createElement('p');
+        item.textContent = (check.passed ? '통과: ' : '실패: ') + check.name + (check.error ? ' - ' + check.error : '');
+        result.append(item);
+      });
+      document.querySelector('main .container').append(result);
+      console.table(checks);
+    }
+
+    if (new URLSearchParams(window.location.search).get('test') === '1') {
+      runPromptHelperChecks();
+    }
   </script>
 </body>
 </html>
