@@ -16,7 +16,8 @@
 7. [테스트 체크리스트](#-테스트-체크리스트)
 8. [localStorage 네임스페이스](#-localstorage-네임스페이스)
 9. [공통 API](#-공통-api-sharedutilsjs)
-10. [기술 스택](#-기술-스택)
+10. [공통 디자인 규칙](#-공통-디자인-규칙)
+11. [기술 스택](#-기술-스택)
 
 ---
 
@@ -331,6 +332,252 @@ Utils.restoreFontSize();
 ```js
 Utils.restoreFontSize(); // 글자 크기 복원
 Nav.render();            // 네비게이션 삽입
+```
+
+
+---
+
+## 🎨 공통 디자인 규칙
+
+모든 페이지는 `shared/style.css` 에 정의된 CSS 변수와 공통 클래스를 기준으로 만들어야 합니다.  
+팀원마다 다른 색상·글꼴·간격을 직접 하드코딩하면 전체 디자인이 통일되지 않습니다.
+
+---
+
+### 색상
+
+**CSS 변수를 그대로 사용하고, 색상 코드를 직접 쓰지 마세요.**
+
+| 변수 | 값 | 용도 |
+|------|----|------|
+| `--color-primary` | `#2563eb` | 주요 버튼, 링크, 강조 |
+| `--color-primary-dark` | `#1d4ed8` | 버튼 hover 상태 |
+| `--color-secondary` | `#f59e0b` | 보조 강조, 뱃지 |
+| `--color-bg` | `#f8fafc` | 페이지 배경 |
+| `--color-surface` | `#ffffff` | 카드·패널 배경 |
+| `--color-text` | `#1e293b` | 본문 텍스트 |
+| `--color-text-muted` | `#64748b` | 설명·보조 텍스트 |
+| `--color-border` | `#e2e8f0` | 구분선, 비활성 버튼 배경 |
+| `--color-success` | `#16a34a` | 완료·성공 상태 |
+| `--color-warning` | `#d97706` | 주의·경고 상태 |
+| `--color-danger` | `#dc2626` | 오류·삭제·위험 |
+
+```css
+/* ✅ 올바른 사용 */
+color: var(--color-primary);
+background: var(--color-surface);
+
+/* ❌ 하드코딩 금지 */
+color: #2563eb;
+background: white;
+```
+
+---
+
+### 글꼴 크기
+
+글꼴 크기도 변수로 관리합니다. 사용자가 글자 크기 조절 버튼을 누르면 변수값이 자동으로 바뀝니다.  
+`px` 값을 직접 쓰면 글자 크기 조절 기능이 동작하지 않습니다.
+
+| 변수 | 기본값 | 용도 |
+|------|--------|------|
+| `--font-size-sm` | `16px` | 보조 텍스트, 뱃지, 레이블 |
+| `--font-size-md` | `18px` | 본문, 버튼 텍스트 (기본값) |
+| `--font-size-lg` | `22px` | 소제목, 카드 제목 |
+| `--font-size-xl` | `28px` | 페이지 제목 (`.page-header h1`) |
+| `--font-size-2xl` | `36px` | 히어로 섹션 대제목 |
+
+```css
+/* ✅ 올바른 사용 */
+font-size: var(--font-size-md);
+font-size: var(--font-size-lg);
+
+/* ❌ px 직접 지정 금지 */
+font-size: 18px;
+font-size: 1.2rem;
+```
+
+---
+
+### 간격·모양
+
+| 변수 | 값 | 용도 |
+|------|----|------|
+| `--radius` | `12px` | 카드·버튼·입력 필드 모서리 |
+| `--shadow` | `0 2px 8px rgba(0,0,0,0.08)` | 카드 그림자 |
+| `--touch-target` | `48px` | 버튼 최소 높이·너비 |
+| `--transition` | `0.2s ease` | hover·포커스 전환 효과 |
+
+---
+
+### 공통 클래스
+
+새 요소를 만들기 전에 아래 클래스를 먼저 활용하세요. 같은 모양이 필요할 때 직접 CSS를 작성하면 중복이 생깁니다.
+
+#### 버튼 (`.btn`)
+
+모든 버튼은 `.btn` 에 색상 변형 클래스를 조합해 사용합니다.  
+`min-height: 48px` 이 적용되어 있어 접근성 기준을 자동으로 충족합니다.
+
+```html
+<button class="btn btn-primary">시작하기</button>
+<button class="btn btn-secondary">취소</button>
+<button class="btn btn-success">완료</button>
+<button class="btn btn-danger">삭제</button>
+```
+
+| 클래스 | 배경색 | 텍스트 | 용도 |
+|--------|--------|--------|------|
+| `btn-primary` | `#2563eb` | 흰색 | 주요 액션 |
+| `btn-secondary` | `#e2e8f0` | 본문색 | 보조 액션, 취소 |
+| `btn-success` | `#16a34a` | 흰색 | 완료·확인 |
+| `btn-danger` | `#dc2626` | 흰색 | 삭제·위험 액션 |
+
+#### 카드 (`.card`)
+
+콘텐츠 그룹을 감싸는 흰색 패널입니다.
+
+```html
+<div class="card">
+  콘텐츠
+</div>
+```
+
+#### 컨테이너 (`.container`)
+
+콘텐츠 최대 너비(900px)와 좌우 여백을 잡아줍니다. `<main>` 바로 안쪽에 감싸세요.
+
+```html
+<main>
+  <div class="container">
+    <!-- 페이지 콘텐츠 -->
+  </div>
+</main>
+```
+
+#### 페이지 헤더 (`.page-header`)
+
+페이지 상단 제목 + 설명 영역입니다. 모든 기능 페이지에서 동일하게 사용합니다.
+
+```html
+<div class="page-header">
+  <h1>🤖 AI 활용 능력 진단</h1>
+  <p>현재 AI 이해도를 측정하고 나에게 맞는 학습 경로를 추천받으세요.</p>
+</div>
+```
+
+#### 진행 바 (`.progress-bar`)
+
+```html
+<div class="progress-bar">
+  <div class="progress-bar__fill" style="width: 60%;"></div>
+</div>
+```
+
+#### 뱃지 (`.badge`)
+
+단계·상태·레벨 표시에 사용합니다.
+
+```html
+<span class="badge badge-blue">초급</span>
+<span class="badge badge-green">완료</span>
+<span class="badge badge-yellow">진행 중</span>
+<span class="badge badge-red">미완료</span>
+```
+
+---
+
+### 접근성 필수 규칙
+
+취약 계층 사용자를 위한 항목입니다. 모든 팀원이 반드시 지켜야 합니다.
+
+| 항목 | 기준 | 확인 방법 |
+|------|------|----------|
+| 버튼 최소 크기 | 너비·높이 각 48px 이상 | `.btn` 클래스 사용 시 자동 충족 |
+| 명암비 | 텍스트와 배경 간 4.5:1 이상 | CSS 변수 조합 사용 시 자동 충족 |
+| 글꼴 크기 | 본문 최소 18px | `--font-size-md` 이상 사용 |
+| 포커스 표시 | 키보드 이동 시 외곽선 표시 | `:focus-visible` 전역 적용됨 |
+| 대체 텍스트 | 이미지에 `alt` 속성 필수 | 직접 확인 |
+| 버튼 레이블 | 아이콘만 있는 버튼에 `aria-label` 필수 | 직접 확인 |
+| 폼 레이블 | 모든 `<input>` 에 연결된 `<label>` 필수 | 직접 확인 |
+
+```html
+<!-- ✅ 올바른 예 -->
+<button class="btn btn-primary" aria-label="퀴즈 시작">▶</button>
+<img src="ai-example.png" alt="AI가 질문에 답변하는 화면 예시">
+<label for="nickname">닉네임</label>
+<input id="nickname" type="text" name="nickname">
+
+<!-- ❌ 잘못된 예 -->
+<button style="width:30px; height:30px;">▶</button>  <!-- 너무 작음 -->
+<img src="ai-example.png">                           <!-- alt 없음 -->
+<input type="text" placeholder="닉네임 입력">         <!-- label 없음 -->
+```
+
+---
+
+### 반응형 기준점
+
+| 구간 | 범위 | 주요 고려사항 |
+|------|------|-------------|
+| 모바일 | ~ 600px | 1열 레이아웃, 패딩 축소, 햄버거 메뉴 |
+| 태블릿 | 601px ~ 900px | 2열 그리드 가능 |
+| 데스크탑 | 901px ~ | 최대 너비 900px (`.container`) |
+
+```css
+/* 모듈 고유 반응형 — 각 HTML <style> 블록에 작성 */
+@media (max-width: 600px) {
+  .my-grid { grid-template-columns: 1fr; }
+}
+```
+
+---
+
+### 페이지 기본 구조 템플릿
+
+새 기능 페이지를 작성할 때 아래 구조를 그대로 복사해서 시작하세요.
+
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>페이지 제목 - AI 배움터</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared/style.css">
+  <style>
+    /* 이 페이지 전용 스타일만 여기에 작성 */
+    /* shared/style.css 의 변수를 최대한 활용할 것 */
+  </style>
+</head>
+<body>
+  <div id="nav-container"></div>
+
+  <main>
+    <div class="container">
+
+      <div class="page-header">
+        <h1>이모지 페이지 제목</h1>
+        <p>이 페이지에 대한 한두 줄 설명.</p>
+      </div>
+
+      <!-- 콘텐츠 -->
+
+    </div>
+  </main>
+
+  <script src="shared/utils.js"></script>
+  <script src="shared/nav.js"></script>
+  <script>
+    Utils.restoreFontSize(); // 반드시 호출
+    Nav.render();            // 반드시 호출
+
+    // 페이지 고유 JavaScript
+  </script>
+</body>
+</html>
 ```
 
 ---
