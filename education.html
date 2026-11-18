@@ -119,12 +119,36 @@
 
     .lesson-preview {
       display: grid;
-      align-content: start;
-      gap: 0.5rem;
-      padding: 1rem;
-      border: 1px solid var(--color-border);
+      border: 2px solid var(--color-border);
       border-radius: var(--radius);
       background: var(--color-bg);
+      overflow: hidden;
+    }
+
+    .lesson-preview[data-selected="true"] {
+      border-color: var(--color-primary);
+      box-shadow: var(--shadow);
+    }
+
+    .lesson-select-button {
+      width: 100%;
+      min-height: var(--touch-target);
+      align-items: flex-start;
+      justify-content: flex-start;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 1rem;
+      text-align: left;
+      border-radius: 0;
+    }
+
+    .lesson-preview__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 0.5rem;
+      flex-wrap: wrap;
     }
 
     .lesson-preview__number {
@@ -140,14 +164,74 @@
     .lesson-preview__objective {
       color: var(--color-text-muted);
       font-size: var(--font-size-md);
+      font-weight: 400;
     }
 
-    .next-step-notice {
+    .lesson-detail {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 1rem;
+      border-top: 2px solid var(--color-border);
+      padding-top: 1.5rem;
+    }
+
+    .lesson-detail__header {
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .lesson-detail__eyebrow {
+      color: var(--color-primary-dark);
+      font-size: var(--font-size-sm);
+      font-weight: 700;
+    }
+
+    .lesson-detail__title {
+      font-size: var(--font-size-xl);
+    }
+
+    .lesson-detail__objective {
+      color: var(--color-text-muted);
+      font-size: var(--font-size-md);
+    }
+
+    .lesson-content-section {
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .lesson-content-section h4 {
+      font-size: var(--font-size-lg);
+    }
+
+    .lesson-content-section p {
+      font-size: var(--font-size-md);
+    }
+
+    .lesson-example {
       padding: 1rem;
       border-left: 4px solid var(--color-secondary);
+      border-radius: var(--radius);
       background: var(--color-bg);
-      color: var(--color-text);
+    }
+
+    .lesson-navigation {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .lesson-navigation .btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+      transform: none;
+    }
+
+    .lesson-navigation__status {
+      color: var(--color-text-muted);
       font-size: var(--font-size-md);
+      text-align: center;
     }
 
     @media (max-width: 600px) {
@@ -218,9 +302,30 @@
           </div>
           <p class="level-panel__description" id="selected-level-description"></p>
           <ol class="lesson-preview-list" id="lesson-preview-list" aria-label="선택한 단계의 레슨"></ol>
-          <p class="next-step-notice">
-            이번 단계에서는 학습 과정의 구성을 미리 확인할 수 있습니다. 레슨 상세 학습과 확인 퀴즈는 다음 개발 단계에서 연결됩니다.
-          </p>
+
+          <article class="lesson-detail" id="lesson-detail" aria-labelledby="lesson-detail-title" aria-live="polite">
+            <header class="lesson-detail__header">
+              <span class="lesson-detail__eyebrow" id="lesson-detail-position"></span>
+              <h3 class="lesson-detail__title" id="lesson-detail-title" tabindex="-1"></h3>
+              <p class="lesson-detail__objective" id="lesson-detail-objective"></p>
+            </header>
+
+            <section class="lesson-content-section" aria-labelledby="lesson-content-title">
+              <h4 id="lesson-content-title">배울 내용</h4>
+              <p id="lesson-detail-content"></p>
+            </section>
+
+            <section class="lesson-content-section lesson-example" aria-labelledby="lesson-example-title">
+              <h4 id="lesson-example-title">쉬운 예시</h4>
+              <p id="lesson-detail-example"></p>
+            </section>
+
+            <nav class="lesson-navigation" aria-label="레슨 이동">
+              <button class="btn btn-secondary" id="previous-lesson-button" type="button">← 이전 레슨</button>
+              <button class="btn btn-primary" id="next-lesson-button" type="button">다음 레슨 →</button>
+            </nav>
+            <p class="lesson-navigation__status" id="lesson-navigation-status" aria-live="polite"></p>
+          </article>
         </div>
       </section>
     </div>
@@ -403,6 +508,7 @@
 
     const state = {
       selectedLevel: 'beginner',
+      selectedLessonId: 'beginner-1',
       completedLessonIds: []
     };
 
@@ -412,6 +518,14 @@
     const selectedLevelDescription = document.getElementById('selected-level-description');
     const selectedLevelCount = document.getElementById('selected-level-count');
     const lessonPreviewList = document.getElementById('lesson-preview-list');
+    const lessonDetailTitle = document.getElementById('lesson-detail-title');
+    const lessonDetailPosition = document.getElementById('lesson-detail-position');
+    const lessonDetailObjective = document.getElementById('lesson-detail-objective');
+    const lessonDetailContent = document.getElementById('lesson-detail-content');
+    const lessonDetailExample = document.getElementById('lesson-detail-example');
+    const previousLessonButton = document.getElementById('previous-lesson-button');
+    const nextLessonButton = document.getElementById('next-lesson-button');
+    const lessonNavigationStatus = document.getElementById('lesson-navigation-status');
     const overallProgressText = document.getElementById('overall-progress-text');
     const overallProgressBar = document.getElementById('overall-progress-bar');
     const overallProgressFill = document.getElementById('overall-progress-fill');
@@ -423,6 +537,10 @@
 
     function getLessonsByLevel(levelId) {
       return LESSONS.filter(lesson => lesson.level === levelId);
+    }
+
+    function getLessonById(lessonId) {
+      return LESSONS.find(lesson => lesson.id === lessonId) || null;
     }
 
     function getValidCompletedLessonIds(completedLessonIds) {
@@ -470,23 +588,44 @@
     }
 
     function createLessonPreview(lesson, index) {
+      const isSelected = lesson.id === state.selectedLessonId;
       const item = document.createElement('li');
       item.className = 'lesson-preview';
       item.dataset.lessonId = lesson.id;
+      item.dataset.selected = String(isSelected);
+
+      const button = document.createElement('button');
+      button.className = 'btn btn-secondary lesson-select-button';
+      button.id = `lesson-button-${lesson.id}`;
+      button.type = 'button';
+      button.dataset.lessonId = lesson.id;
+      if (isSelected) button.setAttribute('aria-current', 'step');
+
+      const header = document.createElement('span');
+      header.className = 'lesson-preview__header';
 
       const number = document.createElement('span');
       number.className = 'lesson-preview__number';
       number.textContent = `레슨 ${index + 1}`;
+      header.append(number);
 
-      const title = document.createElement('h3');
+      if (isSelected) {
+        const status = document.createElement('span');
+        status.className = 'badge badge-blue';
+        status.textContent = '현재 학습';
+        header.append(status);
+      }
+
+      const title = document.createElement('span');
       title.className = 'lesson-preview__title';
       title.textContent = lesson.title;
 
-      const objective = document.createElement('p');
+      const objective = document.createElement('span');
       objective.className = 'lesson-preview__objective';
       objective.textContent = lesson.objective;
 
-      item.append(number, title, objective);
+      button.append(header, title, objective);
+      item.append(button);
       return item;
     }
 
@@ -494,20 +633,76 @@
       const lessons = getLessonsByLevel(levelId);
       const lessonItems = lessons.map(createLessonPreview);
       lessonPreviewList.replaceChildren(...lessonItems);
-      return lessons.length;
+      return lessons;
+    }
+
+    function updateLessonNavigation(lesson, lessons) {
+      const currentIndex = lessons.findIndex(item => item.id === lesson.id);
+      const levelIndex = LEVELS.findIndex(level => level.id === lesson.level);
+      const nextLevel = LEVELS[levelIndex + 1] || null;
+      const isFirstLesson = currentIndex === 0;
+      const isLastLesson = currentIndex === lessons.length - 1;
+
+      previousLessonButton.disabled = isFirstLesson;
+      previousLessonButton.setAttribute(
+        'aria-label',
+        isFirstLesson ? '이 단계의 첫 번째 레슨입니다' : '이전 레슨으로 이동'
+      );
+
+      if (!isLastLesson) {
+        nextLessonButton.disabled = false;
+        nextLessonButton.textContent = '다음 레슨 →';
+        nextLessonButton.setAttribute('aria-label', '다음 레슨으로 이동');
+        lessonNavigationStatus.textContent = `${currentIndex + 1} / ${lessons.length}번째 레슨입니다.`;
+        return;
+      }
+
+      if (nextLevel) {
+        nextLessonButton.disabled = false;
+        nextLessonButton.textContent = `${nextLevel.icon} ${nextLevel.label} 단계로 이동`;
+        nextLessonButton.setAttribute('aria-label', `${nextLevel.label} 단계의 첫 번째 레슨으로 이동`);
+        lessonNavigationStatus.textContent = `이 레슨 다음에는 ${nextLevel.label} 단계로 이동합니다.`;
+        return;
+      }
+
+      nextLessonButton.disabled = true;
+      nextLessonButton.textContent = '마지막 레슨입니다';
+      nextLessonButton.setAttribute('aria-label', '전체 교육 과정의 마지막 레슨입니다');
+      lessonNavigationStatus.textContent = '전체 교육 과정의 마지막 레슨입니다.';
+    }
+
+    function renderLessonDetail(lessons) {
+      const lesson = getLessonById(state.selectedLessonId);
+      if (!lesson || lesson.level !== state.selectedLevel) return;
+
+      const currentIndex = lessons.findIndex(item => item.id === lesson.id);
+      const level = getLevelById(lesson.level);
+
+      lessonDetailPosition.textContent = `${level.label} · 레슨 ${currentIndex + 1} / ${lessons.length}`;
+      lessonDetailTitle.textContent = lesson.title;
+      lessonDetailObjective.textContent = `학습 목표: ${lesson.objective}`;
+      lessonDetailContent.textContent = lesson.content;
+      lessonDetailExample.textContent = lesson.example;
+      updateLessonNavigation(lesson, lessons);
     }
 
     function renderSelectedLevel() {
       const level = getLevelById(state.selectedLevel);
       if (!level) return;
 
-      const lessonCount = renderLessonList(level.id);
+      const lessons = getLessonsByLevel(level.id);
+      if (!lessons.some(lesson => lesson.id === state.selectedLessonId)) {
+        state.selectedLessonId = lessons[0]?.id || null;
+      }
+
+      const renderedLessons = renderLessonList(level.id);
       const activeTab = document.getElementById(`level-tab-${level.id}`);
 
       selectedLevelTitle.textContent = `${level.icon} ${level.label}`;
       selectedLevelDescription.textContent = level.description;
-      selectedLevelCount.textContent = `${lessonCount}개 레슨`;
+      selectedLevelCount.textContent = `${renderedLessons.length}개 레슨`;
       levelPanel.setAttribute('aria-labelledby', activeTab.id);
+      renderLessonDetail(renderedLessons);
     }
 
     function renderProgress() {
@@ -533,29 +728,69 @@
     }
 
     function selectLevel(levelId, moveFocus = false) {
-      if (!getLevelById(levelId)) return;
+      const level = getLevelById(levelId);
+      if (!level) return;
 
-      state.selectedLevel = levelId;
+      const firstLesson = getLessonsByLevel(level.id)[0];
+      state.selectedLevel = level.id;
+      state.selectedLessonId = firstLesson?.id || null;
       renderLevelTabs();
       renderSelectedLevel();
 
       if (moveFocus) {
-        document.getElementById(`level-tab-${levelId}`).focus();
+        document.getElementById(`level-tab-${level.id}`).focus();
       }
     }
 
-    function getTabFromEventTarget(target) {
-      return target.closest('[role="tab"]');
+    function selectLesson(lessonId, moveFocus = false) {
+      const lesson = getLessonById(lessonId);
+      if (!lesson || lesson.level !== state.selectedLevel) return;
+
+      state.selectedLessonId = lesson.id;
+      const lessons = renderLessonList(state.selectedLevel);
+      renderLessonDetail(lessons);
+
+      if (moveFocus) {
+        document.getElementById(`lesson-button-${lesson.id}`).focus();
+      }
+    }
+
+    function moveToPreviousLesson() {
+      const lessons = getLessonsByLevel(state.selectedLevel);
+      const currentIndex = lessons.findIndex(lesson => lesson.id === state.selectedLessonId);
+      if (currentIndex <= 0) return;
+
+      selectLesson(lessons[currentIndex - 1].id);
+    }
+
+    function moveToNextLesson() {
+      const lessons = getLessonsByLevel(state.selectedLevel);
+      const currentIndex = lessons.findIndex(lesson => lesson.id === state.selectedLessonId);
+      if (currentIndex < 0) return;
+
+      if (currentIndex < lessons.length - 1) {
+        selectLesson(lessons[currentIndex + 1].id);
+        return;
+      }
+
+      const currentLevelIndex = LEVELS.findIndex(level => level.id === state.selectedLevel);
+      const nextLevel = LEVELS[currentLevelIndex + 1];
+      if (nextLevel) selectLevel(nextLevel.id);
+    }
+
+    function getClosestElement(target, selector) {
+      if (!target || typeof target.closest !== 'function') return null;
+      return target.closest(selector);
     }
 
     levelTabsContainer.addEventListener('click', event => {
-      const tab = getTabFromEventTarget(event.target);
+      const tab = getClosestElement(event.target, '[role="tab"]');
       if (!tab || !levelTabsContainer.contains(tab)) return;
       selectLevel(tab.dataset.level, true);
     });
 
     levelTabsContainer.addEventListener('keydown', event => {
-      const tab = getTabFromEventTarget(event.target);
+      const tab = getClosestElement(event.target, '[role="tab"]');
       if (!tab || !levelTabsContainer.contains(tab)) return;
 
       const currentIndex = LEVELS.findIndex(level => level.id === tab.dataset.level);
@@ -576,6 +811,15 @@
       event.preventDefault();
       selectLevel(LEVELS[nextIndex].id, true);
     });
+
+    lessonPreviewList.addEventListener('click', event => {
+      const button = getClosestElement(event.target, '[data-lesson-id]');
+      if (!button || !lessonPreviewList.contains(button)) return;
+      selectLesson(button.dataset.lessonId, true);
+    });
+
+    previousLessonButton.addEventListener('click', moveToPreviousLesson);
+    nextLessonButton.addEventListener('click', moveToNextLesson);
 
     render();
   </script>
