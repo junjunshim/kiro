@@ -27,6 +27,31 @@
       font-size: var(--font-size-md);
     }
 
+    .progress-summary {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .progress-summary__header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .progress-summary__value {
+      color: var(--color-primary-dark);
+      font-size: var(--font-size-xl);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .progress-summary__status {
+      color: var(--color-text-muted);
+      font-size: var(--font-size-md);
+    }
+
     .level-section {
       display: grid;
       gap: 1rem;
@@ -147,65 +172,44 @@
         <p>초급부터 고급까지 단계별로 AI를 배울 수 있습니다.</p>
       </div>
 
-      <section class="card education-overview" aria-labelledby="education-overview-title">
-        <h2 class="education-overview__title" id="education-overview-title">나에게 맞는 단계부터 시작하세요</h2>
-        <p class="education-overview__description">
-          모든 단계는 자유롭게 선택할 수 있습니다. 각 단계에는 이해하기 쉬운 AI 학습 레슨이 3개씩 준비되어 있습니다.
-        </p>
-        <span class="badge badge-blue">전체 9개 레슨</span>
+      <section class="card education-overview progress-summary" aria-labelledby="education-overview-title">
+        <div class="progress-summary__header">
+          <div>
+            <h2 class="education-overview__title" id="education-overview-title">전체 학습 진행률</h2>
+            <p class="education-overview__description">완료한 레슨 수를 기준으로 전체 학습 진행 상황을 보여줍니다.</p>
+          </div>
+          <strong class="progress-summary__value" id="overall-progress-text">0 / 9</strong>
+        </div>
+        <div
+          class="progress-bar"
+          id="overall-progress-bar"
+          role="progressbar"
+          aria-label="전체 AI 교육 학습 진행률"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          aria-valuetext="전체 9개 중 0개 완료"
+        >
+          <div class="progress-bar__fill" id="overall-progress-fill"></div>
+        </div>
+        <p class="progress-summary__status" id="overall-progress-status" aria-live="polite"></p>
       </section>
 
       <section class="level-section" aria-labelledby="level-section-title">
         <h2 class="level-section__title" id="level-section-title">학습 단계 선택</h2>
 
-        <div class="level-tabs" role="tablist" aria-label="AI 교육 학습 단계">
-          <button
-            class="btn btn-primary level-tab"
-            id="level-tab-beginner"
-            type="button"
-            role="tab"
-            aria-selected="true"
-            aria-controls="level-panel"
-            data-level="beginner"
-          >
-            <span class="level-tab__name">🌱 초급</span>
-            <span class="level-tab__summary">AI를 처음 배우는 분</span>
-          </button>
-
-          <button
-            class="btn btn-secondary level-tab"
-            id="level-tab-intermediate"
-            type="button"
-            role="tab"
-            aria-selected="false"
-            aria-controls="level-panel"
-            data-level="intermediate"
-            tabindex="-1"
-          >
-            <span class="level-tab__name">🌿 중급</span>
-            <span class="level-tab__summary">AI를 생활에 활용할 분</span>
-          </button>
-
-          <button
-            class="btn btn-secondary level-tab"
-            id="level-tab-advanced"
-            type="button"
-            role="tab"
-            aria-selected="false"
-            aria-controls="level-panel"
-            data-level="advanced"
-            tabindex="-1"
-          >
-            <span class="level-tab__name">🌳 고급</span>
-            <span class="level-tab__summary">AI를 더 정확하게 쓸 분</span>
-          </button>
-        </div>
+        <div
+          class="level-tabs"
+          id="level-tabs"
+          role="tablist"
+          aria-label="AI 교육 학습 단계"
+        ></div>
 
         <div
           class="card level-panel"
           id="level-panel"
           role="tabpanel"
-          aria-labelledby="level-tab-beginner"
+          aria-labelledby="level-section-title"
           tabindex="0"
         >
           <div class="level-panel__header">
@@ -373,120 +377,207 @@
       }
     ]);
 
-    const LEVELS = Object.freeze({
-      beginner: {
-        label: '🌱 초급',
+    const LEVELS = Object.freeze([
+      {
+        id: 'beginner',
+        label: '초급',
+        icon: '🌱',
+        summary: 'AI를 처음 배우는 분',
         description: 'AI의 뜻과 기본 기능을 알아보고, 개인정보를 지키며 안전하게 사용하는 방법을 배웁니다.'
       },
-      intermediate: {
-        label: '🌿 중급',
+      {
+        id: 'intermediate',
+        label: '중급',
+        icon: '🌿',
+        summary: 'AI를 생활에 활용할 분',
         description: '정보 검색과 글쓰기에 AI를 활용하고, 원하는 답변을 얻도록 다시 요청하는 방법을 배웁니다.'
       },
-      advanced: {
-        label: '🌳 고급',
+      {
+        id: 'advanced',
+        label: '고급',
+        icon: '🌳',
+        summary: 'AI를 더 정확하게 쓸 분',
         description: '구체적인 프롬프트를 만들고, AI 답변을 비교하며 중요한 정보를 검증하는 방법을 배웁니다.'
       }
-    });
+    ]);
 
     const state = {
-      selectedLevel: 'beginner'
+      selectedLevel: 'beginner',
+      completedLessonIds: []
     };
 
-    const levelTabs = Array.from(document.querySelectorAll('[role="tab"]'));
+    const levelTabsContainer = document.getElementById('level-tabs');
     const levelPanel = document.getElementById('level-panel');
     const selectedLevelTitle = document.getElementById('selected-level-title');
     const selectedLevelDescription = document.getElementById('selected-level-description');
     const selectedLevelCount = document.getElementById('selected-level-count');
     const lessonPreviewList = document.getElementById('lesson-preview-list');
+    const overallProgressText = document.getElementById('overall-progress-text');
+    const overallProgressBar = document.getElementById('overall-progress-bar');
+    const overallProgressFill = document.getElementById('overall-progress-fill');
+    const overallProgressStatus = document.getElementById('overall-progress-status');
 
-    function getLessonsByLevel(level) {
-      return LESSONS.filter(lesson => lesson.level === level);
+    function getLevelById(levelId) {
+      return LEVELS.find(level => level.id === levelId) || null;
+    }
+
+    function getLessonsByLevel(levelId) {
+      return LESSONS.filter(lesson => lesson.level === levelId);
+    }
+
+    function getValidCompletedLessonIds(completedLessonIds) {
+      if (!Array.isArray(completedLessonIds)) return [];
+
+      const validLessonIds = new Set(LESSONS.map(lesson => lesson.id));
+      return [...new Set(completedLessonIds)].filter(lessonId => validLessonIds.has(lessonId));
+    }
+
+    function calculateProgress(completedLessonIds) {
+      const completed = getValidCompletedLessonIds(completedLessonIds).length;
+      const total = LESSONS.length;
+      const percentage = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+      return { completed, total, percentage };
+    }
+
+    function createLevelTab(level) {
+      const isSelected = level.id === state.selectedLevel;
+      const button = document.createElement('button');
+      button.className = `btn ${isSelected ? 'btn-primary' : 'btn-secondary'} level-tab`;
+      button.id = `level-tab-${level.id}`;
+      button.type = 'button';
+      button.setAttribute('role', 'tab');
+      button.setAttribute('aria-selected', String(isSelected));
+      button.setAttribute('aria-controls', 'level-panel');
+      button.dataset.level = level.id;
+      button.tabIndex = isSelected ? 0 : -1;
+
+      const name = document.createElement('span');
+      name.className = 'level-tab__name';
+      name.textContent = `${level.icon} ${level.label}`;
+
+      const summary = document.createElement('span');
+      summary.className = 'level-tab__summary';
+      summary.textContent = level.summary;
+
+      button.append(name, summary);
+      return button;
+    }
+
+    function renderLevelTabs() {
+      const tabs = LEVELS.map(createLevelTab);
+      levelTabsContainer.replaceChildren(...tabs);
+    }
+
+    function createLessonPreview(lesson, index) {
+      const item = document.createElement('li');
+      item.className = 'lesson-preview';
+      item.dataset.lessonId = lesson.id;
+
+      const number = document.createElement('span');
+      number.className = 'lesson-preview__number';
+      number.textContent = `레슨 ${index + 1}`;
+
+      const title = document.createElement('h3');
+      title.className = 'lesson-preview__title';
+      title.textContent = lesson.title;
+
+      const objective = document.createElement('p');
+      objective.className = 'lesson-preview__objective';
+      objective.textContent = lesson.objective;
+
+      item.append(number, title, objective);
+      return item;
+    }
+
+    function renderLessonList(levelId) {
+      const lessons = getLessonsByLevel(levelId);
+      const lessonItems = lessons.map(createLessonPreview);
+      lessonPreviewList.replaceChildren(...lessonItems);
+      return lessons.length;
     }
 
     function renderSelectedLevel() {
-      const level = LEVELS[state.selectedLevel];
-      const lessons = getLessonsByLevel(state.selectedLevel);
-      const activeTab = document.getElementById(`level-tab-${state.selectedLevel}`);
+      const level = getLevelById(state.selectedLevel);
+      if (!level) return;
 
-      selectedLevelTitle.textContent = level.label;
+      const lessonCount = renderLessonList(level.id);
+      const activeTab = document.getElementById(`level-tab-${level.id}`);
+
+      selectedLevelTitle.textContent = `${level.icon} ${level.label}`;
       selectedLevelDescription.textContent = level.description;
-      selectedLevelCount.textContent = `${lessons.length}개 레슨`;
+      selectedLevelCount.textContent = `${lessonCount}개 레슨`;
       levelPanel.setAttribute('aria-labelledby', activeTab.id);
-
-      lessonPreviewList.replaceChildren();
-
-      lessons.forEach((lesson, index) => {
-        const item = document.createElement('li');
-        item.className = 'lesson-preview';
-
-        const number = document.createElement('span');
-        number.className = 'lesson-preview__number';
-        number.textContent = `레슨 ${index + 1}`;
-
-        const title = document.createElement('h3');
-        title.className = 'lesson-preview__title';
-        title.textContent = lesson.title;
-
-        const objective = document.createElement('p');
-        objective.className = 'lesson-preview__objective';
-        objective.textContent = lesson.objective;
-
-        item.append(number, title, objective);
-        lessonPreviewList.append(item);
-      });
     }
 
-    function selectLevel(level, moveFocus = false) {
-      if (!Object.hasOwn(LEVELS, level)) return;
+    function renderProgress() {
+      const progress = calculateProgress(state.completedLessonIds);
+      const statusMessage = progress.completed === 0
+        ? '아직 완료한 레슨이 없습니다. 원하는 단계부터 천천히 시작해 보세요.'
+        : `전체 ${progress.total}개 레슨 중 ${progress.completed}개를 완료했습니다.`;
 
-      state.selectedLevel = level;
+      overallProgressText.textContent = `${progress.completed} / ${progress.total}`;
+      overallProgressFill.style.width = `${progress.percentage}%`;
+      overallProgressBar.setAttribute('aria-valuenow', String(progress.percentage));
+      overallProgressBar.setAttribute(
+        'aria-valuetext',
+        `전체 ${progress.total}개 중 ${progress.completed}개 완료`
+      );
+      overallProgressStatus.textContent = statusMessage;
+    }
 
-      levelTabs.forEach(tab => {
-        const isSelected = tab.dataset.level === level;
-        tab.setAttribute('aria-selected', String(isSelected));
-        tab.tabIndex = isSelected ? 0 : -1;
-        tab.classList.toggle('btn-primary', isSelected);
-        tab.classList.toggle('btn-secondary', !isSelected);
-      });
+    function render() {
+      renderLevelTabs();
+      renderSelectedLevel();
+      renderProgress();
+    }
 
+    function selectLevel(levelId, moveFocus = false) {
+      if (!getLevelById(levelId)) return;
+
+      state.selectedLevel = levelId;
+      renderLevelTabs();
       renderSelectedLevel();
 
       if (moveFocus) {
-        document.getElementById(`level-tab-${level}`).focus();
+        document.getElementById(`level-tab-${levelId}`).focus();
       }
     }
 
-    function moveTabFocus(currentIndex, direction) {
-      const nextIndex = (currentIndex + direction + levelTabs.length) % levelTabs.length;
-      selectLevel(levelTabs[nextIndex].dataset.level, true);
+    function getTabFromEventTarget(target) {
+      return target.closest('[role="tab"]');
     }
 
-    levelTabs.forEach((tab, index) => {
-      tab.addEventListener('click', () => selectLevel(tab.dataset.level));
-      tab.addEventListener('keydown', event => {
-        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
-          event.preventDefault();
-          moveTabFocus(index, 1);
-        }
-
-        if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
-          event.preventDefault();
-          moveTabFocus(index, -1);
-        }
-
-        if (event.key === 'Home') {
-          event.preventDefault();
-          selectLevel(levelTabs[0].dataset.level, true);
-        }
-
-        if (event.key === 'End') {
-          event.preventDefault();
-          selectLevel(levelTabs[levelTabs.length - 1].dataset.level, true);
-        }
-      });
+    levelTabsContainer.addEventListener('click', event => {
+      const tab = getTabFromEventTarget(event.target);
+      if (!tab || !levelTabsContainer.contains(tab)) return;
+      selectLevel(tab.dataset.level, true);
     });
 
-    renderSelectedLevel();
+    levelTabsContainer.addEventListener('keydown', event => {
+      const tab = getTabFromEventTarget(event.target);
+      if (!tab || !levelTabsContainer.contains(tab)) return;
+
+      const currentIndex = LEVELS.findIndex(level => level.id === tab.dataset.level);
+      let nextIndex = currentIndex;
+
+      if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+        nextIndex = (currentIndex + 1) % LEVELS.length;
+      } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+        nextIndex = (currentIndex - 1 + LEVELS.length) % LEVELS.length;
+      } else if (event.key === 'Home') {
+        nextIndex = 0;
+      } else if (event.key === 'End') {
+        nextIndex = LEVELS.length - 1;
+      } else {
+        return;
+      }
+
+      event.preventDefault();
+      selectLevel(LEVELS[nextIndex].id, true);
+    });
+
+    render();
   </script>
 </body>
 </html>
