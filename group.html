@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>그룹 학습 - AI 배움터</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared/style.css">
+  <style>
+    /* =====================================================
+       팀원 A 담당 - 그룹 학습 전용 스타일
+       이 <style> 블록에만 스타일을 추가하세요.
+       shared/style.css 는 수정하지 마세요.
+       ===================================================== */
+  </style>
+</head>
+<body>
+  <div id="nav-container"></div>
+  <main>
+    <div class="container">
+      <div class="page-header">
+        <h1>👥 그룹 학습</h1>
+        <p>복지관·학교·돌봄 단체에서 함께 학습하고 진행 현황을 공유하세요.</p>
+      </div>
+
+      <!--
+        =====================================================
+        팀원 A: 여기서부터 콘텐츠를 구현하세요.
+
+        담당 기능: 단체/팀 사용 기능
+        브랜치: feature/digital-diagnosis (digital-diagnosis.html 과 같은 브랜치)
+        localStorage prefix: ailv:group:
+          - ailv:group:info     → { code, name, role, nickname }
+          - ailv:group:members  → [ { nickname, data } ... ]  (운영자)
+
+        구현 항목:
+          1. 6자리 그룹 코드 생성 (운영자) / 입력 (참여자)
+          2. 단체명 + 닉네임 입력으로 그룹 참여
+          3. 그룹 구성원 진행 현황 모아보기 (JSON 가져오기 방식)
+          4. 운영자 모드: 구성원 진행 현황 집계 뷰
+          5. 참여자 모드: 그룹 내 현황 확인
+          6. 저장: Utils.saveData('ailv:group:info', { code, name, role, nickname })
+        =====================================================
+      -->
+
+      <div class="card">
+        <p style="color:var(--color-text-muted); text-align:center; padding:3rem 0; font-size:var(--font-size-lg);">
+          🚧 팀원 A가 개발 중입니다.
+        </p>
+      </div>
+
+    </div>
+  </main>
+  <script src="shared/utils.js"></script>
+  <script src="shared/nav.js"></script>
+  <script>
+    Utils.restoreFontSize();
+    Nav.render();
+    // 팀원 A: 여기에 JavaScript를 작성하세요.
+  </script>
+</body>
+</html>

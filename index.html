@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 배움터 - 취약 계층을 위한 AI 학습 플랫폼</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared/style.css">
+  <style>
+    .hero { text-align: center; padding: 3rem 1rem 2rem; }
+    .hero h1 { font-size: var(--font-size-2xl); font-weight: 700; color: var(--color-primary); margin-bottom: 0.75rem; }
+    .hero p  { font-size: var(--font-size-lg); color: var(--color-text-muted); max-width: 600px; margin: 0 auto; line-height: 1.8; }
+
+    .feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; margin-top: 2rem; }
+    .feature-card { background: var(--color-surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; text-decoration: none; color: inherit; border: 2px solid transparent; transition: border-color var(--transition), transform var(--transition); }
+    .feature-card:hover { border-color: var(--color-primary); transform: translateY(-2px); }
+    .feature-card__icon  { font-size: 2.5rem; }
+    .feature-card__title { font-size: var(--font-size-lg); font-weight: 700; }
+    .feature-card__desc  { font-size: var(--font-size-sm); color: var(--color-text-muted); line-height: 1.6; }
+    .feature-card__status { margin-top: auto; }
+
+    .dashboard-section { margin-top: 3rem; }
+    .dashboard-section h2 { font-size: var(--font-size-xl); font-weight: 700; margin-bottom: 1rem; }
+    .progress-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
+    .progress-item { background: var(--color-surface); border-radius: var(--radius); padding: 1rem 1.25rem; box-shadow: var(--shadow); }
+    .progress-item__label { font-size: var(--font-size-sm); color: var(--color-text-muted); margin-bottom: 0.4rem; }
+    .progress-item__value { font-size: var(--font-size-lg); font-weight: 700; color: var(--color-primary); }
+
+    .data-actions { margin-top: 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+  <div id="nav-container"></div>
+
+  <main>
+    <div class="container">
+
+      <section class="hero">
+        <h1>🌱 AI 배움터</h1>
+        <p>누구나 쉽게 AI를 배울 수 있는 곳입니다.<br>나의 수준에 맞게 천천히 시작해 보세요.</p>
+      </section>
+
+      <!-- 기능 카드 -->
+      <div class="feature-grid">
+        <a href="digital-diagnosis.html" class="feature-card">
+          <div class="feature-card__icon">📱</div>
+          <div class="feature-card__title">디지털 기초 진단</div>
+          <div class="feature-card__desc">스마트폰·인터넷 활용 능력을 먼저 점검해 보세요. AI 학습 준비가 되었는지 확인합니다.</div>
+          <div class="feature-card__status" id="status-digital"></div>
+        </a>
+        <a href="diagnosis.html" class="feature-card">
+          <div class="feature-card__icon">🤖</div>
+          <div class="feature-card__title">AI 활용 능력 진단</div>
+          <div class="feature-card__desc">현재 AI 이해도를 측정하고 나에게 맞는 학습 경로를 추천받으세요.</div>
+          <div class="feature-card__status" id="status-diagnosis"></div>
+        </a>
+        <a href="education.html" class="feature-card">
+          <div class="feature-card__icon">📚</div>
+          <div class="feature-card__title">단계별 AI 교육</div>
+          <div class="feature-card__desc">초급부터 고급까지 단계별로 AI를 배울 수 있는 레슨 콘텐츠입니다.</div>
+          <div class="feature-card__status" id="status-education"></div>
+        </a>
+        <a href="prompt-helper.html" class="feature-card">
+          <div class="feature-card__icon">✏️</div>
+          <div class="feature-card__title">프롬프트 작성 도우미</div>
+          <div class="feature-card__desc">AI에게 질문을 잘 하는 방법을 배우고 직접 연습해 보세요.</div>
+          <div class="feature-card__status" id="status-prompt"></div>
+        </a>
+        <a href="simulation.html" class="feature-card">
+          <div class="feature-card__icon">🎮</div>
+          <div class="feature-card__title">AI 활용 시뮬레이션</div>
+          <div class="feature-card__desc">실생활 상황에서 AI를 어떻게 활용하는지 직접 경험해 보세요.</div>
+          <div class="feature-card__status" id="status-simulation"></div>
+        </a>
+        <a href="group.html" class="feature-card">
+          <div class="feature-card__icon">👥</div>
+          <div class="feature-card__title">그룹 학습</div>
+          <div class="feature-card__desc">복지관·학교·돌봄 단체에서 함께 학습하고 진행 현황을 공유하세요.</div>
+          <div class="feature-card__status" id="status-group"></div>
+        </a>
+      </div>
+
+      <!-- 진행 현황 대시보드 -->
+      <section class="dashboard-section" aria-label="내 학습 현황">
+        <h2>📊 내 학습 현황</h2>
+        <div class="progress-grid">
+          <div class="progress-item">
+            <div class="progress-item__label">디지털 진단</div>
+            <div class="progress-item__value" id="dash-digital">미완료</div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-item__label">AI 능력 진단</div>
+            <div class="progress-item__value" id="dash-diagnosis">미완료</div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-item__label">AI 교육 레슨</div>
+            <div class="progress-item__value" id="dash-education">0 / 9</div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-item__label">시뮬레이션</div>
+            <div class="progress-item__value" id="dash-simulation">0 / 5</div>
+          </div>
+        </div>
+
+        <div class="data-actions">
+          <button class="btn btn-secondary" onclick="exportData()">💾 데이터 내보내기</button>
+          <button class="btn btn-secondary" onclick="document.getElementById('import-input').click()">📂 데이터 가져오기</button>
+          <input type="file" id="import-input" accept=".json" style="display:none" onchange="importData(event)">
+          <button class="btn btn-danger" onclick="confirmReset()">🗑️ 전체 초기화</button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="shared/utils.js"></script>
+  <script src="shared/nav.js"></script>
+  <script>
+    Utils.restoreFontSize();
+    Nav.render();
+
+    function updateDashboard() {
+      const digital    = Utils.loadData('ailv:digital:result');
+      const diagnosis  = Utils.loadData('ailv:diagnosis:result');
+      const education  = Utils.loadData('ailv:education:completed') || [];
+      const simulation = Utils.loadData('ailv:simulation:completed') || [];
+
+      document.getElementById('dash-digital').textContent    = digital    ? digital.level    : '미완료';
+      document.getElementById('dash-diagnosis').textContent  = diagnosis  ? diagnosis.level  : '미완료';
+      document.getElementById('dash-education').textContent  = education.length  + ' / 9';
+      document.getElementById('dash-simulation').textContent = simulation.length + ' / 5';
+    }
+
+    function exportData() {
+      const json = Utils.exportAllData();
+      const blob = new Blob([json], { type: 'application/json' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href = url; a.download = 'ai-learning-data.json'; a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function importData(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        const ok = Utils.importAllData(e.target.result);
+        alert(ok ? '데이터를 성공적으로 가져왔습니다.' : '파일 형식이 올바르지 않습니다.');
+        if (ok) updateDashboard();
+      };
+      reader.readAsText(file);
+    }
+
+    function confirmReset() {
+      if (confirm('모든 학습 데이터를 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.')) {
+        Utils.clearModuleData('ailv:');
+        updateDashboard();
+        alert('초기화가 완료되었습니다.');
+      }
+    }
+
+    updateDashboard();
+  </script>
+</body>
+</html>

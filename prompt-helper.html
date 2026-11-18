@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>프롬프트 작성 도우미 - AI 배움터</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared/style.css">
+  <style>
+    /* =====================================================
+       팀원 D 담당 - 프롬프트 작성 도우미 전용 스타일
+       이 <style> 블록에만 스타일을 추가하세요.
+       shared/style.css 는 수정하지 마세요.
+       ===================================================== */
+  </style>
+</head>
+<body>
+  <div id="nav-container"></div>
+  <main>
+    <div class="container">
+      <div class="page-header">
+        <h1>✏️ 프롬프트 작성 도우미</h1>
+        <p>AI에게 질문을 잘 하는 방법을 배우고 직접 연습해 보세요.</p>
+      </div>
+
+      <!--
+        =====================================================
+        팀원 D: 여기서부터 콘텐츠를 구현하세요.
+
+        담당 기능: 프롬프트 작성 도우미
+        브랜치: feature/prompt-helper
+        localStorage prefix: ailv:prompt:
+          - ailv:prompt:saved → [ { text, date } ... ]
+
+        구현 항목:
+          1. 좋은/나쁜 프롬프트 예시 최소 5쌍
+          2. 프롬프트 초안 입력 → 개선 피드백 (규칙 기반 목업)
+          3. 상황별 템플릿 최소 3가지 (일상, 업무, 학습)
+          4. 완성된 프롬프트 클립보드 복사 버튼
+          5. 저장: Utils.saveData('ailv:prompt:saved', [...])
+        =====================================================
+      -->
+
+      <div class="card">
+        <p style="color:var(--color-text-muted); text-align:center; padding:3rem 0; font-size:var(--font-size-lg);">
+          🚧 팀원 D가 개발 중입니다.
+        </p>
+      </div>
+
+    </div>
+  </main>
+  <script src="shared/utils.js"></script>
+  <script src="shared/nav.js"></script>
+  <script>
+    Utils.restoreFontSize();
+    Nav.render();
+    // 팀원 D: 여기에 JavaScript를 작성하세요.
+  </script>
+</body>
+</html>

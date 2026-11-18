@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>단계별 AI 교육 - AI 배움터</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared/style.css">
+  <style>
+    /* =====================================================
+       팀원 C 담당 - 단계별 AI 교육 전용 스타일
+       이 <style> 블록에만 스타일을 추가하세요.
+       shared/style.css 는 수정하지 마세요.
+       ===================================================== */
+  </style>
+</head>
+<body>
+  <div id="nav-container"></div>
+  <main>
+    <div class="container">
+      <div class="page-header">
+        <h1>📚 단계별 AI 교육</h1>
+        <p>초급부터 고급까지 단계별로 AI를 배울 수 있습니다.</p>
+      </div>
+
+      <!--
+        =====================================================
+        팀원 C: 여기서부터 콘텐츠를 구현하세요.
+
+        담당 기능: 단계별 AI 기초 교육
+        브랜치: feature/education
+        localStorage prefix: ailv:education:
+          - ailv:education:completed → [ "초급-1", "초급-2", ... ]
+
+        구현 항목:
+          1. 초급 / 중급 / 고급 3단계, 각 단계 최소 3개 레슨
+          2. 레슨 구성: 텍스트 설명 + 이미지/예시 + 간단 확인 퀴즈
+          3. 레슨 완료 시 체크 표시 및 localStorage 저장
+          4. 단계 간 자유 이동 (잠금 없음)
+          5. 완료 저장: Utils.saveData('ailv:education:completed', [...])
+        =====================================================
+      -->
+
+      <div class="card">
+        <p style="color:var(--color-text-muted); text-align:center; padding:3rem 0; font-size:var(--font-size-lg);">
+          🚧 팀원 C가 개발 중입니다.
+        </p>
+      </div>
+
+    </div>
+  </main>
+  <script src="shared/utils.js"></script>
+  <script src="shared/nav.js"></script>
+  <script>
+    Utils.restoreFontSize();
+    Nav.render();
+    // 팀원 C: 여기에 JavaScript를 작성하세요.
+  </script>
+</body>
+</html>

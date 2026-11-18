@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>디지털 기초 진단 - AI 배움터</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared/style.css">
+  <style>
+    /* =====================================================
+       팀원 A 담당 - 디지털 기초 진단 전용 스타일
+       이 <style> 블록에만 스타일을 추가하세요.
+       shared/style.css 는 수정하지 마세요.
+       ===================================================== */
+  </style>
+</head>
+<body>
+  <div id="nav-container"></div>
+  <main>
+    <div class="container">
+      <div class="page-header">
+        <h1>📱 디지털 기초 진단</h1>
+        <p>AI를 배우기 전에 디지털 기기 활용 능력을 먼저 점검해 보세요.</p>
+      </div>
+
+      <!--
+        =====================================================
+        팀원 A: 여기서부터 콘텐츠를 구현하세요.
+
+        담당 기능: 디지털 활용 능력 진단 (0단계)
+        브랜치: feature/digital-diagnosis
+        localStorage prefix: ailv:digital:
+          - ailv:digital:result  → { level, score, date }
+
+        구현 항목:
+          1. 8~12문항 객관식 퀴즈 (스마트폰 기초, 인터넷 검색, 앱 사용)
+          2. 점수 계산 → "디지털 기초 필요" / "AI 학습 준비 완료" 분류
+          3. 기초 필요 시 디지털 기초 학습 콘텐츠 안내
+          4. 결과 저장: Utils.saveData('ailv:digital:result', { level, score, date })
+        =====================================================
+      -->
+
+      <div class="card">
+        <p style="color:var(--color-text-muted); text-align:center; padding:3rem 0; font-size:var(--font-size-lg);">
+          🚧 팀원 A가 개발 중입니다.
+        </p>
+      </div>
+
+    </div>
+  </main>
+  <script src="shared/utils.js"></script>
+  <script src="shared/nav.js"></script>
+  <script>
+    Utils.restoreFontSize();
+    Nav.render();
+    // 팀원 A: 여기에 JavaScript를 작성하세요.
+  </script>
+</body>
+</html>

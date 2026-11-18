@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 활용 능력 진단 - AI 배움터</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared/style.css">
+  <style>
+    /* =====================================================
+       팀원 B 담당 - AI 활용 능력 진단 전용 스타일
+       이 <style> 블록에만 스타일을 추가하세요.
+       shared/style.css 는 수정하지 마세요.
+       ===================================================== */
+  </style>
+</head>
+<body>
+  <div id="nav-container"></div>
+  <main>
+    <div class="container">
+      <div class="page-header">
+        <h1>🤖 AI 활용 능력 진단</h1>
+        <p>현재 AI 이해도를 측정하고 나에게 맞는 학습 경로를 추천받으세요.</p>
+      </div>
+
+      <!--
+        =====================================================
+        팀원 B: 여기서부터 콘텐츠를 구현하세요.
+
+        담당 기능: AI 활용 능력 진단 (1단계)
+        브랜치: feature/ai-diagnosis
+        localStorage prefix: ailv:diagnosis:
+          - ailv:diagnosis:result  → { level, score, date }
+          - ailv:diagnosis:history → [ ...이전 결과 배열 ]
+
+        구현 항목:
+          1. 10~15문항 객관식 퀴즈 (AI 개념, 활용 사례)
+          2. 점수 계산 → 초급 / 중급 / 고급 3단계 분류
+          3. 단계별 추천 학습 경로 제시
+          4. 재응시 기능, 이전 결과와 비교 표시
+          5. 결과 저장: Utils.saveData('ailv:diagnosis:result', { level, score, date })
+        =====================================================
+      -->
+
+      <div class="card">
+        <p style="color:var(--color-text-muted); text-align:center; padding:3rem 0; font-size:var(--font-size-lg);">
+          🚧 팀원 B가 개발 중입니다.
+        </p>
+      </div>
+
+    </div>
+  </main>
+  <script src="shared/utils.js"></script>
+  <script src="shared/nav.js"></script>
+  <script>
+    Utils.restoreFontSize();
+    Nav.render();
+    // 팀원 B: 여기에 JavaScript를 작성하세요.
+  </script>
+</body>
+</html>
