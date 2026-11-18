@@ -13,6 +13,364 @@
        이 <style> 블록에만 스타일을 추가하세요.
        shared/style.css 는 수정하지 마세요.
        ===================================================== */
+    .simulation-content {
+      display: grid;
+      width: 100%;
+      gap: 1.5rem;
+      min-width: 0;
+      max-width: 100%;
+      color: var(--color-text);
+      font-size: var(--font-size-lg);
+      overflow-x: clip;
+    }
+
+    .simulation-content > *,
+    .simulation-content * {
+      min-width: 0;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+    }
+
+    #simulation-view {
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      overflow-x: clip;
+    }
+
+    .simulation-content h2,
+    .simulation-content h3,
+    .simulation-content p,
+    .simulation-content label,
+    .simulation-content button,
+    .simulation-content textarea {
+      font-size: var(--font-size-lg);
+    }
+
+    .simulation-content .card {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .simulation-content .btn {
+      min-width: var(--touch-target);
+      min-height: var(--touch-target);
+    }
+
+    .simulation-content :focus-visible {
+      outline: 3px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    .simulation-status {
+      min-height: var(--touch-target);
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius);
+      background: var(--color-surface);
+      color: var(--color-text);
+      font-size: var(--font-size-lg);
+      overflow-wrap: anywhere;
+      overflow: hidden;
+    }
+
+    .simulation-status[data-kind="error"] {
+      border-color: var(--color-danger);
+    }
+
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      min-width: 0;
+    }
+
+    .scenario-card {
+      display: grid;
+      gap: 0.75rem;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .scenario-card h3,
+    .scenario-card p {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .scenario-card h3 {
+      font-size: var(--font-size-lg);
+      color: var(--color-text);
+    }
+
+    .scenario-purpose {
+      color: var(--color-text);
+      font-size: var(--font-size-lg);
+    }
+
+    .scenario-status {
+      color: var(--color-text);
+      font-size: var(--font-size-lg);
+      font-weight: 600;
+    }
+
+    .scenario-card .btn {
+      width: 100%;
+      font-size: var(--font-size-lg);
+    }
+
+    .chat-view {
+      display: grid;
+      gap: 1rem;
+      min-width: 0;
+    }
+
+    .chat-header,
+    .chat-conversation,
+    .chat-form,
+    .chat-completion {
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .chat-header {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .chat-header h2,
+    .chat-header p,
+    .chat-header label,
+    .chat-conversation p,
+    .chat-form label {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .chat-header input {
+      width: 100%;
+      min-width: 0;
+      min-height: var(--touch-target);
+      box-sizing: border-box;
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius);
+      color: var(--color-text);
+      background: var(--color-surface);
+      font-size: var(--font-size-lg);
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .chat-goal,
+    .chat-prompt {
+      margin: 0;
+      color: var(--color-text);
+      font-size: var(--font-size-lg);
+    }
+
+    .chat-prompt {
+      padding: 0.75rem;
+      border-left: 0.3rem solid var(--color-primary);
+      background: var(--color-surface);
+    }
+
+    .medical-safety-notice {
+      margin: 0;
+      padding: 0.75rem;
+      border: 2px solid var(--color-warning);
+      border-radius: var(--radius);
+      background: var(--color-surface);
+      color: var(--color-text);
+      font-size: var(--font-size-lg);
+      overflow-wrap: anywhere;
+    }
+
+    .chat-progress {
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .chat-progress-label {
+      color: var(--color-text);
+      font-size: var(--font-size-lg);
+    }
+
+    .chat-progress .progress-bar {
+      min-width: 0;
+    }
+
+    .chat-progress .progress-bar__fill {
+      transition: width var(--transition);
+    }
+
+    .chat-conversation {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .chat-message {
+      min-width: 0;
+      margin: 0;
+      overflow-wrap: anywhere;
+      font-size: var(--font-size-lg);
+    }
+
+    .chat-message--user {
+      color: var(--color-text);
+    }
+
+    .chat-message--assistant {
+      color: var(--color-text);
+    }
+
+    .chat-form {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .chat-form label {
+      color: var(--color-text);
+      font-size: var(--font-size-lg);
+      font-weight: 600;
+    }
+
+    .chat-form textarea {
+      width: 100%;
+      min-width: 0;
+      min-height: calc(var(--touch-target) * 2);
+      max-width: 100%;
+      box-sizing: border-box;
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius);
+      color: var(--color-text);
+      background: var(--color-surface);
+      font-size: var(--font-size-lg);
+      overflow-x: hidden;
+      overflow-wrap: anywhere;
+      resize: vertical;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .chat-form textarea[aria-invalid="true"] {
+      border-color: var(--color-danger);
+    }
+
+    .simulation-content .btn-success {
+      background: var(--color-primary-dark);
+      color: var(--color-surface);
+    }
+
+    .chat-actions,
+    .chat-completion {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+    }
+
+    .chat-actions .btn,
+    .chat-completion .btn {
+      min-width: var(--touch-target);
+      min-height: var(--touch-target);
+      max-width: 100%;
+      font-size: var(--font-size-lg);
+      overflow-wrap: anywhere;
+      white-space: normal;
+    }
+
+    .chat-completion {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    @media (max-width: 600px) {
+      .simulation-content,
+      .simulation-content > *,
+      .simulation-content * {
+        min-width: 0;
+        max-width: 100%;
+      }
+
+      .scenario-grid,
+      .chat-view,
+      .chat-actions,
+      .chat-completion {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .scenario-card,
+      .chat-header,
+      .chat-conversation,
+      .chat-form,
+      .chat-actions,
+      .chat-completion,
+      .chat-actions .btn,
+      .chat-completion .btn,
+      .chat-form textarea,
+      .progress-bar {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+      }
+
+      .scenario-card,
+      .chat-header,
+      .chat-conversation,
+      .chat-form,
+      .chat-actions,
+      .chat-completion,
+      .chat-message,
+      .chat-form label,
+      .chat-form textarea,
+      .chat-actions .btn,
+      .chat-completion .btn {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+
+      .chat-form textarea,
+      .chat-actions .btn,
+      .chat-completion .btn {
+        box-sizing: border-box;
+        white-space: normal;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .simulation-content,
+      #simulation-view,
+      .scenario-grid,
+      .chat-view,
+      .scenario-card,
+      .chat-header,
+      .chat-conversation,
+      .chat-form,
+      .chat-actions,
+      .chat-completion {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+      }
+
+      .scenario-grid,
+      .chat-view,
+      .chat-actions,
+      .chat-completion {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .chat-message,
+      .scenario-card h3,
+      .scenario-card p,
+      .chat-header h2,
+      .chat-header p,
+      .chat-header label,
+      .chat-form label,
+      .chat-form textarea,
+      .chat-actions .btn,
+      .chat-completion .btn {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+    }
   </style>
 </head>
 <body>
@@ -24,37 +382,2796 @@
         <p>실생활 상황에서 AI를 어떻게 활용하는지 직접 경험해 보세요.</p>
       </div>
 
-      <!--
-        =====================================================
-        팀원 E: 여기서부터 콘텐츠를 구현하세요.
-
-        담당 기능: 상황별 AI 활용 시뮬레이션
-        브랜치: feature/simulation
-        localStorage prefix: ailv:simulation:
-          - ailv:simulation:completed → [ "병원예약", "쇼핑", ... ]
-
-        구현 항목:
-          1. 실생활 시나리오 최소 5가지 (병원 예약, 쇼핑, 정보 검색 등)
-          2. 턴제 채팅 UI (사용자 입력 → AI 목업 응답)
-          3. 시나리오당 최소 3턴 대화 가이드
-          4. 완료 상태 저장: Utils.saveData('ailv:simulation:completed', [...])
-        =====================================================
-      -->
-
-      <div class="card">
-        <p style="color:var(--color-text-muted); text-align:center; padding:3rem 0; font-size:var(--font-size-lg);">
-          🚧 팀원 E가 개발 중입니다.
-        </p>
-      </div>
+      <section id="simulation-content" class="simulation-content" aria-labelledby="simulation-content-title">
+        <h2 id="simulation-content-title">시나리오를 선택해 연습을 시작하세요</h2>
+        <div
+          id="simulation-status"
+          class="simulation-status"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        ></div>
+        <div id="simulation-view" tabindex="-1">
+          <p>시뮬레이션을 준비하고 있습니다.</p>
+        </div>
+      </section>
 
     </div>
   </main>
   <script src="shared/utils.js"></script>
   <script src="shared/nav.js"></script>
   <script>
-    Utils.restoreFontSize();
-    Nav.render();
-    // 팀원 E: 여기에 JavaScript를 작성하세요.
+    const REQUIRED_SCENARIO_CATEGORIES = Object.freeze([
+      'hospital',
+      'shopping',
+      'information-search'
+    ]);
+
+    function deepFreeze(value) {
+      if (value === null || typeof value !== 'object' || Object.isFrozen(value)) {
+        return value;
+      }
+
+      Object.getOwnPropertyNames(value).forEach((propertyName) => {
+        deepFreeze(value[propertyName]);
+      });
+
+      return Object.freeze(value);
+    }
+
+    const SCENARIOS = deepFreeze([
+      {
+        id: 'hospital-appointment',
+        category: 'hospital',
+        title: '병원 진료 예약하기',
+        purpose: '증상과 가능한 시간을 구체적으로 알려 병원 진료 예약을 문의하는 방법을 연습합니다.',
+        goal: '진료에 필요한 증상과 일정 정보를 차례로 전달하고 예약 내용을 확인합니다.',
+        prompts: [
+          '불편한 증상과 진료받고 싶은 진료과를 알려 주세요.',
+          '진료가 가능한 날짜와 시간대를 알려 주세요.',
+          '예약할 이름과 연락처를 포함해 예약 내용을 다시 확인해 달라고 요청해 보세요.'
+        ]
+      },
+      {
+        id: 'smart-shopping',
+        category: 'shopping',
+        title: '필요한 상품 비교하기',
+        purpose: '예산과 사용 목적을 설명하고 여러 상품의 차이를 비교해 선택하는 방법을 연습합니다.',
+        goal: '상품의 용도, 예산, 우선 조건을 전달하고 추천 결과를 비교합니다.',
+        prompts: [
+          '찾는 상품의 종류와 사용 목적, 예산을 알려 주세요.',
+          '가격, 성능, 편의성 중 가장 중요한 조건을 알려 주세요.',
+          '추천받은 상품들의 장단점을 표로 비교해 달라고 요청해 보세요.'
+        ]
+      },
+      {
+        id: 'information-search',
+        category: 'information-search',
+        title: '믿을 만한 정보 찾기',
+        purpose: '검색 주제와 출처 조건을 분명히 하여 믿을 만한 정보를 찾는 방법을 연습합니다.',
+        goal: '검색 범위, 기간, 출처 기준을 정하고 핵심 내용을 다시 확인합니다.',
+        prompts: [
+          '알아보고 싶은 주제와 정보를 사용할 목적을 알려 주세요.',
+          '정보의 기간과 선호하는 출처 종류를 지정해 주세요.',
+          '찾은 정보의 핵심 내용과 출처를 다시 확인해 달라고 요청해 보세요.'
+        ]
+      },
+      {
+        id: 'public-transport',
+        category: 'transport',
+        title: '대중교통 경로 묻기',
+        purpose: '출발지와 도착지, 이동 조건을 알려 알맞은 대중교통 경로를 묻는 방법을 연습합니다.',
+        goal: '출발지, 도착지, 시간과 편의 조건을 전달하고 이동 경로를 확인합니다.',
+        prompts: [
+          '출발지와 도착지를 구체적으로 알려 주세요.',
+          '출발 시간과 환승 횟수 등 원하는 이동 조건을 알려 주세요.',
+          '추천 경로의 이동 순서와 예상 시간을 다시 확인해 달라고 요청해 보세요.'
+        ]
+      },
+      {
+        id: 'meal-planning',
+        category: 'meal-planning',
+        title: '식사 메뉴 계획하기',
+        purpose: '인원과 가지고 있는 재료, 식사 제한 조건을 알려 메뉴를 계획하는 방법을 연습합니다.',
+        goal: '식사 목적과 재료, 알레르기 정보를 전달하고 안전한 조리 순서를 확인합니다.',
+        prompts: [
+          '식사 인원과 식사의 목적을 알려 주세요.',
+          '사용할 수 있는 재료와 알레르기 또는 피해야 할 음식을 알려 주세요.',
+          '추천 메뉴의 조리 순서와 주의 사항을 확인해 달라고 요청해 보세요.'
+        ]
+      }
+    ]);
+
+    function validateScenarioDefinitions(candidate) {
+      const errors = [];
+      const isNonBlankString = (value) => (
+        typeof value === 'string' && value.trim().length > 0
+      );
+      const hasLengthAtMost = (value, maximum) => (
+        isNonBlankString(value) && value.length <= maximum
+      );
+
+      if (!Array.isArray(candidate)) {
+        return Object.freeze({ ok: false, errors: Object.freeze(['SCENARIOS_NOT_ARRAY']) });
+      }
+
+      if (candidate.length < 5 || candidate.length > 20) {
+        errors.push('SCENARIO_COUNT_OUT_OF_RANGE');
+      }
+
+      const ids = new Set();
+      const titles = new Set();
+      const categories = new Set();
+
+      candidate.forEach((scenario, scenarioIndex) => {
+        const errorPrefix = `SCENARIO_${scenarioIndex}`;
+
+        if (scenario === null || typeof scenario !== 'object' || Array.isArray(scenario)) {
+          errors.push(`${errorPrefix}_NOT_OBJECT`);
+          return;
+        }
+
+        if (!isNonBlankString(scenario.id)) {
+          errors.push(`${errorPrefix}_INVALID_ID`);
+        } else if (ids.has(scenario.id)) {
+          errors.push(`${errorPrefix}_DUPLICATE_ID`);
+        } else {
+          ids.add(scenario.id);
+        }
+
+        if (!isNonBlankString(scenario.category)) {
+          errors.push(`${errorPrefix}_INVALID_CATEGORY`);
+        } else {
+          categories.add(scenario.category);
+        }
+
+        if (!hasLengthAtMost(scenario.title, 100)) {
+          errors.push(`${errorPrefix}_INVALID_TITLE`);
+        } else if (titles.has(scenario.title)) {
+          errors.push(`${errorPrefix}_DUPLICATE_TITLE`);
+        } else {
+          titles.add(scenario.title);
+        }
+
+        if (!hasLengthAtMost(scenario.purpose, 200)) {
+          errors.push(`${errorPrefix}_INVALID_PURPOSE`);
+        }
+
+        if (!isNonBlankString(scenario.goal)) {
+          errors.push(`${errorPrefix}_INVALID_GOAL`);
+        }
+
+        if (!Array.isArray(scenario.prompts) || scenario.prompts.length !== 3) {
+          errors.push(`${errorPrefix}_INVALID_PROMPTS_LENGTH`);
+        } else if (!scenario.prompts.every(isNonBlankString)) {
+          errors.push(`${errorPrefix}_INVALID_PROMPTS_CONTENT`);
+        }
+      });
+
+      REQUIRED_SCENARIO_CATEGORIES.forEach((category) => {
+        if (!categories.has(category)) {
+          errors.push(`MISSING_REQUIRED_CATEGORY_${category.toUpperCase()}`);
+        }
+      });
+
+      return Object.freeze({
+        ok: errors.length === 0,
+        errors: Object.freeze(errors)
+      });
+    }
+
+    const scenarioDefinitionValidation = validateScenarioDefinitions(SCENARIOS);
+    const VALID_SCENARIO_IDS = Object.freeze(SCENARIOS.map(({ id }) => id));
+
+    function validateCompletionState(candidate, validScenarioIds = VALID_SCENARIO_IDS) {
+      if (!Array.isArray(candidate) || !Array.isArray(validScenarioIds)) {
+        return false;
+      }
+
+      const validIdSet = new Set(validScenarioIds);
+      const completedIdSet = new Set();
+
+      if (candidate.length > validScenarioIds.length) {
+        return false;
+      }
+
+      return candidate.every((scenarioId) => {
+        if (!validIdSet.has(scenarioId) || completedIdSet.has(scenarioId)) {
+          return false;
+        }
+
+        completedIdSet.add(scenarioId);
+        return true;
+      });
+    }
+
+    function addCompletion(completedScenarioIds, scenarioId, validScenarioIds = VALID_SCENARIO_IDS) {
+      if (!validateCompletionState(completedScenarioIds, validScenarioIds)) {
+        throw new TypeError('INVALID_COMPLETION_STATE');
+      }
+
+      if (!validScenarioIds.includes(scenarioId)) {
+        throw new RangeError('UNKNOWN_SCENARIO');
+      }
+
+      const nextCompletedScenarioIds = completedScenarioIds.includes(scenarioId)
+        ? [...completedScenarioIds]
+        : [...completedScenarioIds, scenarioId];
+
+      return Object.freeze(nextCompletedScenarioIds);
+    }
+
+    const COMPLETION_KEY = 'ailv:simulation:completed';
+
+    function haveSameOrderedValues(left, right) {
+      return Array.isArray(left) &&
+        Array.isArray(right) &&
+        left.length === right.length &&
+        left.every((value, index) => value === right[index]);
+    }
+
+    function createCompletionRepository({ utilsApi = Utils, storage = null } = {}) {
+      function load(validScenarioIds = VALID_SCENARIO_IDS) {
+        const emptyValue = () => Object.freeze([]);
+        const loadFailure = (code) => Object.freeze({
+          ok: false,
+          value: emptyValue(),
+          code
+        });
+
+        try {
+          const storageApi = storage === null ? window.localStorage : storage;
+          const storedText = storageApi.getItem(COMPLETION_KEY);
+
+          const loadFailureSentinel = Object.freeze({ type: 'COMPLETION_LOAD_FAILED' });
+          const restoredValue = utilsApi.loadData(COMPLETION_KEY, loadFailureSentinel);
+
+          if (restoredValue === loadFailureSentinel) {
+            return loadFailure('LOAD_FAILED');
+          }
+
+          if (storedText === null) {
+            if (!validateCompletionState(restoredValue, validScenarioIds)) {
+              return loadFailure('LOAD_FAILED');
+            }
+            return Object.freeze({
+              ok: true,
+              value: emptyValue()
+            });
+          }
+
+          if (!validateCompletionState(restoredValue, validScenarioIds)) {
+            return loadFailure('INVALID_STORED_VALUE');
+          }
+
+          return Object.freeze({
+            ok: true,
+            value: Object.freeze([...restoredValue])
+          });
+        } catch (error) {
+          return loadFailure('LOAD_FAILED');
+        }
+      }
+
+      function save(completedScenarioIds, validScenarioIds = VALID_SCENARIO_IDS) {
+        if (!validateCompletionState(completedScenarioIds, validScenarioIds)) {
+          return Object.freeze({ ok: false, code: 'SAVE_FAILED' });
+        }
+
+        const expectedValue = [...completedScenarioIds];
+        const saveFailureSentinel = Object.freeze({ type: 'COMPLETION_SAVE_FAILED' });
+
+        try {
+          utilsApi.saveData(COMPLETION_KEY, expectedValue);
+          const persistedValue = utilsApi.loadData(COMPLETION_KEY, saveFailureSentinel);
+
+          if (
+            persistedValue === saveFailureSentinel ||
+            !validateCompletionState(persistedValue, validScenarioIds) ||
+            !haveSameOrderedValues(persistedValue, expectedValue)
+          ) {
+            return Object.freeze({ ok: false, code: 'SAVE_FAILED' });
+          }
+
+          return Object.freeze({ ok: true });
+        } catch (error) {
+          return Object.freeze({ ok: false, code: 'SAVE_FAILED' });
+        }
+      }
+
+      return Object.freeze({ load, save });
+    }
+
+    const CompletionRepository = createCompletionRepository();
+
+    function announce(message, kind = 'status') {
+      const statusRegion = document.getElementById('simulation-status');
+      if (!statusRegion) {
+        return;
+      }
+
+      const normalizedKind = kind === 'error' ? 'error' : 'status';
+      const text = typeof message === 'string' ? message : String(message);
+      statusRegion.dataset.kind = normalizedKind;
+      statusRegion.textContent = normalizedKind === 'error' && !text.startsWith('오류:')
+        ? `오류: ${text}`
+        : text;
+    }
+
+    const APP_VIEW = Object.freeze({
+      CATALOG: 'catalog',
+      CHAT: 'chat'
+    });
+
+    const REQUEST_STATE = Object.freeze({
+      IDLE: 'idle',
+      LOADING: 'loading',
+      SUCCESS: 'success',
+      ERROR: 'error'
+    });
+
+    const OLLAMA_CHAT_URL = 'http://localhost:11434/api/chat';
+    const OLLAMA_TIMEOUT_MS = 10000;
+    const MAX_RETRY_COUNT = 2;
+
+    function cloneMessages(messages) {
+      if (!Array.isArray(messages)) {
+        throw new TypeError('INVALID_REQUEST_MESSAGES');
+      }
+
+      return messages.map((message) => {
+        if (
+          message === null ||
+          typeof message !== 'object' ||
+          (message.role !== 'system' && message.role !== 'user' && message.role !== 'assistant') ||
+          typeof message.content !== 'string'
+        ) {
+          throw new TypeError('INVALID_REQUEST_MESSAGE');
+        }
+
+        return {
+          role: message.role,
+          content: message.content
+        };
+      });
+    }
+
+    const ADAPTER_ERROR_MESSAGES = Object.freeze({
+      CONNECTION_FAILED: 'Ollama 서버에 연결할 수 없습니다. Ollama가 실행 중인지 확인해 주세요.',
+      TIMEOUT: 'Ollama 응답이 10초 안에 도착하지 않아 요청을 중단했습니다.',
+      HTTP_FAILED: 'Ollama 요청이 실패했습니다. 서버 상태와 모델 이름을 확인해 주세요.',
+      INVALID_RESPONSE: 'Ollama 응답 형식을 확인할 수 없습니다.',
+      EMPTY_RESPONSE: 'AI 응답이 비어 있어 대화를 추가하지 않았습니다.'
+    });
+
+    function cloneAdapterSnapshot(snapshot, modelId, messages) {
+      if (snapshot !== null && typeof snapshot === 'object') {
+        const cloned = { ...snapshot };
+        if (Array.isArray(snapshot.messages)) {
+          cloned.messages = cloneMessages(snapshot.messages);
+        }
+        return deepFreeze(cloned);
+      }
+
+      return deepFreeze({
+        modelId,
+        messages: cloneMessages(messages)
+      });
+    }
+
+    function adapterFailure(code, requestSnapshot) {
+      return Object.freeze({
+        ok: false,
+        code,
+        message: ADAPTER_ERROR_MESSAGES[code],
+        snapshot: requestSnapshot
+      });
+    }
+
+    async function normalizeOllamaResponse(response, requestSnapshot) {
+      let payload;
+      try {
+        payload = await response.json();
+      } catch (error) {
+        return adapterFailure('INVALID_RESPONSE', requestSnapshot);
+      }
+
+      if (
+        payload === null ||
+        typeof payload !== 'object' ||
+        payload.message === null ||
+        typeof payload.message !== 'object' ||
+        typeof payload.message.content !== 'string'
+      ) {
+        return adapterFailure('INVALID_RESPONSE', requestSnapshot);
+      }
+
+      if (payload.message.content.trim().length === 0) {
+        return adapterFailure('EMPTY_RESPONSE', requestSnapshot);
+      }
+
+      return Object.freeze({
+        ok: true,
+        content: payload.message.content,
+        snapshot: requestSnapshot
+      });
+    }
+
+    async function requestOllamaChat({
+      modelId,
+      messages,
+      fetchImpl,
+      requestSnapshot = null,
+      abortControllerImpl = typeof AbortController === 'function' ? AbortController : null,
+      setTimeoutImpl = typeof setTimeout === 'function' ? setTimeout : null,
+      clearTimeoutImpl = typeof clearTimeout === 'function' ? clearTimeout : null
+    } = {}) {
+      if (typeof modelId !== 'string' || modelId.trim().length === 0) {
+        return Object.freeze({
+          ok: false,
+          code: 'MODEL_REQUIRED',
+          message: '사용할 Ollama 모델 식별자를 입력해 주세요.'
+        });
+      }
+
+      let requestMessages;
+      let originalRequestSnapshot;
+      try {
+        requestMessages = cloneMessages(messages);
+        originalRequestSnapshot = cloneAdapterSnapshot(requestSnapshot, modelId, requestMessages);
+      } catch (error) {
+        return Object.freeze({
+          ok: false,
+          code: 'INVALID_REQUEST',
+          message: 'Ollama 요청 문맥을 만들 수 없습니다.'
+        });
+      }
+
+      const requestFetch = typeof fetchImpl === 'function'
+        ? fetchImpl
+        : (typeof window !== 'undefined' && typeof window.fetch === 'function'
+          ? window.fetch.bind(window)
+          : null);
+      if (!requestFetch) {
+        return adapterFailure('CONNECTION_FAILED', originalRequestSnapshot);
+      }
+
+      if (typeof abortControllerImpl !== 'function' || typeof setTimeoutImpl !== 'function' || typeof clearTimeoutImpl !== 'function') {
+        return adapterFailure('CONNECTION_FAILED', originalRequestSnapshot);
+      }
+
+      const controller = new abortControllerImpl();
+      let timedOut = false;
+      const timeoutId = setTimeoutImpl(() => {
+        timedOut = true;
+        controller.abort();
+      }, OLLAMA_TIMEOUT_MS);
+
+      try {
+        const response = await requestFetch(OLLAMA_CHAT_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            model: modelId,
+            messages: requestMessages,
+            stream: false
+          }),
+          signal: controller.signal
+        });
+
+        if (response === null || typeof response !== 'object' || response.ok === false) {
+          return adapterFailure('HTTP_FAILED', originalRequestSnapshot);
+        }
+
+        return await normalizeOllamaResponse(response, originalRequestSnapshot);
+      } catch (error) {
+        return adapterFailure(timedOut ? 'TIMEOUT' : 'CONNECTION_FAILED', originalRequestSnapshot);
+      } finally {
+        clearTimeoutImpl(timeoutId);
+      }
+    }
+
+    function buildConversationMessages(
+      scenario,
+      previousTurns,
+      currentUserMessage,
+      currentTurnCount
+    ) {
+      if (
+        scenario === null ||
+        typeof scenario !== 'object' ||
+        typeof scenario.goal !== 'string' ||
+        !Array.isArray(scenario.prompts) ||
+        !Number.isInteger(currentTurnCount) ||
+        currentTurnCount < 0 ||
+        currentTurnCount > 2 ||
+        typeof scenario.prompts[currentTurnCount] !== 'string'
+      ) {
+        throw new TypeError('INVALID_CONVERSATION_CONTEXT');
+      }
+
+      if (!Array.isArray(previousTurns) || typeof currentUserMessage !== 'string') {
+        throw new TypeError('INVALID_CONVERSATION_CONTEXT');
+      }
+
+      const messages = [{
+        role: 'system',
+        content: `시나리오 목표: ${scenario.goal}\n현재 행동 안내: ${scenario.prompts[currentTurnCount]}`
+      }];
+
+      previousTurns.forEach((turn) => {
+        if (
+          turn === null ||
+          typeof turn !== 'object' ||
+          typeof turn.userMessage !== 'string' ||
+          typeof turn.dynamicResponse !== 'string'
+        ) {
+          throw new TypeError('INVALID_CONVERSATION_TURN');
+        }
+
+        messages.push(
+          { role: 'user', content: turn.userMessage },
+          { role: 'assistant', content: turn.dynamicResponse }
+        );
+      });
+
+      messages.push({ role: 'user', content: currentUserMessage });
+      return deepFreeze(messages);
+    }
+
+    function createRequestSnapshot({
+      scenarioId,
+      modelId,
+      userMessage,
+      messages,
+      retryCount = 0
+    }) {
+      if (typeof scenarioId !== 'string' || scenarioId.trim().length === 0) {
+        throw new TypeError('INVALID_REQUEST_SCENARIO');
+      }
+      if (typeof modelId !== 'string' || modelId.trim().length === 0) {
+        throw new TypeError('INVALID_REQUEST_MODEL');
+      }
+      if (typeof userMessage !== 'string') {
+        throw new TypeError('INVALID_REQUEST_USER_MESSAGE');
+      }
+      if (!Number.isInteger(retryCount) || retryCount < 0 || retryCount > MAX_RETRY_COUNT) {
+        throw new RangeError('INVALID_RETRY_COUNT');
+      }
+
+      return deepFreeze({
+        scenarioId,
+        modelId,
+        userMessage,
+        messages: cloneMessages(messages),
+        retryCount
+      });
+    }
+
+    function createAppState(completedScenarioIds = [], notice = null, modelId = '') {
+      const completedIds = Array.isArray(completedScenarioIds)
+        ? [...completedScenarioIds]
+        : [];
+      const noticeState = notice === null
+        ? null
+        : { ...notice };
+
+      return deepFreeze({
+        view: APP_VIEW.CATALOG,
+        selectedScenarioId: null,
+        modelId: typeof modelId === 'string' ? modelId : '',
+        turns: [],
+        turnCount: 0,
+        requestState: REQUEST_STATE.IDLE,
+        activeRequest: null,
+        failedRequest: null,
+        completedScenarioIds: completedIds,
+        notice: noticeState
+      });
+    }
+
+    function resetTransientConversationState(state, view, selectedScenarioId) {
+      return deepFreeze({
+        ...state,
+        view,
+        selectedScenarioId,
+        modelId: typeof state.modelId === 'string' ? state.modelId : '',
+        turns: [],
+        turnCount: 0,
+        requestState: REQUEST_STATE.IDLE,
+        activeRequest: null,
+        failedRequest: null,
+        completedScenarioIds: Array.isArray(state.completedScenarioIds)
+          ? [...state.completedScenarioIds]
+          : [],
+        notice: null
+      });
+    }
+
+    function startScenario(state, scenarioId) {
+      const scenarioExists = SCENARIOS.some((scenario) => scenario.id === scenarioId);
+      if (!scenarioExists) {
+        throw new RangeError('UNKNOWN_SCENARIO');
+      }
+
+      return resetTransientConversationState(state, APP_VIEW.CHAT, scenarioId);
+    }
+
+    function selectScenarioFromCatalog(state, scenarioId) {
+      if (!VALID_SCENARIO_IDS.includes(scenarioId)) {
+        throw new RangeError('UNKNOWN_SCENARIO');
+      }
+
+      return startScenario(state, scenarioId);
+    }
+
+    function returnToCatalog(state) {
+      return resetTransientConversationState(state, APP_VIEW.CATALOG, null);
+    }
+
+    let simulationAppState = createAppState();
+    let isSubmittingMessage = false;
+
+    const UNKNOWN_SCENARIO_NOTICE = '시나리오를 불러올 수 없습니다. 목록에서 다시 선택해 주세요.';
+
+    function getRenderableCompletedScenarioIds(state) {
+      const completedScenarioIds = state && Array.isArray(state.completedScenarioIds)
+        ? state.completedScenarioIds
+        : [];
+
+      // Rendering must never expose an invalid persisted or test-provided ID.
+      return completedScenarioIds.filter((scenarioId) => VALID_SCENARIO_IDS.includes(scenarioId));
+    }
+
+    function createScenarioCard(scenario, completedScenarioIds = []) {
+      const isCompleted = completedScenarioIds.includes(scenario.id);
+      const card = document.createElement('article');
+      card.className = 'card scenario-card';
+      card.dataset.scenarioId = scenario.id;
+
+      const title = document.createElement('h3');
+      title.id = `scenario-title-${scenario.id}`;
+      title.textContent = scenario.title;
+      card.appendChild(title);
+
+      const purpose = document.createElement('p');
+      purpose.className = 'scenario-purpose';
+      purpose.textContent = scenario.purpose;
+      card.appendChild(purpose);
+
+      const status = document.createElement('p');
+      status.className = 'scenario-status';
+      status.id = `scenario-status-${scenario.id}`;
+      status.setAttribute('role', 'status');
+      status.textContent = isCompleted ? '✓ 완료' : '미완료';
+      card.appendChild(status);
+
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'btn btn-primary';
+      button.dataset.action = 'select-scenario';
+      button.dataset.scenarioId = scenario.id;
+      button.setAttribute('aria-describedby', status.id);
+      button.setAttribute('aria-label', `${scenario.title} ${isCompleted ? '다시 연습' : '연습 시작'}`);
+      button.textContent = isCompleted ? '다시 연습' : '연습 시작';
+      card.appendChild(button);
+
+      return card;
+    }
+
+    function createLocalDemoScopeNotice() {
+      const notice = document.createElement('section');
+      notice.className = 'card local-demo-scope';
+      notice.setAttribute('aria-labelledby', 'local-demo-scope-title');
+
+      const title = document.createElement('h3');
+      title.id = 'local-demo-scope-title';
+      title.textContent = 'Local_Demo_Scope 안내';
+      notice.appendChild(title);
+
+      const description = document.createElement('p');
+      description.textContent = '이 시뮬레이션은 각 사용자의 컴퓨터에서 Ollama를 직접 설치하고 실행해야 하는 로컬 데모·개발 범위입니다. 외부 서비스 비용이나 API 키가 필요하지 않습니다.';
+      notice.appendChild(description);
+
+      return notice;
+    }
+
+    function renderCatalog(state = simulationAppState) {
+      const view = document.getElementById('simulation-view');
+      if (!view) {
+        return;
+      }
+
+      const catalog = document.createDocumentFragment();
+      catalog.appendChild(createLocalDemoScopeNotice());
+
+      const grid = document.createElement('div');
+      grid.className = 'scenario-grid';
+      grid.setAttribute('role', 'list');
+      grid.setAttribute('aria-label', 'AI 활용 시나리오 목록');
+      const completedScenarioIds = getRenderableCompletedScenarioIds(state);
+      SCENARIOS.forEach((scenario) => {
+        const card = createScenarioCard(scenario, completedScenarioIds);
+        card.setAttribute('role', 'listitem');
+        grid.appendChild(card);
+      });
+      catalog.appendChild(grid);
+      view.replaceChildren(catalog);
+      view.setAttribute('aria-label', 'AI 활용 시나리오 목록');
+    }
+
+    function createLiteralChatMessage(className, label, message) {
+      const element = document.createElement('p');
+      element.className = className;
+      // Keep untrusted user/Ollama strings in dedicated text nodes. Never parse them as markup.
+      element.appendChild(document.createTextNode(label));
+      element.appendChild(document.createTextNode(typeof message === 'string' ? message : String(message)));
+      return element;
+    }
+
+    function renderChat(state) {
+      const view = document.getElementById('simulation-view');
+      const scenario = state && state.view === APP_VIEW.CHAT
+        ? SCENARIOS.find(({ id }) => id === state.selectedScenarioId)
+        : null;
+      if (!view) {
+        return;
+      }
+      if (!scenario) {
+        simulationAppState = returnToCatalog(state || simulationAppState);
+        renderCatalog(simulationAppState);
+        announce(UNKNOWN_SCENARIO_NOTICE, 'error');
+        return;
+      }
+
+      const chat = document.createElement('div');
+      chat.className = 'chat-view';
+      chat.setAttribute('aria-label', `${scenario.title} 채팅 연습`);
+
+      const header = document.createElement('section');
+      header.className = 'card chat-header';
+
+      const title = document.createElement('h2');
+      title.textContent = scenario.title;
+      header.appendChild(title);
+
+      const goal = document.createElement('p');
+      goal.className = 'chat-goal';
+      goal.textContent = `목표: ${scenario.goal}`;
+      header.appendChild(goal);
+
+      if (scenario.category === 'hospital') {
+        const safetyNotice = document.createElement('p');
+        safetyNotice.className = 'medical-safety-notice';
+        safetyNotice.setAttribute('role', 'note');
+        safetyNotice.textContent = '의료 안전 안내: AI의 응답은 의료 진단이나 응급 대응을 대신하지 않습니다. 증상이 심하거나 응급하면 의료기관에 직접 연락하세요.';
+        header.appendChild(safetyNotice);
+      }
+
+      const prompt = nextPrompt(scenario, state.turnCount);
+      if (prompt !== null) {
+        const promptElement = document.createElement('p');
+        promptElement.className = 'chat-prompt';
+        promptElement.textContent = `현재 행동: ${prompt}`;
+        header.appendChild(promptElement);
+      }
+
+      const modelLabel = document.createElement('label');
+      modelLabel.htmlFor = 'simulation-model';
+      modelLabel.textContent = 'Ollama 모델 식별자';
+      header.appendChild(modelLabel);
+
+      const modelInput = document.createElement('input');
+      modelInput.id = 'simulation-model';
+      modelInput.name = 'model';
+      modelInput.type = 'text';
+      modelInput.value = state.modelId;
+      modelInput.autocomplete = 'off';
+      modelInput.readOnly = state.requestState === REQUEST_STATE.LOADING;
+      modelInput.setAttribute('aria-readonly', String(state.requestState === REQUEST_STATE.LOADING));
+      header.appendChild(modelInput);
+
+      const requestStatus = document.createElement('p');
+      requestStatus.className = 'chat-request-status';
+      requestStatus.setAttribute('role', 'status');
+      requestStatus.setAttribute('aria-live', 'polite');
+      requestStatus.setAttribute('aria-atomic', 'true');
+      if (state.requestState === REQUEST_STATE.LOADING) {
+        requestStatus.textContent = '로컬 Ollama 응답을 기다리는 중입니다. 같은 메시지의 추가 제출은 잠깁니다.';
+      } else if (state.requestState === REQUEST_STATE.ERROR && state.notice) {
+        requestStatus.textContent = `오류: ${state.notice.message}`;
+      } else {
+        requestStatus.textContent = '';
+      }
+      header.appendChild(requestStatus);
+
+      const progress = document.createElement('div');
+      progress.className = 'chat-progress';
+      progress.setAttribute('aria-label', '대화 진행률');
+
+      const progressLabel = document.createElement('span');
+      progressLabel.className = 'chat-progress-label';
+      progressLabel.textContent = `진행률: ${state.turnCount}/3턴`;
+      progress.appendChild(progressLabel);
+
+      const progressBar = document.createElement('div');
+      progressBar.className = 'progress-bar';
+      progressBar.setAttribute('role', 'progressbar');
+      progressBar.setAttribute('aria-valuemin', '0');
+      progressBar.setAttribute('aria-valuemax', '3');
+      progressBar.setAttribute('aria-valuenow', String(state.turnCount));
+      progressBar.setAttribute('aria-label', `${state.turnCount}/3턴 완료`);
+
+      const progressFill = document.createElement('div');
+      progressFill.className = 'progress-bar__fill';
+      progressFill.style.width = `${(state.turnCount / 3) * 100}%`;
+      progressBar.appendChild(progressFill);
+      progress.appendChild(progressBar);
+      header.appendChild(progress);
+      chat.appendChild(header);
+
+      const conversation = document.createElement('section');
+      conversation.className = 'card chat-conversation';
+      conversation.setAttribute('aria-label', '대화 내역');
+      state.turns.forEach((turn, turnIndex) => {
+        const userMessage = createLiteralChatMessage(
+          'chat-message chat-message--user',
+          `나 ${turnIndex + 1}: `,
+          turn.userMessage
+        );
+        conversation.appendChild(userMessage);
+
+        const assistantMessage = createLiteralChatMessage(
+          'chat-message chat-message--assistant',
+          `AI ${turnIndex + 1}: `,
+          turn.dynamicResponse
+        );
+        conversation.appendChild(assistantMessage);
+      });
+      chat.appendChild(conversation);
+
+      const actions = document.createElement('div');
+      actions.className = state.turnCount >= 3 ? 'chat-completion' : 'chat-actions';
+
+      if (state.turnCount < 3) {
+        const form = document.createElement('form');
+        form.className = 'card chat-form';
+        form.dataset.action = 'submit-message';
+
+        const label = document.createElement('label');
+        label.htmlFor = 'simulation-message';
+        label.textContent = 'AI에게 보낼 메시지';
+        form.appendChild(label);
+
+        const textarea = document.createElement('textarea');
+        textarea.id = 'simulation-message';
+        textarea.name = 'message';
+        textarea.maxLength = 500;
+        textarea.rows = 4;
+        textarea.setAttribute('aria-describedby', 'simulation-message-help');
+        if (state.requestState === REQUEST_STATE.LOADING && state.activeRequest) {
+          textarea.value = state.activeRequest.userMessage;
+          textarea.readOnly = true;
+        } else if (state.requestState === REQUEST_STATE.ERROR && state.failedRequest) {
+          textarea.value = state.failedRequest.snapshot.userMessage;
+        }
+        form.appendChild(textarea);
+
+        const help = document.createElement('p');
+        help.id = 'simulation-message-help';
+        help.className = 'chat-message';
+        help.textContent = '최대 500자까지 입력할 수 있습니다.';
+        form.appendChild(help);
+
+        const submitButton = document.createElement('button');
+        submitButton.type = 'submit';
+        submitButton.className = 'btn btn-primary';
+        submitButton.dataset.action = 'submit-message';
+        const isLoading = state.requestState === REQUEST_STATE.LOADING;
+        submitButton.setAttribute('aria-disabled', String(isLoading));
+        submitButton.dataset.locked = String(isLoading);
+        submitButton.textContent = isLoading
+          ? '응답을 기다리는 중…'
+          : '메시지 보내기';
+        form.appendChild(submitButton);
+        actions.appendChild(form);
+      } else {
+        const completionButton = document.createElement('button');
+        completionButton.type = 'button';
+        completionButton.className = 'btn btn-success';
+        completionButton.dataset.action = 'complete-scenario';
+        completionButton.textContent = '시나리오 완료';
+        completionButton.setAttribute('aria-label', `${scenario.title} 완료 처리`);
+        actions.appendChild(completionButton);
+      }
+
+      const canRetry = state.failedRequest !== null &&
+        state.failedRequest.snapshot.retryCount < MAX_RETRY_COUNT;
+      const retryInProgress = state.requestState === REQUEST_STATE.LOADING &&
+        state.activeRequest !== null && state.activeRequest.retryCount > 0;
+      if (canRetry || retryInProgress) {
+        const retryButton = document.createElement('button');
+        retryButton.type = 'button';
+        retryButton.className = 'btn btn-secondary';
+        retryButton.dataset.action = 'retry-request';
+        retryButton.setAttribute('aria-disabled', String(retryInProgress));
+        retryButton.textContent = retryInProgress
+          ? '같은 요청을 다시 보내는 중…'
+          : `같은 요청 재시도 (${MAX_RETRY_COUNT - state.failedRequest.snapshot.retryCount}회 남음)`;
+        retryButton.setAttribute('aria-label', retryInProgress ? '같은 요청 재시도 진행 중' : '실패한 같은 요청 재시도');
+        actions.appendChild(retryButton);
+      }
+
+      const returnButton = document.createElement('button');
+      returnButton.type = 'button';
+      returnButton.className = 'btn btn-secondary';
+      returnButton.dataset.action = 'return-to-catalog';
+      returnButton.textContent = '시나리오 목록으로';
+      actions.appendChild(returnButton);
+
+      chat.appendChild(actions);
+      view.replaceChildren(chat);
+      view.setAttribute('aria-label', `${scenario.title} 채팅 화면`);
+    }
+
+    function setMessageValidationError(form, message) {
+      const textarea = form.querySelector('#simulation-message');
+      const description = form.querySelector('#simulation-message-help');
+      if (!textarea || !description) {
+        return;
+      }
+
+      textarea.setAttribute('aria-invalid', 'true');
+      textarea.setAttribute('aria-describedby', description.id);
+      description.textContent = message;
+      description.dataset.kind = 'error';
+    }
+
+    function clearMessageValidationError(form) {
+      const textarea = form.querySelector('#simulation-message');
+      const description = form.querySelector('#simulation-message-help');
+      if (!textarea || !description) {
+        return;
+      }
+
+      textarea.removeAttribute('aria-invalid');
+      textarea.setAttribute('aria-describedby', description.id);
+      description.textContent = '최대 500자까지 입력할 수 있습니다.';
+      delete description.dataset.kind;
+    }
+
+    function completeScenario(state) {
+      // Completion is available only after exactly three committed Turns.
+      // Keeping this boundary strict prevents a stale or malformed state from
+      // exposing a completion action for a non-existent fourth Turn.
+      if (state.view !== APP_VIEW.CHAT || state.turnCount !== 3) {
+        return Object.freeze({
+          ok: false,
+          code: 'NOT_READY',
+          message: '세 번의 대화를 먼저 완료해 주세요.',
+          state
+        });
+      }
+
+      if (!VALID_SCENARIO_IDS.includes(state.selectedScenarioId)) {
+        return Object.freeze({
+          ok: false,
+          code: 'UNKNOWN_SCENARIO',
+          message: '시나리오를 불러올 수 없습니다. 목록에서 다시 선택해 주세요.',
+          state
+        });
+      }
+
+      const completedScenarioIds = addCompletion(
+        state.completedScenarioIds,
+        state.selectedScenarioId
+      );
+      const nextState = deepFreeze({
+        ...state,
+        completedScenarioIds,
+        notice: null
+      });
+
+      return Object.freeze({ ok: true, state: nextState });
+    }
+
+    function handleCatalogSelection(scenarioId) {
+      try {
+        simulationAppState = selectScenarioFromCatalog(simulationAppState, scenarioId);
+        const selectedScenario = SCENARIOS.find(({ id }) => id === scenarioId);
+        announce(`${selectedScenario.title} 시나리오를 선택했습니다.`);
+        if (typeof renderChat === 'function') {
+          renderChat(simulationAppState);
+        }
+      } catch (error) {
+        simulationAppState = returnToCatalog(simulationAppState);
+        renderCatalog(simulationAppState);
+        announce(UNKNOWN_SCENARIO_NOTICE, 'error');
+      }
+    }
+
+    function handleReturnToCatalog() {
+      simulationAppState = returnToCatalog(simulationAppState);
+      renderCatalog(simulationAppState);
+      announce('시나리오 목록으로 돌아왔습니다.');
+    }
+
+    function handleScenarioCompletion() {
+      const completionResult = completeScenario(simulationAppState);
+      if (!completionResult.ok) {
+        announce(completionResult.message, 'error');
+        return;
+      }
+
+      // Keep the in-memory update before attempting persistence.
+      simulationAppState = completionResult.state;
+      let saveResult;
+      try {
+        saveResult = CompletionRepository.save(
+          simulationAppState.completedScenarioIds,
+          VALID_SCENARIO_IDS
+        );
+      } catch (error) {
+        saveResult = { ok: false, code: 'SAVE_FAILED' };
+      }
+      const saveFailed = !saveResult || !saveResult.ok;
+      const completionNotice = saveFailed
+        ? {
+            kind: 'error',
+            code: 'SAVE_FAILED',
+            message: '완료 상태를 저장하지 못했습니다. 이 화면에서는 완료 상태를 유지합니다.'
+          }
+        : null;
+
+      simulationAppState = returnToCatalog(simulationAppState);
+      if (completionNotice) {
+        simulationAppState = deepFreeze({
+          ...simulationAppState,
+          notice: completionNotice
+        });
+      }
+      renderCatalog(simulationAppState);
+      announce(
+        saveFailed
+          ? completionNotice.message
+          : '시나리오를 완료했습니다. 완료 상태가 목록에 표시됩니다.',
+        saveFailed ? 'error' : 'status'
+      );
+    }
+
+    const VALID_ACTIONS = Object.freeze(new Set([
+      'select-scenario',
+      'submit-message',
+      'retry-request',
+      'complete-scenario',
+      'return-to-catalog'
+    ]));
+
+    function getActionTarget(event, root) {
+      const target = event.target instanceof Element
+        ? event.target.closest('[data-action]')
+        : null;
+      if (!target || !root.contains(target) || !VALID_ACTIONS.has(target.dataset.action)) {
+        return null;
+      }
+      return target;
+    }
+
+    function beginMessageRequest(state, rawMessage, modelId = state.modelId) {
+      if (state.requestState === REQUEST_STATE.LOADING || state.activeRequest !== null) {
+        return Object.freeze({
+          ok: false,
+          code: 'ALREADY_LOADING',
+          message: 'AI 응답을 기다리는 중입니다. 응답이 끝난 뒤 다시 시도해 주세요.',
+          state
+        });
+      }
+
+      const validationResult = submitMessage(state, rawMessage, modelId);
+      if (!validationResult.ok && validationResult.code !== 'DYNAMIC_RESPONSE_REQUIRED') {
+        return validationResult;
+      }
+
+      const scenario = SCENARIOS.find(({ id }) => id === state.selectedScenarioId);
+      if (!scenario) {
+        return Object.freeze({
+          ok: false,
+          code: 'UNKNOWN_SCENARIO',
+          message: '시나리오를 불러올 수 없습니다. 목록에서 다시 선택해 주세요.',
+          state
+        });
+      }
+
+      const messages = buildConversationMessages(
+        scenario,
+        state.turns,
+        rawMessage,
+        state.turnCount
+      );
+      const snapshot = createRequestSnapshot({
+        scenarioId: scenario.id,
+        modelId,
+        userMessage: rawMessage,
+        messages,
+        retryCount: 0
+      });
+      const loadingState = deepFreeze({
+        ...state,
+        modelId,
+        requestState: REQUEST_STATE.LOADING,
+        activeRequest: snapshot,
+        failedRequest: null,
+        notice: null
+      });
+
+      return Object.freeze({ ok: true, state: loadingState, snapshot });
+    }
+
+    function validateDynamicResponse(content) {
+      if (typeof content !== 'string') {
+        return Object.freeze({
+          ok: false,
+          code: 'INVALID_RESPONSE',
+          message: ADAPTER_ERROR_MESSAGES.INVALID_RESPONSE
+        });
+      }
+
+      if (content.trim().length === 0) {
+        return Object.freeze({
+          ok: false,
+          code: 'EMPTY_RESPONSE',
+          message: ADAPTER_ERROR_MESSAGES.EMPTY_RESPONSE
+        });
+      }
+
+      return Object.freeze({ ok: true, value: content });
+    }
+
+    function createRequestFailureState(state, snapshot, code, message) {
+      const failure = Object.freeze({ code, message, snapshot });
+      return deepFreeze({
+        ...state,
+        requestState: REQUEST_STATE.ERROR,
+        activeRequest: null,
+        failedRequest: failure,
+        notice: {
+          kind: 'error',
+          code,
+          message
+        }
+      });
+    }
+
+    function finishInitialRequest(state, snapshot, adapterResult) {
+      if (state.activeRequest !== snapshot || state.requestState !== REQUEST_STATE.LOADING) {
+        return state;
+      }
+
+      const responseValidation = adapterResult && adapterResult.ok
+        ? validateDynamicResponse(adapterResult.content)
+        : null;
+      if (responseValidation && responseValidation.ok) {
+        const nextTurns = [
+          ...state.turns,
+          {
+            userMessage: snapshot.userMessage,
+            dynamicResponse: responseValidation.value
+          }
+        ];
+        return deepFreeze({
+          ...state,
+          turns: nextTurns,
+          turnCount: nextTurns.length,
+          requestState: REQUEST_STATE.SUCCESS,
+          activeRequest: null,
+          failedRequest: null,
+          notice: null
+        });
+      }
+
+      const code = responseValidation
+        ? responseValidation.code
+        : (adapterResult && adapterResult.code) || 'INVALID_RESPONSE';
+      const message = responseValidation
+        ? responseValidation.message
+        : (adapterResult && adapterResult.message) || ADAPTER_ERROR_MESSAGES.INVALID_RESPONSE;
+      return createRequestFailureState(state, snapshot, code, message);
+    }
+
+    function captureFocusedControl() {
+      const activeElement = document.activeElement;
+      const simulationView = document.getElementById('simulation-view');
+      if (!activeElement || !simulationView || !simulationView.contains(activeElement)) {
+        return null;
+      }
+
+      return Object.freeze({
+        id: activeElement.id || '',
+        action: activeElement.dataset ? activeElement.dataset.action || '' : '',
+        tagName: activeElement.tagName || ''
+      });
+    }
+
+    function restoreFocusedControl(focusDescriptor) {
+      if (!focusDescriptor) {
+        return;
+      }
+
+      let element = focusDescriptor.id
+        ? document.getElementById(focusDescriptor.id)
+        : null;
+      if (!element && focusDescriptor.action && focusDescriptor.tagName) {
+        element = document.querySelector(`${focusDescriptor.tagName.toLowerCase()}[data-action="${focusDescriptor.action}"]`);
+      }
+      if (!element && focusDescriptor.action) {
+        element.focus({ preventScroll: true });
+      }
+    }
+
+    function focusNextMessageInputAfterSuccess() {
+      const nextMessageInput = document.getElementById('simulation-message');
+      if (nextMessageInput && typeof nextMessageInput.focus === 'function') {
+        nextMessageInput.focus();
+      }
+    }
+
+    async function executeInitialRequest(snapshot, focusDescriptor = null) {
+      const adapterResult = await requestOllamaChat({
+        modelId: snapshot.modelId,
+        messages: snapshot.messages,
+        requestSnapshot: snapshot
+      });
+
+      if (simulationAppState.activeRequest !== snapshot) {
+        return adapterResult;
+      }
+
+      const previousTurnCount = simulationAppState.turnCount;
+      simulationAppState = finishInitialRequest(
+        simulationAppState,
+        snapshot,
+        adapterResult
+      );
+      const committed = simulationAppState.requestState === REQUEST_STATE.SUCCESS &&
+        simulationAppState.turnCount === previousTurnCount + 1;
+      renderChat(simulationAppState);
+      if (committed) {
+        focusNextMessageInputAfterSuccess();
+      } else {
+        restoreFocusedControl(focusDescriptor);
+      }
+      announce(
+        committed
+          ? 'AI 응답을 받았습니다. 다음 대화 단계에서 응답을 확인해 주세요.'
+          : (simulationAppState.notice && simulationAppState.notice.message) ||
+            (adapterResult && adapterResult.message) ||
+            ADAPTER_ERROR_MESSAGES.INVALID_RESPONSE,
+        committed ? 'status' : 'error'
+      );
+      return adapterResult;
+    }
+
+    function beginRetryRequest(state) {
+      if (
+        state.requestState === REQUEST_STATE.LOADING ||
+        state.activeRequest !== null
+      ) {
+        return Object.freeze({
+          ok: false,
+          code: 'ALREADY_LOADING',
+          message: 'AI 응답을 기다리는 중입니다. 응답이 끝난 뒤 다시 시도해 주세요.',
+          state
+        });
+      }
+
+      const failedRequest = state.failedRequest;
+      if (
+        failedRequest === null ||
+        failedRequest.snapshot === null ||
+        failedRequest.snapshot.retryCount >= MAX_RETRY_COUNT
+      ) {
+        return Object.freeze({
+          ok: false,
+          code: 'RETRY_EXHAUSTED',
+          message: '재시도 횟수를 모두 사용했습니다. Ollama와 모델 설정을 확인한 뒤 시나리오를 다시 시작해 주세요.',
+          state
+        });
+      }
+
+      const failedSnapshot = failedRequest.snapshot;
+      const retrySnapshot = createRequestSnapshot({
+        scenarioId: failedSnapshot.scenarioId,
+        modelId: failedSnapshot.modelId,
+        userMessage: failedSnapshot.userMessage,
+        messages: failedSnapshot.messages,
+        retryCount: failedSnapshot.retryCount + 1
+      });
+
+      return Object.freeze({
+        ok: true,
+        snapshot: retrySnapshot,
+        state: deepFreeze({
+          ...state,
+          requestState: REQUEST_STATE.LOADING,
+          activeRequest: retrySnapshot,
+          failedRequest: null,
+          notice: null
+        })
+      });
+    }
+
+    function finishRetryRequest(state, snapshot, adapterResult) {
+      if (state.activeRequest !== snapshot || state.requestState !== REQUEST_STATE.LOADING) {
+        return state;
+      }
+
+      const responseValidation = adapterResult && adapterResult.ok
+        ? validateDynamicResponse(adapterResult.content)
+        : null;
+      if (responseValidation && responseValidation.ok) {
+        const nextTurns = [
+          ...state.turns,
+          {
+            userMessage: snapshot.userMessage,
+            dynamicResponse: responseValidation.value
+          }
+        ];
+        return deepFreeze({
+          ...state,
+          turns: nextTurns,
+          turnCount: nextTurns.length,
+          requestState: REQUEST_STATE.SUCCESS,
+          activeRequest: null,
+          failedRequest: null,
+          notice: null
+        });
+      }
+
+      const adapterCode = responseValidation
+        ? responseValidation.code
+        : (adapterResult && adapterResult.code) || 'INVALID_RESPONSE';
+      const adapterMessage = responseValidation
+        ? responseValidation.message
+        : (adapterResult && adapterResult.message) || ADAPTER_ERROR_MESSAGES.INVALID_RESPONSE;
+      const exhausted = snapshot.retryCount >= MAX_RETRY_COUNT;
+      const code = exhausted ? 'RETRY_EXHAUSTED' : adapterCode;
+      const message = exhausted
+        ? '재시도 횟수를 모두 사용했습니다. Ollama와 모델 설정을 확인한 뒤 시나리오를 다시 시작해 주세요.'
+        : adapterMessage;
+      return createRequestFailureState(state, snapshot, code, message);
+    }
+
+    async function executeRetryRequest(snapshot, focusDescriptor = null) {
+      const adapterResult = await requestOllamaChat({
+        modelId: snapshot.modelId,
+        messages: snapshot.messages,
+        requestSnapshot: snapshot
+      });
+
+      if (simulationAppState.activeRequest !== snapshot) {
+        return adapterResult;
+      }
+
+      const previousTurnCount = simulationAppState.turnCount;
+      simulationAppState = finishRetryRequest(
+        simulationAppState,
+        snapshot,
+        adapterResult
+      );
+      const committed = simulationAppState.requestState === REQUEST_STATE.SUCCESS &&
+        simulationAppState.turnCount === previousTurnCount + 1;
+      renderChat(simulationAppState);
+      if (committed) {
+        focusNextMessageInputAfterSuccess();
+      } else {
+        restoreFocusedControl(focusDescriptor);
+      }
+      announce(
+        committed
+          ? '재시도에 성공했습니다. 같은 요청의 응답을 대화에 추가했습니다.'
+          : (simulationAppState.notice && simulationAppState.notice.message) ||
+            (adapterResult && adapterResult.message) ||
+            ADAPTER_ERROR_MESSAGES.INVALID_RESPONSE,
+        committed ? 'status' : 'error'
+      );
+      return adapterResult;
+    }
+
+    function retryFailedRequest() {
+      if (isSubmittingMessage) {
+        return;
+      }
+
+      const focusDescriptor = captureFocusedControl();
+      isSubmittingMessage = true;
+      const result = beginRetryRequest(simulationAppState);
+      if (!result.ok) {
+        announce(result.message, 'error');
+        isSubmittingMessage = false;
+        return;
+      }
+
+      simulationAppState = result.state;
+      renderChat(simulationAppState);
+      restoreFocusedControl(focusDescriptor);
+      announce('같은 요청을 다시 보내는 중입니다.', 'status');
+      void executeRetryRequest(result.snapshot, focusDescriptor).finally(() => {
+        isSubmittingMessage = false;
+      });
+    }
+
+    function updateModelId(input) {
+      if (!input || simulationAppState.requestState === REQUEST_STATE.LOADING) {
+        return;
+      }
+
+      simulationAppState = deepFreeze({
+        ...simulationAppState,
+        modelId: input.value
+      });
+    }
+
+    function submitCurrentMessage(form) {
+      if (isSubmittingMessage || simulationAppState.requestState === REQUEST_STATE.LOADING) {
+        return;
+      }
+
+      const textarea = form.querySelector('#simulation-message');
+      const submitButton = form.querySelector('button[type="submit"]');
+      const modelInput = document.getElementById('simulation-model');
+      if (!textarea || !submitButton || form.dataset.action !== 'submit-message') {
+        return;
+      }
+
+      const focusDescriptor = captureFocusedControl();
+      isSubmittingMessage = true;
+      submitButton.disabled = true;
+      clearMessageValidationError(form);
+
+      const result = beginMessageRequest(
+        simulationAppState,
+        textarea.value,
+        modelInput ? modelInput.value : simulationAppState.modelId
+      );
+      if (!result.ok) {
+        isSubmittingMessage = false;
+        submitButton.disabled = false;
+        setMessageValidationError(form, result.message);
+        announce(result.message, 'error');
+        return;
+      }
+
+      simulationAppState = result.state;
+      renderChat(simulationAppState);
+      restoreFocusedControl(focusDescriptor);
+      announce('AI 응답을 기다리는 중입니다.', 'status');
+      void executeInitialRequest(result.snapshot, focusDescriptor).finally(() => {
+        isSubmittingMessage = false;
+      });
+    }
+
+    let simulationEventDelegationAttached = false;
+
+    function attachSimulationEventDelegation() {
+      if (simulationEventDelegationAttached) {
+        return true;
+      }
+
+      const simulationView = document.getElementById('simulation-view');
+      if (!simulationView) {
+        return false;
+      }
+
+      simulationView.addEventListener('click', (event) => {
+        const actionTarget = getActionTarget(event, simulationView);
+        if (!actionTarget || actionTarget.dataset.action === 'submit-message') {
+          return;
+        }
+
+        switch (actionTarget.dataset.action) {
+          case 'select-scenario':
+            handleCatalogSelection(actionTarget.dataset.scenarioId);
+            break;
+          case 'retry-request':
+            retryFailedRequest();
+            break;
+          case 'complete-scenario':
+            handleScenarioCompletion();
+            break;
+          case 'return-to-catalog':
+            handleReturnToCatalog();
+            break;
+          default:
+            break;
+        }
+      });
+
+      simulationView.addEventListener('input', (event) => {
+        const input = event.target instanceof Element
+          ? event.target.closest('#simulation-model')
+          : null;
+        if (input && simulationView.contains(input)) {
+          updateModelId(input);
+        }
+      });
+
+      simulationView.addEventListener('submit', (event) => {
+        const form = event.target instanceof Element
+          ? event.target.closest('form')
+          : null;
+        if (!form || !simulationView.contains(form) || form.dataset.action !== 'submit-message') {
+          return;
+        }
+
+        event.preventDefault();
+        submitCurrentMessage(form);
+      });
+      simulationEventDelegationAttached = true;
+      return true;
+    }
+
+    let simulationInitialized = false;
+
+    function initializeSimulation() {
+      if (simulationInitialized) {
+        return;
+      }
+      simulationInitialized = true;
+
+      Utils.restoreFontSize();
+      Nav.render();
+
+      if (!scenarioDefinitionValidation.ok) {
+        announce('시뮬레이션 데이터를 준비하지 못했습니다.', 'error');
+        console.error('INVALID_SCENARIO_DATA', scenarioDefinitionValidation.errors);
+        return;
+      }
+
+      const loadResult = CompletionRepository.load();
+      const notice = loadResult.ok
+        ? null
+        : {
+            kind: 'error',
+            code: loadResult.code,
+            message: loadResult.code === 'INVALID_STORED_VALUE'
+              ? '저장된 완료 기록 형식이 올바르지 않아 빈 상태로 시작합니다.'
+              : '완료 기록을 불러오지 못했습니다. 현재는 빈 상태로 시작합니다.'
+          };
+      simulationAppState = createAppState(loadResult.value, notice);
+
+      if (!attachSimulationEventDelegation()) {
+        announce('시뮬레이션 화면을 준비하지 못했습니다.', 'error');
+        return;
+      }
+
+      renderCatalog(simulationAppState);
+      if (notice) {
+        announce(notice.message, 'error');
+      }
+    }
+
+    function validateConfigurableModel(value) {
+      if (typeof value !== 'string' || value.trim().length === 0) {
+        return Object.freeze({
+          ok: false,
+          code: 'MODEL_REQUIRED',
+          message: '사용할 Ollama 모델 식별자를 입력해 주세요.'
+        });
+      }
+
+      return Object.freeze({ ok: true, value });
+    }
+
+    function validateUserMessage(value) {
+      if (typeof value !== 'string' || value.trim().length === 0) {
+        return Object.freeze({
+          ok: false,
+          code: 'EMPTY',
+          message: '메시지를 한 글자 이상 입력해 주세요.'
+        });
+      }
+
+      if (value.length > 500) {
+        return Object.freeze({
+          ok: false,
+          code: 'TOO_LONG',
+          message: '메시지는 500자 이하로 입력해 주세요.'
+        });
+      }
+
+      return Object.freeze({ ok: true, value });
+    }
+
+    function nextPrompt(scenario, turnCount) {
+      if (
+        scenario === null ||
+        typeof scenario !== 'object' ||
+        !Array.isArray(scenario.prompts) ||
+        !Number.isInteger(turnCount) ||
+        turnCount < 0 ||
+        turnCount > 3
+      ) {
+        throw new RangeError('INVALID_TURN_PROMPT');
+      }
+
+      return turnCount < 3 ? scenario.prompts[turnCount] : null;
+    }
+
+    function isScenarioComplete(state) {
+      return state.turnCount === 3;
+    }
+
+    function submitMessage(state, rawMessage, modelId = state.modelId) {
+      if (state.turnCount >= 3) {
+        return Object.freeze({
+          ok: false,
+          code: 'ALREADY_FINISHED',
+          message: '세 번의 대화를 마쳤습니다. 시나리오 완료 버튼을 선택해 주세요.',
+          state
+        });
+      }
+
+      const validation = validateUserMessage(rawMessage);
+      if (!validation.ok) {
+        return Object.freeze({
+          ...validation,
+          state
+        });
+      }
+
+      const modelValidation = validateConfigurableModel(modelId);
+      if (!modelValidation.ok) {
+        return Object.freeze({
+          ...modelValidation,
+          state
+        });
+      }
+
+      const scenario = SCENARIOS.find(({ id }) => id === state.selectedScenarioId);
+      if (!scenario) {
+        return Object.freeze({
+          ok: false,
+          code: 'UNKNOWN_SCENARIO',
+          message: '시나리오를 불러올 수 없습니다. 목록에서 다시 선택해 주세요.',
+          state
+        });
+      }
+
+      return Object.freeze({
+        ok: false,
+        code: 'DYNAMIC_RESPONSE_REQUIRED',
+        message: 'Ollama의 동적 응답을 받은 뒤 대화를 추가할 수 있습니다.',
+        state
+      });
+    }
+
+    initializeSimulation();
+
+    const SELF_TEST_QUERY_PARAMETER = 'simulation-test';
+    const SELF_TEST_SEED = 20250308;
+    const isSelfTestMode = new URLSearchParams(window.location.search)
+      .get(SELF_TEST_QUERY_PARAMETER) === 'true';
+
+    function createFixedSeedGenerator(seed = SELF_TEST_SEED) {
+      let state = seed >>> 0;
+
+      function next() {
+        state = (state + 0x6D2B79F5) >>> 0;
+        let value = state;
+        value = Math.imul(value ^ (value >>> 15), value | 1);
+        value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
+        return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
+      }
+
+      return Object.freeze({
+        next,
+        integer(minimum, maximum) {
+          if (!Number.isInteger(minimum) || !Number.isInteger(maximum) || minimum > maximum) {
+            throw new TypeError('정수 생성 범위가 올바르지 않습니다.');
+          }
+
+          return minimum + Math.floor(next() * (maximum - minimum + 1));
+        },
+        pick(values) {
+          if (!Array.isArray(values) || values.length === 0) {
+            throw new TypeError('하나 이상의 선택값이 필요합니다.');
+          }
+
+          return values[this.integer(0, values.length - 1)];
+        },
+        string(length, alphabet = 'abcdefghijklmnopqrstuvwxyz가나다라마바사0123456789') {
+          if (!Number.isInteger(length) || length < 0 || typeof alphabet !== 'string' || alphabet.length === 0) {
+            throw new TypeError('문자열 생성 조건이 올바르지 않습니다.');
+          }
+
+          let result = '';
+          for (let index = 0; index < length; index += 1) {
+            result += alphabet[this.integer(0, alphabet.length - 1)];
+          }
+          return result;
+        }
+      });
+    }
+
+    function createSelfTestHarness({ documentRef = document, windowRef = window } = {}) {
+      const tests = [];
+      const fixtureNodes = new Set();
+      let hasRun = false;
+
+      function assert(condition, message = 'Assertion failed') {
+        if (!condition) {
+          throw new Error(message);
+        }
+      }
+
+      assert.equal = function equal(actual, expected, message = 'Values are not equal') {
+        if (!Object.is(actual, expected)) {
+          throw new Error(`${message}: expected ${String(expected)}, received ${String(actual)}`);
+        }
+      };
+
+      assert.deepEqual = function deepEqual(actual, expected, message = 'Values are not deeply equal') {
+        const seenPairs = new WeakMap();
+
+        function compare(left, right) {
+          if (Object.is(left, right)) {
+            return true;
+          }
+          if (
+            left === null || right === null ||
+            typeof left !== 'object' || typeof right !== 'object' ||
+            Object.getPrototypeOf(left) !== Object.getPrototypeOf(right)
+          ) {
+            return false;
+          }
+          if (seenPairs.get(left) === right) {
+            return true;
+          }
+          seenPairs.set(left, right);
+
+          const leftKeys = Reflect.ownKeys(left);
+          const rightKeys = Reflect.ownKeys(right);
+          return leftKeys.length === rightKeys.length && leftKeys.every((key) => (
+            Object.prototype.hasOwnProperty.call(right, key) && compare(left[key], right[key])
+          ));
+        }
+
+        if (!compare(actual, expected)) {
+          throw new Error(message);
+        }
+      };
+
+      function test(name, callback) {
+        if (hasRun) {
+          throw new Error('Tests cannot be registered after the run starts.');
+        }
+        if (typeof name !== 'string' || name.trim().length === 0 || typeof callback !== 'function') {
+          throw new TypeError('A test requires a non-empty name and callback.');
+        }
+        tests.push(Object.freeze({ name, callback }));
+      }
+
+      function createFixture() {
+        const fixture = documentRef.createElement('div');
+        fixture.setAttribute('data-simulation-test-fixture', '');
+        documentRef.body.appendChild(fixture);
+        fixtureNodes.add(fixture);
+        return fixture;
+      }
+
+      function removeFixtures() {
+        fixtureNodes.forEach((fixture) => fixture.remove());
+        fixtureNodes.clear();
+      }
+
+      function renderResults(results) {
+        const report = documentRef.createElement('section');
+        report.id = 'simulation-test-results';
+        report.setAttribute('role', 'status');
+        report.setAttribute('aria-live', 'polite');
+
+        const heading = documentRef.createElement('h2');
+        heading.textContent = '시뮬레이션 자체 테스트 결과';
+        report.appendChild(heading);
+
+        const summary = documentRef.createElement('p');
+        summary.textContent = `seed ${SELF_TEST_SEED} · ${results.passed}/${results.total} 통과`;
+        report.appendChild(summary);
+
+        const resultList = documentRef.createElement('ul');
+        results.details.forEach((result) => {
+          const item = documentRef.createElement('li');
+          item.textContent = result.ok
+            ? `통과: ${result.name}`
+            : `실패: ${result.name} (${result.message})`;
+          resultList.appendChild(item);
+        });
+        report.appendChild(resultList);
+        documentRef.body.appendChild(report);
+      }
+
+      async function run() {
+        if (hasRun) {
+          throw new Error('Self-tests can only run once.');
+        }
+        hasRun = true;
+
+        const details = [];
+        for (let index = 0; index < tests.length; index += 1) {
+          const registeredTest = tests[index];
+          try {
+            await registeredTest.callback(Object.freeze({
+              assert,
+              generator: createFixedSeedGenerator((SELF_TEST_SEED + index) >>> 0),
+              createGenerator: createFixedSeedGenerator,
+              createFixture,
+              document: documentRef,
+              window: windowRef
+            }));
+            details.push({ name: registeredTest.name, ok: true, message: '' });
+          } catch (error) {
+            details.push({
+              name: registeredTest.name,
+              ok: false,
+              message: error instanceof Error ? error.message : String(error)
+            });
+          } finally {
+            removeFixtures();
+          }
+        }
+
+        const results = Object.freeze({
+          seed: SELF_TEST_SEED,
+          total: details.length,
+          passed: details.filter((result) => result.ok).length,
+          failed: details.filter((result) => !result.ok).length,
+          details: Object.freeze(details.map(Object.freeze))
+        });
+        renderResults(results);
+        windowRef.__SIMULATION_TEST_RESULTS__ = results;
+        return results;
+      }
+
+      return Object.freeze({ assert, test, run, createGenerator: createFixedSeedGenerator });
+    }
+
+    if (isSelfTestMode) {
+      const selfTests = createSelfTestHarness();
+      window.SimulationSelfTests = selfTests;
+
+      selfTests.test('완료 배열 검증은 전체 배열의 타입, ID, 고유성과 크기를 확인한다', ({ assert: testAssert }) => {
+        const allIds = [...VALID_SCENARIO_IDS];
+
+        testAssert.equal(validateCompletionState([], allIds), true, '빈 완료 배열이 거부되었습니다.');
+        testAssert.equal(
+          validateCompletionState(['smart-shopping', 'hospital-appointment'], allIds),
+          true,
+          '유효한 완료 배열이 거부되었습니다.'
+        );
+        testAssert.equal(validateCompletionState('smart-shopping', allIds), false, '배열이 아닌 값을 허용했습니다.');
+        testAssert.equal(validateCompletionState(['unknown-scenario'], allIds), false, '카탈로그에 없는 ID를 허용했습니다.');
+        testAssert.equal(
+          validateCompletionState(['smart-shopping', 'smart-shopping'], allIds),
+          false,
+          '중복 ID를 허용했습니다.'
+        );
+        testAssert.equal(
+          validateCompletionState([...allIds, 'smart-shopping'], allIds),
+          false,
+          '카탈로그보다 긴 배열을 허용했습니다.'
+        );
+      });
+
+      selfTests.test('완료 추가는 기존 순서를 보존하고 유효한 ID를 정확히 한 번 포함한다', ({ assert: testAssert }) => {
+        const existing = ['information-search', 'hospital-appointment'];
+        const added = addCompletion(existing, 'smart-shopping');
+        const addedAgain = addCompletion(added, 'smart-shopping');
+
+        testAssert.deepEqual(existing, ['information-search', 'hospital-appointment'], '기존 완료 배열이 변경되었습니다.');
+        testAssert.deepEqual(
+          added,
+          ['information-search', 'hospital-appointment', 'smart-shopping'],
+          '새 완료 ID가 기존 순서 뒤에 추가되지 않았습니다.'
+        );
+        testAssert.deepEqual(addedAgain, added, '같은 ID를 다시 추가한 결과가 달라졌습니다.');
+        testAssert.equal(
+          addedAgain.filter((id) => id === 'smart-shopping').length,
+          1,
+          '대상 완료 ID가 정확히 한 번 포함되지 않았습니다.'
+        );
+        testAssert(Object.isFrozen(added), '완료 추가 결과가 변경 가능 상태입니다.');
+      });
+
+      selfTests.test('세 번째 Turn 완료 동작은 완료 상태를 멱등적으로 갱신한다', ({ assert: testAssert }) => {
+        const threeTurnState = deepFreeze({
+          ...startScenario(createAppState(['smart-shopping']), 'information-search'),
+          turns: [
+            { userMessage: '첫 질문', dynamicResponse: '첫 응답' },
+            { userMessage: '두 번째 질문', dynamicResponse: '두 번째 응답' },
+            { userMessage: '세 번째 질문', dynamicResponse: '세 번째 응답' }
+          ],
+          turnCount: 3
+        });
+
+        const completed = completeScenario(threeTurnState);
+        const completedAgain = completeScenario(completed.state);
+
+        testAssert.equal(completed.ok, true, '세 번째 Turn 뒤 완료 동작이 거부되었습니다.');
+        testAssert.deepEqual(
+          completed.state.completedScenarioIds,
+          ['smart-shopping', 'information-search'],
+          '완료 ID가 기존 순서를 유지하며 추가되지 않았습니다.'
+        );
+        testAssert.deepEqual(
+          completedAgain.state.completedScenarioIds,
+          completed.state.completedScenarioIds,
+          '이미 완료한 시나리오를 다시 완료할 때 ID가 중복되었습니다.'
+        );
+        testAssert.equal(
+          completeScenario({ ...threeTurnState, turnCount: 4 }).code,
+          'NOT_READY',
+          '세 번째 Turn이 아닌 상태에서 완료가 허용되었습니다.'
+        );
+      });
+
+      selfTests.test('CompletionRepository는 최초 방문을 빈 배열로 복원한다', ({ assert: testAssert }) => {
+        const calls = [];
+        const mockStorage = {
+          getItem(key) {
+            calls.push({ type: 'getItem', key });
+            return null;
+          }
+        };
+        const mockUtils = {
+          loadData(key, defaultValue) {
+            calls.push({ type: 'loadData', key });
+            return Array.isArray(defaultValue) ? [] : defaultValue;
+          },
+          saveData() {
+            throw new Error('저장 호출은 이 테스트에서 허용되지 않습니다.');
+          }
+        };
+        const repository = createCompletionRepository({ utilsApi: mockUtils, storage: mockStorage });
+        const result = repository.load();
+
+        testAssert.deepEqual(result, { ok: true, value: [] }, '키가 없는 최초 방문이 빈 배열로 시작하지 않았습니다.');
+        testAssert.deepEqual(
+          calls.map(({ key }) => key),
+          [COMPLETION_KEY, COMPLETION_KEY],
+          '최초 방문의 저장소 접근이 완료 키로 격리되지 않았습니다.'
+        );
+      });
+
+      selfTests.test('CompletionRepository는 로드 실패와 잘못된 저장값을 구분한다', ({ assert: testAssert }) => {
+        const loadFailureRepository = createCompletionRepository({
+          utilsApi: {
+            loadData() {
+              throw new Error('읽기 실패');
+            }
+          },
+          storage: { getItem: () => 'stored' }
+        });
+        const invalidValueRepository = createCompletionRepository({
+          utilsApi: {
+            loadData: () => ['unknown-scenario']
+          },
+          storage: { getItem: () => 'stored' }
+        });
+
+        testAssert.deepEqual(
+          loadFailureRepository.load(),
+          { ok: false, value: [], code: 'LOAD_FAILED' },
+          '저장소 읽기 실패가 LOAD_FAILED로 구분되지 않았습니다.'
+        );
+        testAssert.deepEqual(
+          invalidValueRepository.load(),
+          { ok: false, value: [], code: 'INVALID_STORED_VALUE' },
+          '유효하지 않은 저장 배열이 INVALID_STORED_VALUE로 구분되지 않았습니다.'
+        );
+      });
+
+      selfTests.test('CompletionRepository는 저장 후 같은 키를 재읽어 검증한다', ({ assert: testAssert }) => {
+        const calls = [];
+        let storedValue = [];
+        const mockStorage = {
+          getItem(key) {
+            calls.push({ type: 'getItem', key });
+            return storedValue.length === 0 ? null : JSON.stringify(storedValue);
+          }
+        };
+        const mockUtils = {
+          saveData(key, value) {
+            calls.push({ type: 'saveData', key, value: [...value] });
+            storedValue = [...value];
+          },
+          loadData(key, defaultValue) {
+            calls.push({ type: 'loadData', key });
+            return storedValue.length === 0 ? defaultValue : [...storedValue];
+          }
+        };
+        const repository = createCompletionRepository({ utilsApi: mockUtils, storage: mockStorage });
+        const result = repository.save(['smart-shopping']);
+
+        testAssert.deepEqual(result, { ok: true }, '저장 후 일치하는 값이 성공으로 확인되지 않았습니다.');
+        testAssert.equal(calls.length, 2, '저장 검증이 불필요한 저장소 접근을 수행했습니다.');
+        testAssert.equal(calls[0].type, 'saveData', '저장 전에 다른 호출이 수행되었습니다.');
+        testAssert.equal(calls[1].type, 'loadData', '저장 후 Utils.loadData 재검증이 수행되지 않았습니다.');
+        testAssert.equal(calls[0].key, COMPLETION_KEY, '저장 대상 키가 격리되지 않았습니다.');
+        testAssert.equal(calls[1].key, COMPLETION_KEY, '재읽기 대상 키가 격리되지 않았습니다.');
+
+        const failedUtils = {
+          saveData: mockUtils.saveData,
+          loadData: () => ['hospital-appointment']
+        };
+        const failedRepository = createCompletionRepository({ utilsApi: failedUtils, storage: mockStorage });
+        testAssert.deepEqual(
+          failedRepository.save(['smart-shopping']),
+          { ok: false, code: 'SAVE_FAILED' },
+          '재읽기 불일치가 SAVE_FAILED로 구분되지 않았습니다.'
+        );
+      });
+
+      selfTests.test('고정 seed 생성기는 같은 값을 재현한다', ({ assert: testAssert, createGenerator }) => {
+        const first = createGenerator(SELF_TEST_SEED);
+        const second = createGenerator(SELF_TEST_SEED);
+        const firstValues = Array.from({ length: 8 }, () => first.integer(-100, 100));
+        const secondValues = Array.from({ length: 8 }, () => second.integer(-100, 100));
+        testAssert.deepEqual(firstValues, secondValues, '같은 seed의 생성 결과가 다릅니다.');
+      });
+
+      selfTests.test('DOM fixture는 테스트에서 사용할 수 있다', ({ assert: testAssert, createFixture }) => {
+        const fixture = createFixture();
+        const sample = document.createElement('span');
+        sample.textContent = 'fixture-ready';
+        fixture.appendChild(sample);
+        testAssert.equal(fixture.textContent, 'fixture-ready', 'DOM fixture 내용을 확인할 수 없습니다.');
+      });
+
+      selfTests.test('앱 상태는 카탈로그의 빈 대화 상태로 생성된다', ({ assert: testAssert }) => {
+        const notice = { kind: 'error', code: 'LOAD_FAILED', message: '복원 실패' };
+        const state = createAppState(['smart-shopping'], notice);
+
+        testAssert.deepEqual(state, {
+          view: 'catalog',
+          selectedScenarioId: null,
+          modelId: '',
+          turns: [],
+          turnCount: 0,
+          requestState: 'idle',
+          activeRequest: null,
+          failedRequest: null,
+          completedScenarioIds: ['smart-shopping'],
+          notice
+        }, '초기 앱 상태 구조가 올바르지 않습니다.');
+        testAssert(Object.isFrozen(state), '앱 상태가 변경 불가능하지 않습니다.');
+      });
+
+      selfTests.test('시나리오 시작과 목록 복귀는 대화 선택 상태를 초기화한다', ({ assert: testAssert }) => {
+        const previousState = {
+          view: 'chat',
+          selectedScenarioId: 'smart-shopping',
+          turns: [{ userMessage: '기존 질문', dynamicResponse: '기존 응답' }],
+          turnCount: 1,
+          completedScenarioIds: ['information-search'],
+          notice: { kind: 'error', code: 'EMPTY', message: '기존 오류' }
+        };
+
+        const started = startScenario(previousState, 'hospital-appointment');
+        testAssert.equal(started.view, 'chat', '시작 후 채팅 화면이 아닙니다.');
+        testAssert.equal(started.selectedScenarioId, 'hospital-appointment', '선택 ID가 갱신되지 않았습니다.');
+        testAssert.deepEqual(started.turns, [], '시작 후 Turn이 비워지지 않았습니다.');
+        testAssert.equal(started.turnCount, 0, '시작 후 턴 수가 초기화되지 않았습니다.');
+        testAssert.deepEqual(started.completedScenarioIds, ['information-search'], '완료 ID가 유지되지 않았습니다.');
+        testAssert.equal(started.notice, null, '시작 후 안내 상태가 초기화되지 않았습니다.');
+
+        const returned = returnToCatalog(started);
+        testAssert.equal(returned.view, 'catalog', '복귀 후 카탈로그 화면이 아닙니다.');
+        testAssert.equal(returned.selectedScenarioId, null, '복귀 후 선택 ID가 비워지지 않았습니다.');
+        testAssert.deepEqual(returned.turns, [], '복귀 후 Turn이 비워지지 않았습니다.');
+        testAssert.equal(returned.turnCount, 0, '복귀 후 턴 수가 초기화되지 않았습니다.');
+        testAssert.deepEqual(returned.completedScenarioIds, ['information-search'], '복귀 후 완료 ID가 유지되지 않았습니다.');
+      });
+
+      selfTests.test('요청 스냅샷은 요청 입력을 깊게 복사하고 재시도 횟수를 보존한다', ({ assert: testAssert }) => {
+        const messages = [
+          { role: 'system', content: '목표와 안내' },
+          { role: 'user', content: '첫 질문' }
+        ];
+        const snapshot = createRequestSnapshot({
+          scenarioId: 'information-search',
+          modelId: 'local-model',
+          userMessage: '현재 질문',
+          messages,
+          retryCount: 1
+        });
+
+        messages[0].content = '변경된 문맥';
+        testAssert.deepEqual(snapshot, {
+          scenarioId: 'information-search',
+          modelId: 'local-model',
+          userMessage: '현재 질문',
+          messages: [
+            { role: 'system', content: '목표와 안내' },
+            { role: 'user', content: '첫 질문' }
+          ],
+          retryCount: 1
+        }, '요청 스냅샷이 원본 입력과 분리되지 않았습니다.');
+        testAssert(Object.isFrozen(snapshot), '요청 스냅샷이 변경 불가능하지 않습니다.');
+        testAssert(Object.isFrozen(snapshot.messages), '요청 문맥 배열이 변경 불가능하지 않습니다.');
+        testAssert(Object.isFrozen(snapshot.messages[0]), '요청 문맥 항목이 변경 불가능하지 않습니다.');
+      });
+
+      selfTests.test('Conversation_Context는 시스템·이전 Turn·현재 메시지 순서를 고정한다', ({ assert: testAssert }) => {
+        const scenario = SCENARIOS.find(({ id }) => id === 'information-search');
+        const previousTurns = [
+          { userMessage: '첫 번째 질문', dynamicResponse: '첫 번째 응답' },
+          { userMessage: '두 번째 질문', dynamicResponse: '두 번째 응답' }
+        ];
+        const messages = buildConversationMessages(
+          scenario,
+          previousTurns,
+          '현재 질문',
+          2
+        );
+
+        previousTurns[0].userMessage = '변경된 질문';
+        previousTurns.push({ userMessage: '추가 질문', dynamicResponse: '추가 응답' });
+
+        testAssert.deepEqual(messages, [
+          {
+            role: 'system',
+            content: `시나리오 목표: ${scenario.goal}\n현재 행동 안내: ${scenario.prompts[2]}`
+          },
+          { role: 'user', content: '첫 번째 질문' },
+          { role: 'assistant', content: '첫 번째 응답' },
+          { role: 'user', content: '두 번째 질문' },
+          { role: 'assistant', content: '두 번째 응답' },
+          { role: 'user', content: '현재 질문' }
+        ], 'Conversation_Context 메시지 순서 또는 내용이 올바르지 않습니다.');
+        testAssert(Object.isFrozen(messages), 'Conversation_Context 배열이 고정되지 않았습니다.');
+        testAssert(Object.isFrozen(messages[0]), 'Conversation_Context 메시지가 고정되지 않았습니다.');
+      });
+
+      selfTests.test('시나리오 시작과 목록 복귀는 활성 요청과 실패 스냅샷을 초기화한다', ({ assert: testAssert }) => {
+        const state = {
+          ...createAppState(['smart-shopping'], null, 'local-model'),
+          view: 'chat',
+          selectedScenarioId: 'smart-shopping',
+          turns: [{ userMessage: '기존 질문', dynamicResponse: '기존 응답' }],
+          turnCount: 1,
+          requestState: 'error',
+          activeRequest: { scenarioId: 'smart-shopping' },
+          failedRequest: { code: 'HTTP_FAILED' }
+        };
+
+        const started = startScenario(state, 'hospital-appointment');
+        testAssert.equal(started.modelId, 'local-model', '모델 설정이 불필요하게 초기화되었습니다.');
+        testAssert.equal(started.requestState, 'idle', '시작 후 요청 상태가 초기화되지 않았습니다.');
+        testAssert.equal(started.activeRequest, null, '시작 후 활성 요청이 남아 있습니다.');
+        testAssert.equal(started.failedRequest, null, '시작 후 실패 스냅샷이 남아 있습니다.');
+        testAssert.deepEqual(started.completedScenarioIds, ['smart-shopping'], '시작 후 완료 ID가 유지되지 않았습니다.');
+
+        const returned = returnToCatalog(started);
+        testAssert.equal(returned.requestState, 'idle', '복귀 후 요청 상태가 초기화되지 않았습니다.');
+        testAssert.equal(returned.activeRequest, null, '복귀 후 활성 요청이 남아 있습니다.');
+        testAssert.equal(returned.failedRequest, null, '복귀 후 실패 스냅샷이 남아 있습니다.');
+        testAssert.deepEqual(returned.completedScenarioIds, ['smart-shopping'], '복귀 후 완료 ID가 유지되지 않았습니다.');
+      });
+
+      selfTests.test('메시지 검증은 빈 입력과 길이 초과를 구분하고 원문을 보존한다', ({ assert: testAssert }) => {
+        testAssert.equal(validateUserMessage('').code, 'EMPTY', '빈 문자열 오류 코드가 올바르지 않습니다.');
+        testAssert.equal(validateUserMessage(' \t\n ').code, 'EMPTY', '공백 전용 오류 코드가 올바르지 않습니다.');
+        testAssert.equal(validateUserMessage('가'.repeat(501)).code, 'TOO_LONG', '길이 초과 오류 코드가 올바르지 않습니다.');
+
+        const original = '  원문을 그대로 유지해 주세요.  ';
+        const valid = validateUserMessage(original);
+        testAssert.equal(valid.ok, true, '유효한 메시지가 거부되었습니다.');
+        testAssert.equal(valid.value, original, '유효한 메시지 원문이 변경되었습니다.');
+        testAssert.equal(validateUserMessage(`나${'가'.repeat(499)}`).ok, true, '500자 경계 입력이 거부되었습니다.');
+      });
+
+      selfTests.test('메시지와 모델 검증은 유효 입력을 보존하고 상태를 변경하지 않는다', ({ assert: testAssert }) => {
+        const initialState = startScenario(createAppState([], null, 'local-model'), 'information-search');
+        const originalMessage = '  원문 앞뒤 공백도 보존합니다.  ';
+        const messageValidation = validateUserMessage(originalMessage);
+        const modelValidation = validateConfigurableModel('  llama3.2  ');
+
+        testAssert.equal(messageValidation.ok, true, '유효한 사용자 메시지가 거부되었습니다.');
+        testAssert.equal(messageValidation.value, originalMessage, '유효한 사용자 메시지 원문이 변경되었습니다.');
+        testAssert.equal(modelValidation.ok, true, '유효한 모델 식별자가 거부되었습니다.');
+        testAssert.equal(modelValidation.value, '  llama3.2  ', '모델 식별자의 현재 입력값이 변경되었습니다.');
+
+        const invalidModelResult = submitMessage(initialState, originalMessage, '   ');
+        testAssert.equal(invalidModelResult.code, 'MODEL_REQUIRED', '빈 모델 식별자 오류 코드가 올바르지 않습니다.');
+        testAssert.equal(invalidModelResult.state, initialState, '모델 검증 실패가 상태를 변경했습니다.');
+        testAssert.deepEqual(invalidModelResult.state.turns, [], '모델 검증 실패 후 Turn이 추가되었습니다.');
+        testAssert.equal(invalidModelResult.state.turnCount, 0, '모델 검증 실패 후 턴 수가 변경되었습니다.');
+      });
+
+      selfTests.test('시나리오는 고정 응답 없이 세 가지 행동 안내를 제공한다', ({ assert: testAssert }) => {
+        testAssert(SCENARIOS.length >= 5 && SCENARIOS.length <= 20, '시나리오 수가 범위를 벗어났습니다.');
+        SCENARIOS.forEach((scenario) => {
+          testAssert(!Object.prototype.hasOwnProperty.call(scenario, 'responses'), `${scenario.id}에 고정 응답이 남아 있습니다.`);
+          testAssert.equal(scenario.prompts.length, 3, `${scenario.id}의 행동 안내 수가 세 개가 아닙니다.`);
+        });
+      });
+
+      selfTests.test('최초 제출은 불변 스냅샷과 loading 잠금을 만들고 terminal 결과에서만 해제한다', ({ assert: testAssert }) => {
+        const initialState = startScenario(
+          createAppState([], null, 'local-model'),
+          'information-search'
+        );
+        const initialTurns = initialState.turns;
+        const started = beginMessageRequest(
+          initialState,
+          '지역 복지 정보를 찾고 싶어요.',
+          'local-model'
+        );
+
+        testAssert.equal(started.ok, true, '유효한 최초 제출이 시작되지 않았습니다.');
+        testAssert.equal(started.state.requestState, REQUEST_STATE.LOADING, '최초 제출이 loading 상태가 아닙니다.');
+        testAssert.equal(started.state.activeRequest, started.snapshot, '활성 요청에 동일한 스냅샷이 저장되지 않았습니다.');
+        testAssert.equal(started.snapshot.retryCount, 0, '최초 요청 retryCount가 0이 아닙니다.');
+        testAssert(Object.isFrozen(started.snapshot), '최초 요청 스냅샷이 동결되지 않았습니다.');
+        testAssert(Object.isFrozen(started.snapshot.messages), '최초 요청 문맥이 동결되지 않았습니다.');
+        testAssert.equal(started.state.turns, initialTurns, 'loading 중 Turn 배열이 변경되었습니다.');
+        testAssert.deepEqual(started.state.completedScenarioIds, [], 'loading 중 완료 상태가 변경되었습니다.');
+
+        const successState = finishInitialRequest(
+          started.state,
+          started.snapshot,
+          { ok: true, content: '동적 응답' }
+        );
+        testAssert.equal(successState.requestState, REQUEST_STATE.SUCCESS, '성공 terminal 상태가 기록되지 않았습니다.');
+        testAssert.equal(successState.activeRequest, null, '성공 후 활성 요청 잠금이 해제되지 않았습니다.');
+        testAssert.equal(successState.turnCount, 1, '성공 terminal 처리 후 Turn 수가 증가하지 않았습니다.');
+        testAssert.deepEqual(
+          successState.turns,
+          [{ userMessage: started.snapshot.userMessage, dynamicResponse: '동적 응답' }],
+          '성공 응답이 사용자 메시지 다음의 하나의 Turn으로 추가되지 않았습니다.'
+        );
+        testAssert.deepEqual(successState.completedScenarioIds, [], '성공 terminal 처리 중 완료 상태가 변경되었습니다.');
+
+        const failedState = finishInitialRequest(
+          started.state,
+          started.snapshot,
+          { ok: false, code: 'HTTP_FAILED', message: ADAPTER_ERROR_MESSAGES.HTTP_FAILED }
+        );
+        testAssert.equal(failedState.requestState, REQUEST_STATE.ERROR, '실패 terminal 상태가 기록되지 않았습니다.');
+        testAssert.equal(failedState.activeRequest, null, '실패 후 활성 요청 잠금이 해제되지 않았습니다.');
+        testAssert.equal(failedState.failedRequest.snapshot, started.snapshot, '실패 스냅샷이 원본과 달라졌습니다.');
+        testAssert.equal(failedState.turnCount, 0, '실패 terminal 처리 중 Turn 수가 변경되었습니다.');
+        testAssert.deepEqual(failedState.completedScenarioIds, [], '실패 terminal 처리 중 완료 상태가 변경되었습니다.');
+      });
+
+      selfTests.test('검증되지 않은 성공 결과는 Turn을 추가하지 않고 실패로 처리한다', ({ assert: testAssert }) => {
+        const initialState = startScenario(
+          createAppState([], null, 'local-model'),
+          'information-search'
+        );
+        const started = beginMessageRequest(initialState, '공공 정보를 찾아 주세요.', 'local-model');
+        const invalidResponseState = finishInitialRequest(
+          started.state,
+          started.snapshot,
+          { ok: true, content: ' \n\t ' }
+        );
+
+        testAssert.equal(invalidResponseState.requestState, REQUEST_STATE.ERROR, '공백 응답이 성공으로 처리되었습니다.');
+        testAssert.equal(invalidResponseState.failedRequest.code, 'EMPTY_RESPONSE', '공백 응답 오류가 식별되지 않았습니다.');
+        testAssert.equal(invalidResponseState.turnCount, 0, '검증 실패 후 턴 수가 변경되었습니다.');
+        testAssert.deepEqual(invalidResponseState.turns, [], '검증 실패 후 부분 Turn이 추가되었습니다.');
+      });
+
+      selfTests.test('동적 응답이 없으면 제출이 대화 상태를 변경하지 않는다', ({ assert: testAssert }) => {
+        const initialState = startScenario(createAppState([], null, 'local-model'), 'information-search');
+        const result = submitMessage(initialState, '지역 복지 정보를 찾고 싶어요.', 'local-model');
+
+        testAssert.equal(result.code, 'DYNAMIC_RESPONSE_REQUIRED', '고정 응답 제거 후 동적 응답 대기 상태가 아닙니다.');
+        testAssert.equal(result.state, initialState, '동적 응답 전 상태가 변경되었습니다.');
+        testAssert.equal(result.state.turnCount, 0, '동적 응답 전 턴 수가 변경되었습니다.');
+        testAssert.deepEqual(result.state.turns, [], '동적 응답 전 Turn이 추가되었습니다.');
+      });
+
+      selfTests.test('다음 행동 안내는 0~2 턴에 대응하고 세 번째 Turn 뒤에는 끝난다', ({ assert: testAssert }) => {
+        SCENARIOS.forEach((scenario) => {
+          [0, 1, 2].forEach((turnCount) => {
+            testAssert.equal(
+              nextPrompt(scenario, turnCount),
+              scenario.prompts[turnCount],
+              `${scenario.id}의 ${turnCount + 1}번째 안내가 올바르지 않습니다.`
+            );
+          });
+          testAssert.equal(nextPrompt(scenario, 3), null, `${scenario.id} 완료 후 안내가 남아 있습니다.`);
+        });
+
+        testAssert.equal(isScenarioComplete({ turnCount: 2 }), false, '두 Turn을 완료로 판단했습니다.');
+        testAssert.equal(isScenarioComplete({ turnCount: 3 }), true, '세 Turn을 완료로 판단하지 못했습니다.');
+      });
+
+      selfTests.test('채팅 입력은 visible label과 Accessible_Name을 제공하고 아이콘 전용 버튼도 이름을 가진다', ({ assert: testAssert, document: documentRef }) => {
+        const chatState = startScenario(createAppState([], null, 'local-model'), 'hospital-appointment');
+        renderChat(chatState);
+
+        const controls = documentRef.querySelectorAll('#simulation-view input, #simulation-view textarea, #simulation-view button');
+        testAssert(controls.length > 0, '채팅 조작 요소가 렌더링되지 않았습니다.');
+        controls.forEach((control) => {
+          const labelledBy = control.getAttribute('aria-labelledby');
+          const describedBy = control.getAttribute('aria-describedby');
+          const label = control.id
+            ? documentRef.querySelector(`label[for="${control.id}"]`)
+            : null;
+          const visibleLabel = label && label.textContent.trim().length > 0;
+          const accessibleName = (
+            control.getAttribute('aria-label') ||
+            (labelledBy && documentRef.getElementById(labelledBy)?.textContent) ||
+            label?.textContent ||
+            (control.tagName === 'BUTTON' ? control.textContent : '')
+          ).trim();
+
+          if (control.tagName === 'INPUT' || control.tagName === 'TEXTAREA') {
+            testAssert(visibleLabel, `${control.id}에 연결된 visible label이 없습니다.`);
+            testAssert(accessibleName.length > 0, `${control.id}에 Accessible_Name이 없습니다.`);
+            testAssert(describedBy !== null, `${control.id}에 설명 연결이 없습니다.`);
+          }
+          if (control.tagName === 'BUTTON' && control.textContent.trim().length === 0) {
+            testAssert(accessibleName.length > 0, '아이콘 전용 버튼에 Accessible_Name이 없습니다.');
+          }
+        });
+
+        renderCatalog(createAppState([], null, 'local-model'));
+      });
+
+      selfTests.test('로딩·오류 상태 영역은 live-region 속성을 갖고 포커스를 보존한다', ({ assert: testAssert, document: documentRef }) => {
+        const chatState = startScenario(createAppState([], null, 'local-model'), 'information-search');
+        renderChat(chatState);
+
+        const statusRegion = documentRef.getElementById('simulation-status');
+        testAssert.equal(statusRegion.getAttribute('role'), 'status', '전역 상태 영역의 role이 status가 아닙니다.');
+        testAssert.equal(statusRegion.getAttribute('aria-live'), 'polite', '전역 상태 영역의 aria-live가 polite가 아닙니다.');
+        testAssert.equal(statusRegion.getAttribute('aria-atomic'), 'true', '전역 상태 영역의 aria-atomic이 true가 아닙니다.');
+
+        const requestStatus = documentRef.querySelector('.chat-request-status');
+        testAssert.equal(requestStatus.getAttribute('role'), 'status', '채팅 상태 영역의 role이 status가 아닙니다.');
+        testAssert.equal(requestStatus.getAttribute('aria-live'), 'polite', '채팅 상태 영역의 aria-live가 polite가 아닙니다.');
+        testAssert.equal(requestStatus.getAttribute('aria-atomic'), 'true', '채팅 상태 영역의 aria-atomic이 true가 아닙니다.');
+
+        const modelInput = documentRef.getElementById('simulation-model');
+        modelInput.focus();
+        const focusDescriptor = captureFocusedControl();
+        const loadingState = beginMessageRequest(chatState, '상태를 확인해 주세요.', 'local-model').state;
+        renderChat(loadingState);
+        restoreFocusedControl(focusDescriptor);
+        testAssert.equal(documentRef.activeElement.id, 'simulation-model', '로딩 안내가 포커스를 이동했습니다.');
+
+        const errorState = finishInitialRequest(
+          loadingState,
+          loadingState.activeRequest,
+          { ok: false, code: 'HTTP_FAILED', message: ADAPTER_ERROR_MESSAGES.HTTP_FAILED }
+        );
+        renderChat(errorState);
+        restoreFocusedControl(focusDescriptor);
+        testAssert.equal(documentRef.activeElement.id, 'simulation-model', '오류 안내가 포커스를 이동했습니다.');
+        renderCatalog(createAppState([], null, 'local-model'));
+      });
+
+      selfTests.test('성공 응답 뒤에만 다음 메시지 입력으로 포커스를 이동한다', ({ assert: testAssert, document: documentRef }) => {
+        const chatState = startScenario(createAppState([], null, 'local-model'), 'information-search');
+        renderChat(chatState);
+        const modelInput = documentRef.getElementById('simulation-model');
+        modelInput.focus();
+        const started = beginMessageRequest(chatState, '첫 번째 질문입니다.', 'local-model');
+        const successState = finishInitialRequest(
+          started.state,
+          started.snapshot,
+          { ok: true, content: '첫 번째 동적 응답입니다.' }
+        );
+        renderChat(successState);
+        focusNextMessageInputAfterSuccess();
+        testAssert.equal(documentRef.activeElement.id, 'simulation-message', '성공한 새 Turn 뒤 다음 입력으로 포커스가 이동하지 않았습니다.');
+
+        modelInput.blur();
+        testAssert.equal(documentRef.activeElement.id, 'simulation-message', '성공 이후 입력 포커스가 불필요하게 이동했습니다.');
+        renderCatalog(createAppState([], null, 'local-model'));
+      });
+
+      selfTests.test('페이지 조작 요소는 48px 이상이고 본문 텍스트는 18px 이상이다', ({ assert: testAssert, document: documentRef, window: windowRef }) => {
+        renderCatalog(createAppState([], null, 'local-model'));
+        const ownedControls = documentRef.querySelectorAll('#simulation-content button, #simulation-content input, #simulation-content textarea');
+        testAssert(ownedControls.length > 0, '페이지 소유 조작 요소가 없습니다.');
+        ownedControls.forEach((control) => {
+          const style = windowRef.getComputedStyle(control);
+          testAssert(Number.parseFloat(style.width) >= 48, `${control.tagName} 너비가 48px보다 작습니다.`);
+          testAssert(Number.parseFloat(style.height) >= 48, `${control.tagName} 높이가 48px보다 작습니다.`);
+        });
+
+        const textElements = documentRef.querySelectorAll('#simulation-content h2, #simulation-content h3, #simulation-content p, #simulation-content label, #simulation-content button, #simulation-content textarea, #simulation-content input');
+        textElements.forEach((element) => {
+          const fontSize = Number.parseFloat(windowRef.getComputedStyle(element).fontSize);
+          testAssert(fontSize >= 18, `${element.tagName} 글자 크기가 18px보다 작습니다.`);
+        });
+        renderCatalog(createAppState([], null, 'local-model'));
+      });
+
+      selfTests.test('focus-visible 표시와 공통 클래스·스크립트 참조 순서를 유지한다', ({ assert: testAssert, document: documentRef, window: windowRef }) => {
+        renderCatalog(createAppState([], null, 'local-model'));
+        const focusRule = Array.from(documentRef.styleSheets)
+          .flatMap((sheet) => {
+            try {
+              return Array.from(sheet.cssRules || []);
+            } catch (error) {
+              return [];
+            }
+          })
+          .find((rule) => rule.selectorText && rule.selectorText.includes(':focus-visible'));
+        testAssert(focusRule, 'focus-visible 규칙이 없습니다.');
+        const focusButton = documentRef.querySelector('#simulation-content button');
+        const focusStyle = windowRef.getComputedStyle(focusButton);
+        testAssert(Number.parseFloat(focusStyle.minHeight) >= 48, '포커스 가능한 버튼의 최소 높이가 48px보다 작습니다.');
+        testAssert(focusRule.style.outlineWidth === '3px' || focusRule.style.outlineWidth === '2px', 'focus indicator 두께가 2px 이상으로 선언되지 않았습니다.');
+
+        testAssert(documentRef.querySelectorAll('#simulation-content .card').length >= 1, '.card 클래스가 적용되지 않았습니다.');
+        testAssert(documentRef.querySelectorAll('#simulation-content .btn').length >= 1, '.btn 클래스가 적용되지 않았습니다.');
+        renderChat(startScenario(createAppState([], null, 'local-model'), 'information-search'));
+        testAssert.equal(documentRef.querySelectorAll('#simulation-content .progress-bar').length, 1, '.progress-bar 클래스가 적용되지 않았습니다.');
+        testAssert.equal(documentRef.querySelectorAll('#simulation-content .progress-bar__fill').length, 1, '.progress-bar__fill 클래스가 적용되지 않았습니다.');
+
+        const stylesheets = Array.from(documentRef.querySelectorAll('link[rel="stylesheet"]'))
+          .map((link) => link.getAttribute('href'));
+        testAssert.equal(stylesheets.filter((href) => href === 'shared/style.css').length, 1, 'shared/style.css 참조가 정확히 한 번이 아닙니다.');
+        const scripts = Array.from(documentRef.scripts).map((script) => script.getAttribute('src'));
+        testAssert.equal(scripts.filter((src) => src === 'shared/utils.js').length, 1, 'shared/utils.js 참조가 정확히 한 번이 아닙니다.');
+        testAssert.equal(scripts.filter((src) => src === 'shared/nav.js').length, 1, 'shared/nav.js 참조가 정확히 한 번이 아닙니다.');
+        testAssert(scripts.indexOf('shared/utils.js') < scripts.indexOf('shared/nav.js'), '공통 스크립트 참조 순서가 올바르지 않습니다.');
+        renderCatalog(createAppState([], null, 'local-model'));
+      });
+
+      selfTests.test('360px 모바일 조건은 한 열과 가로 오버플로 방지를 선언하고 적용한다', ({ assert: testAssert, document: documentRef, window: windowRef }) => {
+        renderCatalog(createAppState([], null, 'local-model'));
+        const scenarioGrid = documentRef.querySelector('.scenario-grid');
+        const mobileRule = Array.from(documentRef.styleSheets)
+          .flatMap((sheet) => {
+            try {
+              return Array.from(sheet.cssRules || []);
+            } catch (error) {
+              return [];
+            }
+          })
+          .find((rule) => rule.media && rule.media.mediaText.includes('max-width: 360px'));
+        testAssert(mobileRule, '360px 모바일 미디어 규칙이 없습니다.');
+        if (windowRef.innerWidth <= 600) {
+          testAssert(windowRef.getComputedStyle(scenarioGrid).gridTemplateColumns.split(' ').length <= 1, '모바일 시나리오 카탈로그가 한 열로 배치되지 않았습니다.');
+        }
+        testAssert(Number.isFinite(documentRef.documentElement.scrollWidth), '문서 가로 크기를 확인할 수 없습니다.');
+        if (windowRef.innerWidth <= 360) {
+          testAssert(documentRef.documentElement.scrollWidth <= documentRef.documentElement.clientWidth, '360px 뷰포트에서 가로 오버플로가 발생했습니다.');
+        }
+        renderChat(startScenario(createAppState([], null, 'local-model'), 'information-search'));
+        const chatView = documentRef.querySelector('.chat-view');
+        if (windowRef.innerWidth <= 600) {
+          testAssert(windowRef.getComputedStyle(chatView).gridTemplateColumns.split(' ').length <= 1, '모바일 채팅 화면이 한 열로 배치되지 않았습니다.');
+        }
+        renderCatalog(createAppState([], null, 'local-model'));
+      });
+
+      selfTests.test('고정 seed는 알려진 입력을 재현하고 fixture는 테스트마다 정리된다', ({ assert: testAssert, createGenerator, createFixture, document: documentRef }) => {
+        const first = createGenerator(SELF_TEST_SEED);
+        const second = createGenerator(SELF_TEST_SEED);
+        const values = Array.from({ length: 4 }, () => first.integer(0, 1000));
+        testAssert.deepEqual(
+          values,
+          Array.from({ length: 4 }, () => second.integer(0, 1000)),
+          '고정 seed assertion이 같은 입력을 재현하지 못했습니다.'
+        );
+        const fixture = createFixture();
+        testAssert.equal(documentRef.querySelectorAll('[data-simulation-test-fixture]').length, 1, 'fixture가 생성되지 않았습니다.');
+        testAssert(fixture.parentNode === documentRef.body, 'fixture가 document.body에 연결되지 않았습니다.');
+      });
+
+      selfTests.test('mock fetch와 timer로 정상 Ollama 응답을 외부 요청 없이 검증한다', async ({ assert: testAssert }) => {
+        const calls = [];
+        const timers = [];
+        let controllerCount = 0;
+        class MockAbortController {
+          constructor() {
+            controllerCount += 1;
+            this.signal = { aborted: false };
+          }
+          abort() {
+            this.signal.aborted = true;
+          }
+        }
+        const mockFetch = async (url, options) => {
+          calls.push({ url, options: { ...options, body: JSON.parse(options.body) } });
+          return {
+            ok: true,
+            async json() {
+              return { message: { content: 'mocked local response' } };
+            }
+          };
+        };
+        const result = await requestOllamaChat({
+          modelId: 'fixed-test-model',
+          messages: [{ role: 'user', content: '고정 질문' }],
+          fetchImpl: mockFetch,
+          abortControllerImpl: MockAbortController,
+          setTimeoutImpl: (callback, delay) => {
+            timers.push({ callback, delay });
+            return timers.length;
+          },
+          clearTimeoutImpl: (id) => timers[id - 1].cleared = true
+        });
+
+        testAssert.equal(result.ok, true, 'mock 성공 응답이 실패했습니다.');
+        testAssert.equal(result.content, 'mocked local response', 'mock 응답 내용이 보존되지 않았습니다.');
+        testAssert.equal(calls.length, 1, 'mock fetch가 정확히 한 번 호출되지 않았습니다.');
+        testAssert.equal(calls[0].url, OLLAMA_CHAT_URL, '요청 URL이 localhost Ollama API가 아닙니다.');
+        testAssert.equal(calls[0].options.method, 'POST', '요청 method가 POST가 아닙니다.');
+        testAssert.equal(calls[0].options.body.model, 'fixed-test-model', '현재 모델 ID가 payload에 없습니다.');
+        testAssert.equal(calls[0].options.body.stream, false, 'stream false가 payload에 없습니다.');
+        testAssert.equal(controllerCount, 1, '요청마다 AbortController를 만들지 않았습니다.');
+        testAssert.equal(timers[0].delay, OLLAMA_TIMEOUT_MS, 'timeout 시간이 10초가 아닙니다.');
+        testAssert.equal(timers[0].cleared, true, '성공 후 timeout timer가 정리되지 않았습니다.');
+      });
+
+      selfTests.test('mock 네트워크·HTTP·malformed·빈 응답과 timeout은 오류 코드와 timer 정리를 보장한다', async ({ assert: testAssert }) => {
+        const outcomes = [
+          { code: 'CONNECTION_FAILED', fetch: async () => { throw new TypeError('connection refused'); } },
+          { code: 'HTTP_FAILED', fetch: async () => ({ ok: false, async json() { return {}; } }) },
+          { code: 'INVALID_RESPONSE', fetch: async () => ({ ok: true, async json() { return '{malformed'; } }) },
+          { code: 'EMPTY_RESPONSE', fetch: async () => ({ ok: true, async json() { return { message: { content: '  ' } }; } }) }
+        ];
+        for (const outcome of outcomes) {
+          let cleared = false;
+          const result = await requestOllamaChat({
+            modelId: 'fixed-test-model',
+            messages: [{ role: 'user', content: '오류 질문' }],
+            fetchImpl: outcome.fetch,
+            abortControllerImpl: class { constructor() { this.signal = { aborted: false }; } abort() { this.signal.aborted = true; } },
+            setTimeoutImpl: () => 1,
+            clearTimeoutImpl: () => { cleared = true; }
+          });
+          testAssert.equal(result.code, outcome.code, `${outcome.code}가 올바르게 분류되지 않았습니다.`);
+          testAssert(cleared, `${outcome.code} 후 timeout timer가 정리되지 않았습니다.`);
+        }
+
+        let timeoutCallback;
+        const timeoutController = { current: null };
+        const timeoutResult = await requestOllamaChat({
+          modelId: 'fixed-test-model',
+          messages: [{ role: 'user', content: 'timeout 질문' }],
+          fetchImpl: async (url, options) => {
+            timeoutController.current = options.signal;
+            if (options.signal.aborted) {
+              throw new Error('aborted');
+            }
+            return new Promise((resolve, reject) => {
+              timeoutController.reject = reject;
+            });
+          },
+          abortControllerImpl: class { constructor() { this.signal = { aborted: false }; } abort() { this.signal.aborted = true; timeoutController.reject(new Error('aborted')); } },
+          setTimeoutImpl: (callback) => {
+            timeoutCallback = callback;
+            queueMicrotask(callback);
+            return 9;
+          },
+          clearTimeoutImpl: (id) => testAssert.equal(id, 9, 'timeout timer ID가 보존되지 않았습니다.')
+        });
+        testAssert.equal(timeoutController.current.aborted, true, 'timeout 시 AbortController가 중단되지 않았습니다.');
+        const finalTimeoutResult = timeoutResult;
+        testAssert.equal(finalTimeoutResult.code, 'TIMEOUT', 'timeout이 TIMEOUT으로 분류되지 않았습니다.');
+      });
+
+      selfTests.test('mock fetch로 실패 후 Retry가 동일 snapshot을 한 번만 성공시킨다', async ({ assert: testAssert }) => {
+        const requests = [];
+        let attempt = 0;
+        const mockFetch = async (url, options) => {
+          requests.push({ url, body: JSON.parse(options.body) });
+          attempt += 1;
+          if (attempt === 1) {
+            throw new TypeError('offline');
+          }
+          return { ok: true, async json() { return { message: { content: 'retry response' } }; } };
+        };
+        const mockAdapterOptions = {
+          fetchImpl: mockFetch,
+          abortControllerImpl: class { constructor() { this.signal = { aborted: false }; } abort() { this.signal.aborted = true; } },
+          setTimeoutImpl: () => 1,
+          clearTimeoutImpl: () => {}
+        };
+        const initial = startScenario(createAppState([], null, 'fixed-test-model'), 'information-search');
+        const started = beginMessageRequest(initial, '같은 요청을 재시도합니다.', 'fixed-test-model');
+        const firstResult = await requestOllamaChat({ ...mockAdapterOptions, modelId: started.snapshot.modelId, messages: started.snapshot.messages, requestSnapshot: started.snapshot });
+        const failed = finishInitialRequest(started.state, started.snapshot, firstResult);
+        testAssert.equal(failed.failedRequest.code, 'CONNECTION_FAILED', '첫 실패가 연결 오류로 저장되지 않았습니다.');
+        const retry = beginRetryRequest(failed);
+        const secondResult = await requestOllamaChat({ ...mockAdapterOptions, modelId: retry.snapshot.modelId, messages: retry.snapshot.messages, requestSnapshot: retry.snapshot });
+        const succeeded = finishRetryRequest(retry.state, retry.snapshot, secondResult);
+        testAssert.equal(succeeded.turnCount, 1, 'Retry 성공이 정확히 한 Turn을 추가하지 않았습니다.');
+        testAssert.equal(requests.length, 2, '최초 요청과 Retry 외 요청이 발생했습니다.');
+        testAssert.deepEqual(requests[0].body, requests[1].body, 'Retry payload가 최초 snapshot과 달라졌습니다.');
+        testAssert.equal(beginRetryRequest(succeeded).code, 'RETRY_EXHAUSTED', '성공 후 불필요한 Retry가 허용되었습니다.');
+      });
+
+      selfTests.test('mock Utils와 storage로 완료 복원·손상값·저장 실패를 외부 저장소 없이 검증한다', ({ assert: testAssert }) => {
+        const stored = ['smart-shopping'];
+        const storageCalls = [];
+        const mockStorage = { getItem(key) { storageCalls.push(['getItem', key]); return JSON.stringify(stored); } };
+        const mockUtils = {
+          loadData(key) { storageCalls.push(['loadData', key]); return [...stored]; },
+          saveData(key, value) { storageCalls.push(['saveData', key]); stored.splice(0, stored.length, ...value); }
+        };
+        const repository = createCompletionRepository({ utilsApi: mockUtils, storage: mockStorage });
+        testAssert.deepEqual(repository.load(), { ok: true, value: ['smart-shopping'] }, 'mock 저장값 복원이 실패했습니다.');
+        testAssert.deepEqual(repository.save(['smart-shopping', 'information-search']), { ok: true }, 'mock 완료 저장이 실패했습니다.');
+        testAssert(storageCalls.every(([, key]) => key === COMPLETION_KEY), '완료 키 외의 저장소 키가 사용되었습니다.');
+
+        const invalidRepository = createCompletionRepository({
+          utilsApi: { loadData: () => ['unknown-scenario'], saveData: () => { throw new Error('write forbidden'); } },
+          storage: { getItem: () => 'invalid' }
+        });
+        testAssert.deepEqual(invalidRepository.load(), { ok: false, value: [], code: 'INVALID_STORED_VALUE' }, '손상된 완료값이 거부되지 않았습니다.');
+
+        const failedSaveRepository = createCompletionRepository({
+          utilsApi: { saveData: () => {}, loadData: () => ['different-id'] },
+          storage: mockStorage
+        });
+        testAssert.deepEqual(failedSaveRepository.save(['smart-shopping']), { ok: false, code: 'SAVE_FAILED' }, '저장 검증 불일치가 SAVE_FAILED가 아닙니다.');
+      });
+
+      selfTests.test('전체 흐름은 선택·모델 입력·세 번의 동적 응답·완료와 복원을 연결한다', async ({ assert: testAssert, document: documentRef }) => {
+        const calls = [];
+        const storageCalls = [];
+        let storedValue = null;
+        const flowStorage = {
+          getItem(key) {
+            storageCalls.push({ type: 'getItem', key });
+            return storedValue === null ? null : JSON.stringify(storedValue);
+          }
+        };
+        const flowUtils = {
+          loadData(key, fallback) {
+            storageCalls.push({ type: 'loadData', key });
+            return storedValue === null
+              ? (Array.isArray(fallback) ? [] : fallback)
+              : [...storedValue];
+          },
+          saveData(key, value) {
+            storageCalls.push({ type: 'saveData', key, value: [...value] });
+            storedValue = [...value];
+          }
+        };
+        const repository = createCompletionRepository({
+          utilsApi: flowUtils,
+          storage: flowStorage
+        });
+        const initialState = createAppState(repository.load().value, null, '');
+        simulationAppState = initialState;
+        renderCatalog(initialState);
+
+        const selectedButton = documentRef.querySelector('[data-action="select-scenario"][data-scenario-id="information-search"]');
+        testAssert(selectedButton, '정보 검색 시나리오 선택 버튼이 없습니다.');
+        handleCatalogSelection('information-search');
+        testAssert.equal(simulationAppState.view, APP_VIEW.CHAT, '시나리오 선택 후 채팅 화면이 열리지 않았습니다.');
+        testAssert.equal(simulationAppState.selectedScenarioId, 'information-search', '선택한 시나리오 ID가 보존되지 않았습니다.');
+
+        renderChat(simulationAppState);
+        const modelInput = documentRef.getElementById('simulation-model');
+        modelInput.value = 'configured-local-model';
+        modelInput.dispatchEvent(new Event('input', { bubbles: true }));
+        testAssert.equal(simulationAppState.modelId, 'configured-local-model', '모델 입력값이 현재 상태에 반영되지 않았습니다.');
+
+        const mockFetch = async (url, options) => {
+          const body = JSON.parse(options.body);
+          calls.push({ url, body });
+          return {
+            ok: true,
+            async json() {
+              return { message: { content: `동적 응답 ${calls.length}` } };
+            }
+          };
+        };
+        const adapterOptions = {
+          fetchImpl: mockFetch,
+          abortControllerImpl: class {
+            constructor() { this.signal = { aborted: false }; }
+            abort() { this.signal.aborted = true; }
+          },
+          setTimeoutImpl: () => 1,
+          clearTimeoutImpl: () => {}
+        };
+        const userMessages = ['검색 주제를 알려 드립니다.', '최신 출처를 원합니다.', '핵심 내용과 출처를 확인해 주세요.'];
+
+        for (const userMessage of userMessages) {
+          const started = beginMessageRequest(simulationAppState, userMessage, modelInput.value);
+          testAssert.equal(started.ok, true, '유효한 메시지 제출이 시작되지 않았습니다.');
+          const adapterResult = await requestOllamaChat({
+            ...adapterOptions,
+            modelId: started.snapshot.modelId,
+            messages: started.snapshot.messages,
+            requestSnapshot: started.snapshot
+          });
+          simulationAppState = finishInitialRequest(started.state, started.snapshot, adapterResult);
+          testAssert.equal(simulationAppState.turnCount, calls.length, '동적 응답마다 정확히 한 Turn이 추가되지 않았습니다.');
+          testAssert.equal(
+            simulationAppState.turns[simulationAppState.turns.length - 1].dynamicResponse,
+            `동적 응답 ${calls.length}`,
+            'Ollama 동적 응답이 마지막 Turn에 보존되지 않았습니다.'
+          );
+          renderChat(simulationAppState);
+        }
+
+        testAssert.equal(calls.length, 3, '세 번의 Ollama 요청이 실행되지 않았습니다.');
+        calls.forEach(({ url, body }, index) => {
+          testAssert.equal(url, OLLAMA_CHAT_URL, 'AI 요청 URL이 정확한 localhost Ollama API가 아닙니다.');
+          testAssert.equal(body.model, 'configured-local-model', '현재 모델 식별자가 요청에 사용되지 않았습니다.');
+          testAssert.equal(body.stream, false, 'Ollama 요청이 stream false가 아닙니다.');
+          testAssert.equal(body.messages[body.messages.length - 1].content, userMessages[index], '현재 User_Message가 문맥의 마지막에 없습니다.');
+        });
+        testAssert.equal(documentRef.querySelectorAll('[data-action="complete-scenario"]').length, 1, '세 번째 응답 뒤 완료 동작이 정확히 하나가 아닙니다.');
+        testAssert.equal(submitMessage(simulationAppState, '네 번째 메시지', modelInput.value).code, 'ALREADY_FINISHED', '세 번째 Turn 뒤 추가 제출이 허용되었습니다.');
+
+        const completed = completeScenario(simulationAppState);
+        testAssert.equal(completed.ok, true, '세 번째 Turn 뒤 완료 처리가 실패했습니다.');
+        const saved = repository.save(completed.state.completedScenarioIds);
+        testAssert.equal(saved.ok, true, '완료 상태 저장이 실패했습니다.');
+        const completedAgain = completeScenario(completed.state);
+        testAssert.deepEqual(completedAgain.state.completedScenarioIds, ['information-search'], '재완료 시 ID가 중복되었습니다.');
+
+        const restored = repository.load();
+        testAssert.deepEqual(restored, { ok: true, value: ['information-search'] }, '새 초기화에서 완료 상태가 복원되지 않았습니다.');
+        const restoredState = createAppState(restored.value, null, '');
+        renderCatalog(restoredState);
+        testAssert.equal(
+          documentRef.querySelector('[data-scenario-id="information-search"] .scenario-status').textContent,
+          '✓ 완료',
+          '새 초기화 후 완료 표시가 카탈로그에 복원되지 않았습니다.'
+        );
+        testAssert(storageCalls.every(({ key }) => key === COMPLETION_KEY), '완료 상태가 전용 키 외에 저장·조회되지 않았습니다.');
+        testAssert(!storageCalls.some(({ value }) => value && JSON.stringify(value).includes('configured-local-model')), '모델 식별자가 저장소에 기록되었습니다.');
+        testAssert(!storageCalls.some(({ value }) => value && JSON.stringify(value).includes('검색 주제를 알려 드립니다.')), '대화 메시지가 저장소에 기록되었습니다.');
+        testAssert(SCENARIOS.every((scenario) => !Object.prototype.hasOwnProperty.call(scenario, 'responses')), '시나리오에 responses 목업 데이터가 포함되었습니다.');
+
+        handleReturnToCatalog();
+        testAssert.equal(simulationAppState.view, APP_VIEW.CATALOG, '목록 복귀 후 카탈로그 화면이 열리지 않았습니다.');
+        testAssert.equal(simulationAppState.selectedScenarioId, null, '목록 복귀 후 선택 시나리오가 남아 있습니다.');
+        testAssert.equal(documentRef.querySelectorAll('.scenario-grid').length, 1, '목록 복귀 후 카탈로그가 렌더링되지 않았습니다.');
+      });
+
+      selfTests.test('손상 저장값과 저장 실패는 기존 저장값과 현재 완료 상태를 보존한다', ({ assert: testAssert }) => {
+        const persisted = ['smart-shopping'];
+        const invalidRepository = createCompletionRepository({
+          utilsApi: { loadData: () => ['unknown-scenario'], saveData: () => { throw new Error('write forbidden'); } },
+          storage: { getItem: () => JSON.stringify(persisted) }
+        });
+        const invalidResult = invalidRepository.load();
+        testAssert.deepEqual(invalidResult, { ok: false, value: [], code: 'INVALID_STORED_VALUE' }, '손상 저장값이 빈 상태로 복원되지 않았습니다.');
+        testAssert.deepEqual(persisted, ['smart-shopping'], '손상 저장값을 로드하면서 저장값이 변경되었습니다.');
+
+        const failedRepository = createCompletionRepository({
+          utilsApi: { saveData: () => {}, loadData: () => ['different-id'] },
+          storage: { getItem: () => JSON.stringify(persisted) }
+        });
+        testAssert.deepEqual(failedRepository.save(['information-search']), { ok: false, code: 'SAVE_FAILED' }, '저장 검증 실패가 SAVE_FAILED가 아닙니다.');
+        const currentState = startScenario(createAppState(['smart-shopping']), 'information-search');
+        const completed = completeScenario(deepFreeze({
+          ...currentState,
+          turns: [
+            { userMessage: '첫 질문', dynamicResponse: '첫 응답' },
+            { userMessage: '두 번째 질문', dynamicResponse: '두 번째 응답' },
+            { userMessage: '세 번째 질문', dynamicResponse: '세 번째 응답' }
+          ],
+          turnCount: 3
+        }));
+        testAssert.deepEqual(completed.state.completedScenarioIds, ['smart-shopping', 'information-search'], '저장 실패 전에 현재 완료 상태가 유지되지 않았습니다.');
+        testAssert.deepEqual(failedRepository.save(completed.state.completedScenarioIds), { ok: false, code: 'SAVE_FAILED' }, '현재 완료 상태의 저장 실패가 SAVE_FAILED가 아닙니다.');
+      });
+
+      queueMicrotask(() => {
+        selfTests.run();
+      });
+    }
   </script>
 </body>
 </html>
